@@ -16,14 +16,14 @@
             </thead>
 
             <tbody>
-            @foreach( $locations as $location )
+            @foreach ($locations as $location)
                 <tr>
                     <td>{{ $location->name }}</td>
                     <td>{{ $location->description }}</td>
                     <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" ><i class="material-icons">delete</i></a>
-                        <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" ><i class="material-icons left">playlist_add</i>Plantas</a>
+                        <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
+                        <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" ><i class="material-icons">delete</i></a>
+                        <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" ><i class="material-icons left">playlist_add</i>Plantas</a>
                     </td>
                 </tr>
             @endforeach
@@ -36,7 +36,7 @@
         <form class="col s12" id="form-register" action="{{ url('/location/register') }}">
             {{ csrf_field() }}
         <div class="modal-content">
-            <h4>Registrar locación</h4>
+            <h4>Registrar localización</h4>
 
                 <div class="row">
                     <div class="input-field col s12">

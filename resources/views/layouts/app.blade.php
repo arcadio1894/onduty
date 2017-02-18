@@ -128,14 +128,14 @@
                         </ul>
                     </div>
                 </li>
-                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Cerrar sesión</a>
+                <li class="bold"><a class="collapsible-header waves-effect waves-teal">Cerrar sesión</a>
                     <div class="collapsible-body">
                         <ul role="menu">
                             <li>
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                    Logout
+                                    Salir
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -143,7 +143,7 @@
                                 </form>
                             </li>
                             <li>
-                                <a href="#">sdfnsdjnsdv</a>
+                                <a href="#">Editar perfil</a>
                             </li>
                         </ul>
                     </div>
@@ -164,7 +164,6 @@
     </main>
 
     <!-- Scripts -->
- 
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
