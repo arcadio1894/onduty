@@ -19,6 +19,7 @@ class CreatePlantsTable extends Migration
             $table->string('description');
             $table->integer('location_id')->unsigned();
             $table->foreign('location_id')->references('id')->on('locations');
+            $table->integer('enable')->unsigned();
             $table->timestamps();
         });
     }

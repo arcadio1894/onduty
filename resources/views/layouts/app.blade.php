@@ -55,7 +55,7 @@
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                        Logout
+                                        Cerrar sesióm
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -63,7 +63,7 @@
                                     </form>
                                 </li>
                                 <li>
-                                    <a href="#">sdfnsdjnsdv</a>
+                                    <a href="#">Editar perfil</a>
                                 </li>
                             </ul>
                         </li>
@@ -84,7 +84,7 @@
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                        Logout
+                                        Cerrar sesión
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

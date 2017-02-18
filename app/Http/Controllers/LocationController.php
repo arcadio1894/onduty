@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Location;
+use App\Plant;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -44,11 +45,15 @@ class LocationController extends Controller
     public function delete( Request $request )
     {
         $location = Location::find($request->get('id'));
+
         if($location == null)
             return response()->json(['error' => true, 'message' => 'No existe la localización especificada.']);
         
         // TODO: Validación si tiene plantas
-        
+        $plants = Plant::where('location_id', $location->id)->where('enable', 1)->first();
+        if($plants)
+            return response()->json(['error' => true, 'message' => 'No se puede eliminar la localización porque hay plantas activas dentro de esta localización.']);
+
         $location->enable = 0;
         $location->save();
         

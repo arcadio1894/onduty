@@ -19,6 +19,7 @@ class CreateWorkFrontsTable extends Migration
             $table->string('description');
             $table->integer('plant_id')->unsigned();
             $table->foreign('plant_id')->references('id')->on('plants');
+            $table->integer('enable')->unsigned();
             $table->timestamps();
         });
     }

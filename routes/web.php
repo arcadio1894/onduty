@@ -19,8 +19,19 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::post('/user/image', 'DataController@postProfileImage');
+
+Route::get('/locations', 'LocationController@index');
 Route::post('/location/register', 'LocationController@store');
 Route::post('/location/editar', 'LocationController@edit');
 Route::post('/location/delete', 'LocationController@delete');
-Route::get('/locations', 'LocationController@index');
+
+Route::get('/plants/location/{id}', 'PlantController@index');
+Route::post('/plant/register', 'PlantController@store');
+Route::post('/plant/editar', 'PlantController@edit');
+Route::post('/plant/delete', 'PlantController@delete');
+
+Route::get('/workFronts/plant/{id}', 'WorkFrontController@index');
+Route::post('/workFront/register', 'WorkFrontController@store');
+Route::post('/workFront/editar', 'WorkFrontController@edit');
+Route::post('/workFront/delete', 'WorkFrontController@delete');
 
