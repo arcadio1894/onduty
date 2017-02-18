@@ -35,3 +35,8 @@ Route::post('/workFront/register', 'WorkFrontController@store');
 Route::post('/workFront/editar', 'WorkFrontController@edit');
 Route::post('/workFront/delete', 'WorkFrontController@delete');
 
+Route::get('/areas', 'AreaController@index');
+Route::post('/area/register', 'AreaController@store');
+Route::post('/area/editar', 'AreaController@edit');
+Route::post('/area/delete', 'AreaController@delete');
+
