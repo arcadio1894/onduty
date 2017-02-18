@@ -40,3 +40,7 @@ Route::post('/area/register', 'AreaController@store');
 Route::post('/area/editar', 'AreaController@edit');
 Route::post('/area/delete', 'AreaController@delete');
 
+Route::get('/roles', 'RoleController@index');
+Route::post('/role/register', 'RoleController@store');
+Route::post('/role/editar', 'RoleController@edit');
+Route::post('/role/delete', 'RoleController@delete');

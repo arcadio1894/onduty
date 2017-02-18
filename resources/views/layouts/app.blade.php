@@ -117,6 +117,7 @@
                         <ul>
                             <li><a href="{{ url('/#') }}">Administradores</a></li>
                             <li><a href="{{ url('/#') }}">Usuarios</a></li>
+                            <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
                         </ul>
                     </div>
                 </li>
