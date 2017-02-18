@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::post('/user/image', 'DataController@postProfileImage');
+Route::post('/location/register', 'LocationController@store');
+Route::get('/locations', 'LocationController@index');
+

@@ -11,14 +11,21 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <style>
+        .image{
+            width: 144px;
+            height: 144px;
+        }
+    </style>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
 
     <!-- Compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
-
+    <link rel="stylesheet" href="{{asset('css/ghpages-materialize.css')}}">
+    
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -27,71 +34,137 @@
     </script>
 </head>
 <body>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">Logo</a>
-            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                @if (Auth::guest())
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
-                @else
-                    <li> <a href="#">Logina</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
+<header>
+    <nav class="top-nav">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo">Logo</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    @if (Auth::guest())
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li><a href="{{ route('register') }}">Register</a></li>
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-button" data-activates='dropdown1' role="button" aria-expanded="false">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
 
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                            <ul id="dropdown1" class="dropdown-content" role="menu">
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+                                        Logout
+                                    </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-                @if (Auth::guest())
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
-                @else
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->name }} <span class="caret"></span>
-                        </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                                <li>
+                                    <a href="#">sdfnsdjnsdv</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    @if (Auth::guest())
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li><a href="{{ route('register') }}">Register</a></li>
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-button" data-activates='dropdown2' role="button" aria-expanded="false">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
 
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                            <ul id="dropdown2" class="dropdown-content" role="menu">
+                                <li>
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+                                        Logout
+                                    </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-            </ul>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </li>
+                    @endif
+                </ul>
+            </div>
         </div>
     </nav>
-    <div class="container">
-        @yield('content')
-    </div>
+
+    <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"></a></div>
+    @if(Auth::check())
+    <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
+        <li class="logo">
+            <form action="{{ url('/user/image') }}" id="avatarForm">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="file" style="display: none" id="avatarInput" name="photo">
+            </form>
+            <img src="{{ asset('images/users/0.png') }}" id="avatarImage" class="image" alt="">
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Usuarios</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{ url('/#') }}">Administradores</a></li>
+                            <li><a href="{{ url('/#') }}">Usuarios</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Entidades</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
+                            <li><a href="{{ url('/areas') }}">Áreas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Cerrar sesión</a>
+                    <div class="collapsible-body">
+                        <ul role="menu">
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                            <li>
+                                <a href="#">sdfnsdjnsdv</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
+        </li>
+    </ul>
+    @endif
+</header>
+    <main>
+        <div class="container">
+            @if (!Auth::guest())
+
+            @endif
+            @yield('content')
+        </div>
+    </main>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+ 
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
@@ -102,8 +175,20 @@
     <script>
 
         $(".button-collapse").sideNav();
-
+        // Initialize collapse button
+        $('.dropdown-button').dropdown({
+                    inDuration: 300,
+                    outDuration: 225,
+                    constrainWidth: false, // Does not change width of dropdown to that of the activator
+                    hover: true, // Activate on hover
+                    gutter: 0, // Spacing from edge
+                    belowOrigin: false, // Displays dropdown below the button
+                    alignment: 'left', // Displays dropdown with edge aligned to the left of button
+                    stopPropagation: false // Stops event propagation
+                }
+        );
     </script>
+    <script type="text/javascript" src="{{ asset('js/user/profile.js') }}"></script>
     @yield('scripts')
 </body>
 </html>
