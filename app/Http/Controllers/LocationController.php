@@ -17,7 +17,7 @@ class LocationController extends Controller
     public function store( Request $request )
     {
         if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la locación']);
+            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
         $location = Location::create([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
@@ -25,6 +25,34 @@ class LocationController extends Controller
         ]);
 
         $location->save();
-        return response()->json(['error' => false, 'message' => 'Locación registrada correctamente']);
+        return response()->json(['error' => false, 'message' => 'Localización registrada correctamente']);
+    }
+
+    public function edit( Request $request )
+    {
+        if ($request->get('name') == null OR $request->get('name') == "")
+            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
+
+        $location = Location::find( $request->get('id') );
+        $location->name = $request->get('name');
+        $location->description = $request->get('description');
+        $location->save();
+
+        return response()->json(['error' => false, 'message' => 'Localización modificado correctamente']);
+    }
+
+    public function delete( Request $request )
+    {
+        $location = Location::find($request->get('id'));
+        if($location == null)
+            return response()->json(['error' => true, 'message' => 'No existe la localización especificada.']);
+        
+        // TODO: Validación si tiene plantas
+        
+        $location->enable = 0;
+        $location->save();
+        
+        return response()->json(['error' => false, 'message' => 'Localización eliminada correctamente.']);
+
     }
 }

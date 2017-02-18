@@ -22,8 +22,8 @@
                     <td>{{ $location->description }}</td>
                     <td>
                         <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" ><i class="material-icons">delete</i></a>
-                        <a class="waves-effect waves-light btn" data-edit="{{$location->id}}" ><i class="material-icons left">playlist_add</i>Plantas</a>
+                        <a class="waves-effect waves-light btn" data-delete="{{$location->id}}" href="#modal3" data-name="{{$location->name}}" ><i class="material-icons">delete</i></a>
+                        <a class="waves-effect waves-light btn" data-show="{{$location->id}}" ><i class="material-icons left">playlist_add</i>Plantas</a>
                     </td>
                 </tr>
             @endforeach
@@ -36,18 +36,18 @@
         <form class="col s12" id="form-register" action="{{ url('/location/register') }}">
             {{ csrf_field() }}
         <div class="modal-content">
-            <h4>Registrar locación</h4>
+            <h4>Registrar localización</h4>
 
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="name" name="name" type="text" class="validate">
-                        <label for="name" data-error="Please write the location's name" data-success="right">Nombre de la locación</label>
+                        <label for="name" data-error="Please write the location's name" data-success="right">Nombre de la localización</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="description" name="description" type="text" class="">
-                        <label for="description" data-error="Please write the location's description" data-success="right">Descripción de la locación</label>
+                        <label for="description" data-error="Please write the location's description" data-success="right">Descripción de la localización</label>
                     </div>
                 </div>
 
@@ -60,10 +60,10 @@
     </div>
 
     <div id="modal2" class="modal">
-        <form class="col s12" id="form-editar" action="{{ url('/location/register') }}">
+        <form class="col s12" id="form-editar" action="{{ url('/location/editar') }}">
             {{ csrf_field() }}
             <div class="modal-content">
-                <h4>Editar locación</h4>
+                <h4>Editar localización</h4>
                 <input type="hidden" name="id">
                 <div class="row">
                     <div class="input-field col s12">
@@ -82,6 +82,28 @@
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
                 <a href="#" class="waves-effect waves-green btn-flat" id="edit-location">Guardar</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal3" class="modal">
+        <form class="col s12" id="form-delete" action="{{ url('/location/delete') }}">
+            {{ csrf_field() }}
+            <div class="modal-content">
+                <h4>Eliminar localización</h4>
+                <input type="hidden" name="id">
+                <div class="row">
+                    <p>¿Está seguro de eliminar ésta localización? </p>
+                    <p>Recuerde que si esta localizació tiene platas registradas no podrá eliminarla.</p>
+                    <div class="input-field col s12">
+                        <input disabled id="disabled" type="text" name="name">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a href="#" class="waves-effect waves-green btn-flat" id="delete-location">Eliminar</a>
             </div>
         </form>
     </div>

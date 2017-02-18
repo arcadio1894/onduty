@@ -1,9 +1,12 @@
-var $formRegister, $formEdit, $modalEditar;
+var $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar;
 
 $ (function () {
     $formRegister = $('#form-register');
     $formEdit = $('#form-editar');
+    $formDelete = $('#form-delete');
+    
     $modalEditar = $('#modal2');
+    $modalEliminar = $('#modal3');
 
     $('#save-location').on('click', function () {
         avatarUrl = $formRegister.attr('action');
@@ -34,6 +37,56 @@ $ (function () {
         $formEdit.find('[name="name"]').val(name);
         $formEdit.find('[name="description"]').val(description);
         $modalEditar.modal('open');
+    });
+
+    $('#edit-location').on('click', function () {
+        avatarUrl = $formEdit.attr('action');
+        $.ajax({
+            url: avatarUrl,
+            method: 'POST',
+            data: $formEdit.serialize()
+        })
+            .done(function (data) {
+                if(data.error)
+                    alert(data.message);
+                else{
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .fail(function () {
+                alert('Ocurrió un error inesperado');
+            });
+    });
+
+    $('[data-delete]').on('click', function () {
+        var id = $(this).data('delete');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+
+        $formDelete.find('[name="id"]').val(id);
+        $formDelete.find('[name="name"]').val(name);
+        $modalEliminar.modal('open');
+    });
+
+    $('#delete-location').on('click', function () {
+        avatarUrl = $formDelete.attr('action');
+        $.ajax({
+            url: avatarUrl,
+            method: 'POST',
+            data: $formDelete.serialize()
+        })
+            .done(function (data) {
+                if(data.error)
+                    alert(data.message);
+                else{
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .fail(function () {
+                alert('Ocurrió un error inesperado');
+            });
     });
 });
 
