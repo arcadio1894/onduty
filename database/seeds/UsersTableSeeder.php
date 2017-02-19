@@ -15,16 +15,7 @@ class UsersTableSeeder extends Seeder
         User::create([
             'name' => 'Administrador',
             'email' => 'admin@gmail.com',
-            'role_id' => 2,
-            'password' => bcrypt('123123'),
-            'enable' => 1,
-            'image'=> 'png'
-        ]);
-
-        User::create([
-            'name' => 'Jorge Gonzales',
-            'email' => 'joryes1894@gmail.com',
-            'role_id' => 2,
+            'role_id' => 1,
             'password' => bcrypt('123123'),
             'enable' => 1,
             'image'=> 'png'
@@ -43,6 +34,15 @@ class UsersTableSeeder extends Seeder
             'name' => 'Jose Perez',
             'email' => 'jose_perez.17@gmail.com',
             'role_id' => 3,
+            'password' => bcrypt('123123'),
+            'enable' => 1,
+            'image'=> 'png'
+        ]);
+
+        User::create([
+            'name' => 'Jorge Gonzales',
+            'email' => 'joryes1894@gmail.com',
+            'role_id' => 2,
             'password' => bcrypt('123123'),
             'enable' => 1,
             'image'=> 'png'

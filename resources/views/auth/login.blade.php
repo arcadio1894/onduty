@@ -51,5 +51,11 @@
 @endsection
 
 @section('scripts')
-
+    @if (count($errors) > 0)
+        <script>
+            @foreach ($errors->all() as $error)
+                Materialize.toast('{{ $error }}', 4000); // 4000 is the duration of the toast
+            @endforeach
+        </script>
+    @endif
 @endsection
