@@ -60,4 +60,10 @@ class RoleController extends Controller
         return response()->json(['error' => false, 'message' => 'Rol eliminado correctamente.']);
 
     }
+    
+    public function getRoles()
+    {
+        $roles = Role::where('enable',1)->get();
+        return response()->json($roles);
+    }
 }

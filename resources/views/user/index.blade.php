@@ -23,7 +23,7 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-description="{{$user->email}}" ><i class="material-icons">mode_edit</i></a>
+                        <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
                         <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
@@ -92,6 +92,7 @@
             {{ csrf_field() }}
             <div class="modal-content">
                 <h4>Editar usuario</h4>
+                <input type="hidden" name="id">
 
                 <div class="row">
                     <div class="input-field col s6">
@@ -99,20 +100,16 @@
                         <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="email" name="email" type="email" class="validate">
-                        <label for="email" data-error="Please write the user's email" data-success="right">Email del usuario</label>
+                        <input id="password" name="password" type="password" class="">
+                        <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="password" name="password" type="password" class="">
-                        <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select id="role" name="role">
+                        <select id="role_select" name="role">
 
                         </select>
-                        <label for="role">Roles de usuario</label>
+                        <label for="role_select">Roles de usuario</label>
                     </div>
                 </div>
 
@@ -152,6 +149,7 @@
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
+
             $('select').material_select();
         });
     </script>
