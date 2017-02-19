@@ -46,3 +46,5 @@ Route::post('/role/editar', 'RoleController@edit');
 Route::post('/role/delete', 'RoleController@delete');
 
 Route::get('/users', 'UserController@index');
+Route::post('/user/register', 'UserController@store');
+Route::post('/user/delete', 'UserController@delete');

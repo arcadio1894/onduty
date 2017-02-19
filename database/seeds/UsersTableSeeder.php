@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
             'role_id' => 1,
             'password' => bcrypt('123123'),
             'enable' => 1,
-            'image'=> '0.png'
+            'image'=> 'png'
         ]);
 
         User::create([
@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
             'role_id' => 1,
             'password' => bcrypt('123123'),
             'enable' => 1,
-            'image'=> '0.png'
+            'image'=> 'png'
         ]);
 
         User::create([
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
             'role_id' => 3,
             'password' => bcrypt('123123'),
             'enable' => 1,
-            'image'=> '0.png'
+            'image'=> 'png'
         ]);
     }
 }

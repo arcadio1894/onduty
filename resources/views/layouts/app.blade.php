@@ -108,7 +108,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="file" style="display: none" id="avatarInput" name="photo">
             </form>
-            <img src="{{ asset('images/users/0.png') }}" id="avatarImage" class="image" alt="">
+            <img src="{{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="">
         </li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">

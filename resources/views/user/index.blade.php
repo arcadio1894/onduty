@@ -34,68 +34,105 @@
     </div>
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
-        <form class="col s12" id="form-register" action="{{ url('/location/register') }}">
+        <form class="col s12" id="form-register" method="POST" action="{{ url('/user/register') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
         <div class="modal-content">
-            <h4>Registrar localización</h4>
+            <h4>Registrar usuario</h4>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="name" name="name" type="text" class="validate">
-                        <label for="name" data-error="Please write the location's name" data-success="right">Nombre de la localización</label>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="name" name="name" type="text" class="validate">
+                    <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
+                </div>
+                <div class="input-field col s6">
+                    <input id="email" name="email" type="email" class="validate">
+                    <label for="email" data-error="Please write the user's email" data-success="right">Email del usuario</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="password" name="password" type="password" class="">
+                    <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
+                </div>
+                <div class="input-field col s6">
+                    <select id="role" name="role">
+                        <option value="" disabled selected>Escoja un rol</option>
+                        @foreach( $roles as $role )
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                    <label for="role">Roles de usuario</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Imagen</span>
+                            <input type="file" name="image" accept="image/*" id="avatarInput">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" >
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="description" name="description" type="text" class="">
-                        <label for="description" data-error="Please write the location's description" data-success="right">Descripción de la localización</label>
-                    </div>
-                </div>
+            </div>
 
         </div>
         <div class="modal-footer">
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-            <a href="#" class="waves-effect waves-green btn-flat" id="save-location">Guardar</a>
+            <button type="submit" href="#" class="waves-effect waves-green btn-flat" >Guardar</button>
         </div>
         </form>
     </div>
 
     <div id="modal2" class="modal">
-        <form class="col s12" id="form-editar" action="{{ url('/location/editar') }}">
+        <form class="col s12" id="form-editar" method="POST" action="{{ url('/user/editar') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="modal-content">
-                <h4>Editar localización</h4>
-                <input type="hidden" name="id">
+                <h4>Editar usuario</h4>
+
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s6">
                         <input id="name" name="name" type="text" class="validate">
-                        <label for="name" data-error="Please write the location's name" data-success="right">Nombre de la locación</label>
+                        <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="email" name="email" type="email" class="validate">
+                        <label for="email" data-error="Please write the user's email" data-success="right">Email del usuario</label>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s12">
-                        <input id="description" name="description" type="text" class="">
-                        <label for="description" data-error="Please write the location's description" data-success="right">Descripción de la locación</label>
+                    <div class="input-field col s6">
+                        <input id="password" name="password" type="password" class="">
+                        <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="role" name="role">
+
+                        </select>
+                        <label for="role">Roles de usuario</label>
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a href="#" class="waves-effect waves-green btn-flat" id="edit-location">Guardar</a>
+                <button type="submit" href="#" class="waves-effect waves-green btn-flat" >Guardar</button>
             </div>
         </form>
     </div>
 
     <div id="modal3" class="modal">
-        <form class="col s12" id="form-delete" action="{{ url('/location/delete') }}">
+        <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
             {{ csrf_field() }}
             <div class="modal-content">
-                <h4>Eliminar localización</h4>
+                <h4>Eliminar usuario</h4>
                 <input type="hidden" name="id">
                 <div class="row">
-                    <p>¿Está seguro de eliminar ésta localización? </p>
-                    <p>Recuerde que si esta localizació tiene platas registradas no podrá eliminarla.</p>
+                    <p>¿Está seguro de eliminar éste usuario? </p>
+                    <p>Recuerde que si este usuario tiene (acciones) registradas no podrá eliminarlo.</p>
                     <div class="input-field col s12">
                         <input disabled id="disabled" type="text" name="name">
                     </div>
@@ -104,7 +141,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a href="#" class="waves-effect waves-green btn-flat" id="delete-location">Eliminar</a>
+                <a href="#" class="waves-effect waves-green btn-flat" id="delete-user">Eliminar</a>
             </div>
         </form>
     </div>
@@ -115,7 +152,8 @@
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
+            $('select').material_select();
         });
     </script>
-    <script type="text/javascript" src="{{ asset('js/location/location.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/user/user.js') }}"></script>
 @endsection

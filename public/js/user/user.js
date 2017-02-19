@@ -1,4 +1,4 @@
-var $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar;
+var $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $avatarInput;
 
 $ (function () {
     $formRegister = $('#form-register');
@@ -8,12 +8,17 @@ $ (function () {
     $modalEditar = $('#modal2');
     $modalEliminar = $('#modal3');
 
-    $('#save-location').on('click', function () {
+    $avatarInput = $('#avatarInput');
+
+    $formRegister.on('submit', function () {
+        event.preventDefault();
         avatarUrl = $formRegister.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formRegister.serialize()
+            data: new FormData(this),
+            processData: false,
+            contentType: false
         })
             .done(function (data) {
                 if(data.error)
@@ -62,14 +67,13 @@ $ (function () {
     $('[data-delete]').on('click', function () {
         var id = $(this).data('delete');
         var name = $(this).data('name');
-        var description = $(this).data('description');
 
         $formDelete.find('[name="id"]').val(id);
         $formDelete.find('[name="name"]').val(name);
         $modalEliminar.modal('open');
     });
 
-    $('#delete-location').on('click', function () {
+    $('#delete-user').on('click', function () {
         avatarUrl = $formDelete.attr('action');
         $.ajax({
             url: avatarUrl,
