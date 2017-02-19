@@ -5,7 +5,7 @@
     <div class="row">
         <br>
         <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva planta</a>
-        <a class="waves-effect waves-light btn red" href="{{ url('/locations') }}">Regresar</a>
+        <a class="waves-effect waves-light btn" href="{{ url('/locations') }}">Regresar</a>
         <br><br>
         <p>Plantas de la localización {{ $location->name }}</p>
         <table class="responsive-table">
