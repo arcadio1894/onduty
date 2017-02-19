@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+
+@endsection
+
 @section('content')
 
     <div class="row">
@@ -117,6 +121,6 @@
             $('.modal').modal();
         });
     </script>
-    
+
     <script type="text/javascript" src="{{ asset('js/location/location.js') }}"></script>
 @endsection

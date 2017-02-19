@@ -20,6 +20,7 @@
             header,main,footer{padding-left:300px}
         @show
     </style>
+    @yield('styles')
 
     <!-- Compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

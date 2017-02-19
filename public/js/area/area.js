@@ -17,10 +17,12 @@ $ (function () {
         })
             .done(function (data) {
                 if(data.error)
-                    alert(data.message);
+                    Materialize.toast(data.message, 4000);
                 else{
-                    alert(data.message);
-                    location.reload();
+                    Materialize.toast(data.message, 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
             })
             .fail(function () {
@@ -51,10 +53,12 @@ $ (function () {
         })
             .done(function (data) {
                 if(data.error)
-                    alert(data.message);
+                    Materialize.toast(data.message, 4000);
                 else{
-                    alert(data.message);
-                    location.reload();
+                    Materialize.toast(data.message, 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
             })
             .fail(function () {
@@ -80,10 +84,12 @@ $ (function () {
         })
             .done(function (data) {
                 if(data.error)
-                    alert(data.message);
+                    Materialize.toast(data.message, 4000);
                 else{
-                    alert(data.message);
-                    location.reload();
+                    Materialize.toast(data.message, 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
             })
             .fail(function () {

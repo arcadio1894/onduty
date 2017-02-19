@@ -22,10 +22,12 @@ $ (function () {
         })
             .done(function (data) {
                 if(data.error)
-                    alert(data.message);
+                    Materialize.toast(data.message, 4000);
                 else{
-                    alert(data.message);
-                    location.reload();
+                    Materialize.toast(data.message, 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
             })
             .fail(function () {
@@ -33,7 +35,7 @@ $ (function () {
             });
     });
     
-    $('[data-edit]').on('click', function () {
+    /*$('[data-edit]').on('click', function () {
         var id = $(this).data('edit');
         var name = $(this).data('name');
         var description = $(this).data('description');
@@ -44,7 +46,7 @@ $ (function () {
         $modalEditar.modal('open');
     });
 
-    $('#edit-location').on('click', function () {
+    $('#edit-user').on('click', function () {
         avatarUrl = $formEdit.attr('action');
         $.ajax({
             url: avatarUrl,
@@ -62,7 +64,7 @@ $ (function () {
             .fail(function () {
                 alert('Ocurrió un error inesperado');
             });
-    });
+    });*/
 
     $('[data-delete]').on('click', function () {
         var id = $(this).data('delete');
@@ -82,10 +84,12 @@ $ (function () {
         })
             .done(function (data) {
                 if(data.error)
-                    alert(data.message);
+                    Materialize.toast(data.message, 4000);
                 else{
-                    alert(data.message);
-                    location.reload();
+                    Materialize.toast(data.message, 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
                 }
             })
             .fail(function () {
