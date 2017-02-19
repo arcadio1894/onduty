@@ -1,11 +1,23 @@
-Correcciones realizadas:
-1. Añadir campos OLD por si la validación no fue correcta en el login.
+Listado de correcciones (18 Feb 2017 - 11.20pm)
+
+YA REALIZADAS:
+0. Usar la variable config app name en todo sitio donde debe aparecer el nombre de la página.
+1. Añadir campos OLD por si la validación no fue correcta (en el login).
 2. Mostrar mensajes de error en el login (los que vienen de la validación del controlador).
 3. Fuentes agregadas.
 4. Padding left del Side nav excluido de la página de login.
 5. Landing page añadida.
+6. Corregido el home (mensaje de bienvenida; estaba un home con estilos de boostrap).
+7. Corregida la ruta de la imagen de perfil al cambiarla con ajax (usar php artisan serve).
 
-Correcciones pendientes:
+PENDIENTES:
 1. Mostrar los mensajes de error en la página (es decir, en vez de los alert, usar <template> o directamente append del HTML correspondiente). De la forma que te parezca más ordenada o cómoda.
-2. Corregir los formularios para que el texto no se solape. Cuando el valor se asigna con JS, es necesario llamar a una función para actualizar los estilos (ver archivo area.js linea 42).
+2. Corregir los formularios para que el texto no se solape. Cuando el valor se asigna con JS, es necesario llamar a una función para actualizar los estilos (ya encontré como hacerlo; ver archivo area.js linea 42).
+3. El botón Regresar debe ser con el mismo color de los demás pero incluir el ícono de back. El rojo solo se debe usar en casos extremos como confirmar una eliminación.
+4. Crear un usuario admin@gmail.com con rol Súper administrador desde seeder (este administrador será el único admi principal, luego lo reemplazaré por el correo del tiacho). No incluir la opción de Súper administrador al crear usuarios. 
 
+PENDIENTES CON MENOS URGENCIA:
+4. Marcar con active el ítem del menú en donde está el usuario.
+5. Si el usuario tiene como imagen 2.png y sube una jpg, la img se reemplaza pero la png no se elimina.
+
+Gracias Arcadio.

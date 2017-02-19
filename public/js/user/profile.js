@@ -30,7 +30,7 @@ $(function () {
         })
         .done(function (data) {
             if (data.success)
-                $avatarImage.attr('src', './images/users/'+data.path+'?'+ new Date().getTime());
+                $avatarImage.attr('src', '/images/users/'+data.path+'?'+ new Date().getTime());
         })
         .fail(function () {
             alert('La imagen subida no tiene el formato correcto');
