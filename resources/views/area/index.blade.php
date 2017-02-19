@@ -30,6 +30,7 @@
             </tbody>
         </table>
     </div>
+
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
         <form class="col s12" id="form-register" action="{{ url('/area/register') }}">

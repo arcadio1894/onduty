@@ -16,9 +16,10 @@
             width: 144px;
             height: 144px;
         }
+        @section('padding-left-nav')
+            header,main,footer{padding-left:300px}
+        @show
     </style>
-
-
 
     <!-- Compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -38,12 +39,12 @@
     <nav class="top-nav">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="#!" class="brand-logo">Logo</a>
+                <a href="#!" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     @if (Auth::guest())
-                        <li><a href="{{ route('login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
+                        <li><a href="{{ route('login') }}">Ingresar</a></li>
+                        {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-button" data-activates='dropdown1' role="button" aria-expanded="false">
@@ -55,7 +56,7 @@
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                        Cerrar sesióm
+                                        Cerrar sesión
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -101,7 +102,7 @@
     </nav>
 
     <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"></a></div>
-    @if(Auth::check())
+    @if (Auth::check())
     <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
         <li class="logo">
             <form action="{{ url('/user/image') }}" id="avatarForm">
@@ -112,7 +113,7 @@
         </li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
-                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Usuarios</a>
+                <li class="bold"><a class="collapsible-header waves-effect waves-teal">Usuarios</a>
                     <div class="collapsible-body">
                         <ul>
                             <li><a href="{{ url('/#') }}">Administradores</a></li>
@@ -129,25 +130,15 @@
                         </ul>
                     </div>
                 </li>
-                <li class="bold"><a class="collapsible-header waves-effect waves-teal">Cerrar sesión</a>
-                    <div class="collapsible-body">
-                        <ul role="menu">
-                            <li>
-                                <a href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                    Salir
-                                </a>
+                <li>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                            Salir
+                    </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                            <li>
-                                <a href="#">Editar perfil</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </li>
             </ul>
 
@@ -157,23 +148,19 @@
 </header>
     <main>
         <div class="container">
-            @if (!Auth::guest())
-
-            @endif
             @yield('content')
         </div>
     </main>
 
-    <!-- Scripts -->
+
     <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
-    <!-- Compiled and minified JavaScript -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 
     <script>
-
         $(".button-collapse").sideNav();
         // Initialize collapse button
         $('.dropdown-button').dropdown({
@@ -188,7 +175,8 @@
                 }
         );
     </script>
-    <script type="text/javascript" src="{{ asset('js/user/profile.js') }}"></script>
+    <script src="{{ asset('js/user/profile.js') }}"></script>
+
     @yield('scripts')
 </body>
 </html>

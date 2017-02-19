@@ -37,7 +37,9 @@ $ (function () {
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
         $formEdit.find('[name="description"]').val(description);
+
         $modalEditar.modal('open');
+        Materialize.updateTextFields(); // use this after change the field values
     });
 
     $('#edit-area').on('click', function () {

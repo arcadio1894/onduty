@@ -1,0 +1,11 @@
+Correcciones realizadas:
+1. Añadir campos OLD por si la validación no fue correcta en el login.
+2. Mostrar mensajes de error en el login (los que vienen de la validación del controlador).
+3. Fuentes agregadas.
+4. Padding left del Side nav excluido de la página de login.
+5. Landing page añadida.
+
+Correcciones pendientes:
+1. Mostrar los mensajes de error en la página (es decir, en vez de los alert, usar <template> o directamente append del HTML correspondiente). De la forma que te parezca más ordenada o cómoda.
+2. Corregir los formularios para que el texto no se solape. Cuando el valor se asigna con JS, es necesario llamar a una función para actualizar los estilos (ver archivo area.js linea 42).
+
