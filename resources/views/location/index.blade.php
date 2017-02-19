@@ -117,5 +117,6 @@
             $('.modal').modal();
         });
     </script>
+    
     <script type="text/javascript" src="{{ asset('js/location/location.js') }}"></script>
 @endsection
