@@ -1,46 +1,51 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+@section('padding-left-nav', '')
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
+@section('content')
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <div class="card">
+
+                <div class="card-content">
+                    <span class="card-title">Resetear contraseña</span>
+                    <form class="s12" role="form" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        <p>Te enviaremos un enlace a tu correo para cambiar tu contraseña.</p>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">email</i>
+                                <input id="email" name="email" type="email" class="validate" value="{{ old('email') }}">
+                                <label for="email" data-error="Ingresa un e-mail válido" data-success="right">E-mail</label>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <button type="submit" class="waves-effect waves-light btn">Enviar link por correo</button>
                             </div>
                         </div>
                     </form>
+
                 </div>
+
             </div>
         </div>
     </div>
-</div>
+@endsection
+
+@section('scripts')
+    <script>
+        @if (count($errors) > 0)
+            @foreach ($errors->all() as $error)
+                Materialize.toast('{{ $error }}', 4000); // 4000 is the duration of the toast
+            @endforeach
+        @endif
+
+        @if (session('status'))
+            Materialize.toast('{{ session('status') }}', 4000);
+        @endif
+    </script>
 @endsection

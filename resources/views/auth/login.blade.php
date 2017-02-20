@@ -5,8 +5,8 @@
 @section('content')
     <div class="row">
         <div class="col s6 offset-s3">
-
             <div class="card">
+
                 <div class="card-content">
                     <span class="card-title">Inicio de sesión</span>
                     <form class="s12" role="form" method="POST" action="{{ route('login') }}">
@@ -44,10 +44,10 @@
                     </form>
 
                 </div>
+
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
