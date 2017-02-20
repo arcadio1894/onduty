@@ -21,6 +21,10 @@ class UserController extends Controller
 
     public function store( Request $request )
     {
+        // TODO: Solo pueden crear usuarios el del rol super administrador que es el rol 1
+        if ( Auth::user()->role_id > 2 )
+            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para crear un usuario.']);
+        
         $validator = Validator::make($request->all(), [ 'image'=>'image' ]);
         if ( $validator->fails() )
             return response()->json(['error' => true, 'message' => 'Solo se permiten imágenes']);
@@ -69,6 +73,13 @@ class UserController extends Controller
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
 
         // TODO: Validación que solo pueda bajar o subir de rol el super administrador
+        if ( Auth::user()->role_id > 2 )
+            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar un usuario.']);
+
+        // TODO: Los administradores no pueden editar de otros administradores
+        $user_edited = User::find( $request->get('id') );
+        if ( Auth::user()->role_id == 2 && $user_edited->role_id <= 2 && $user_edited->id != Auth::user()->id )
+            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar a otro administrador.']);
 
         if ($request->get('role') == null OR $request->get('role') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
@@ -89,7 +100,8 @@ class UserController extends Controller
     {
         $user = User::find($request->get('id'));
 
-        if (Auth::user()->id != 1)
+        // TODO: Solo el que puede eliminar es el super administrador
+        if (Auth::user()->role_id > 1)
             return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar el usuario especificado.']);
 
         if($user == null)

@@ -84,10 +84,10 @@ $ (function () {
                 if(data.error)
                     Materialize.toast(data.message, 4000);
                 else{
-                    Materialize.toast(data.message, 4000);
+                    Materialize.toast(data.message, 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1000);
                 }
             })
             .fail(function () {
