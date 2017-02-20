@@ -52,11 +52,12 @@
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
-                            <ul id="dropdown1" class="dropdown-content" role="menu">
+                            <ul id="dropdown1" class="dropdown-content" role="menu" style="background: #ee6e73">
                                 <li>
                                     <a href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                        class="white-text"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
                                         Cerrar sesión
                                     </a>
 
@@ -64,9 +65,9 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
-                                <li>
-                                    <a href="#">Editar perfil</a>
-                                </li>
+                                {{--<li>--}}
+                                    {{--<a href="#">Editar perfil</a>--}}
+                                {{--</li>--}}
                             </ul>
                         </li>
                     @endif
@@ -117,7 +118,6 @@
                 <li class="bold"><a class="collapsible-header waves-effect waves-teal">Usuarios</a>
                     <div class="collapsible-body">
                         <ul>
-                            {{--<li><a href="{{ url('/#') }}">Administradores</a></li>--}}
                             <li><a href="{{ url('/users') }}">Usuarios</a></li>
                             <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
                         </ul>
@@ -165,16 +165,15 @@
         $(".button-collapse").sideNav();
         // Initialize collapse button
         $('.dropdown-button').dropdown({
-                    inDuration: 300,
-                    outDuration: 225,
-                    constrainWidth: false, // Does not change width of dropdown to that of the activator
-                    hover: true, // Activate on hover
-                    gutter: 0, // Spacing from edge
-                    belowOrigin: false, // Displays dropdown below the button
-                    alignment: 'left', // Displays dropdown with edge aligned to the left of button
-                    stopPropagation: false // Stops event propagation
-                }
-        );
+            inDuration: 500,
+            outDuration: 225,
+            constrainWidth: false, // Does not change width of dropdown to that of the activator
+            hover: true, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: true, // Displays dropdown below the button
+            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+            stopPropagation: false // Stops event propagation
+        });
     </script>
     <script src="{{ asset('js/user/profile.js') }}"></script>
 
