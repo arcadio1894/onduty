@@ -16,6 +16,10 @@ class AreaController extends Controller
 
     public function store( Request $request )
     {
+        // TODO: Solo el que puede creas es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un área.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del área']);
         $area = Area::create([
@@ -30,6 +34,10 @@ class AreaController extends Controller
 
     public function edit( Request $request )
     {
+        // TODO: Solo el que puede creas es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un área.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del Área']);
 
@@ -43,6 +51,10 @@ class AreaController extends Controller
 
     public function delete( Request $request )
     {
+        // TODO: Solo el que puede creas es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un área.']);
+
         $area = Area::find($request->get('id'));
 
         if($area == null)

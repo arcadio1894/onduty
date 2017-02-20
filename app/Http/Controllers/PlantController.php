@@ -19,6 +19,10 @@ class PlantController extends Controller
 
     public function store( Request $request )
     {
+        // TODO: Solo el que puede crear es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear una planta.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la planta']);
         $plant = Plant::create([
@@ -34,6 +38,10 @@ class PlantController extends Controller
 
     public function edit( Request $request )
     {
+        // TODO: Solo el que puede editar es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar una planta.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la planta']);
 
@@ -48,6 +56,10 @@ class PlantController extends Controller
 
     public function delete( Request $request )
     {
+        // TODO: Solo el que puede eliminar es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar una planta.']);
+
         $plant = Plant::find($request->get('id'));
         if($plant == null)
             return response()->json(['error' => true, 'message' => 'No existe la planta especificada.']);

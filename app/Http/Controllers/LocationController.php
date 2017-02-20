@@ -17,6 +17,10 @@ class LocationController extends Controller
 
     public function store( Request $request )
     {
+        // TODO: Solo el que puede creas es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear una localización.']);
+        
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
         $location = Location::create([
@@ -31,6 +35,10 @@ class LocationController extends Controller
 
     public function edit( Request $request )
     {
+        // TODO: Solo el que puede creas es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar una localización.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
 
@@ -44,6 +52,10 @@ class LocationController extends Controller
 
     public function delete( Request $request )
     {
+        // TODO: Solo el que puede eliminar es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar una localización.']);
+
         $location = Location::find($request->get('id'));
 
         if($location == null)

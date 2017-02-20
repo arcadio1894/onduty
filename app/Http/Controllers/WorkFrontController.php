@@ -18,6 +18,10 @@ class WorkFrontController extends Controller
 
     public function store( Request $request )
     {
+        // TODO: Solo el que puede crear es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un frente de trabajo.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del frente de trabajo']);
         $workFront = WorkFront::create([
@@ -33,6 +37,10 @@ class WorkFrontController extends Controller
 
     public function edit( Request $request )
     {
+        // TODO: Solo el que puede editar es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un frente de trabajo.']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del frente de trabajo']);
 
@@ -47,6 +55,10 @@ class WorkFrontController extends Controller
 
     public function delete( Request $request )
     {
+        // TODO: Solo el que puede eliminar es el super administrador o administrador
+        if (Auth::user()->role_id > 2)
+            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un frente de trabajo.']);
+
         $workFronts = WorkFront::find($request->get('id'));
         if($workFronts == null)
             return response()->json(['error' => true, 'message' => 'No existe el frente de trabajo especificada.']);
