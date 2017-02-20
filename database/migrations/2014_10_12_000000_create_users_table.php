@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('image');
 
             $table->integer('enable')->unsigned();
-            
+
             $table->rememberToken();
             $table->timestamps();
         });

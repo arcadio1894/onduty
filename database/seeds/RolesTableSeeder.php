@@ -33,7 +33,7 @@ class RolesTableSeeder extends Seeder
         ]);
         Role::create([ // 4
             'name' => 'Visitante',
-            'description' => 'Rol supervisor',
+            'description' => 'Rol visitante',
             'enable' => 1
         ]);
     }

@@ -117,7 +117,7 @@
                 <li class="bold"><a class="collapsible-header waves-effect waves-teal">Usuarios</a>
                     <div class="collapsible-body">
                         <ul>
-                            <li><a href="{{ url('/#') }}">Administradores</a></li>
+                            {{--<li><a href="{{ url('/#') }}">Administradores</a></li>--}}
                             <li><a href="{{ url('/users') }}">Usuarios</a></li>
                             <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
                         </ul>

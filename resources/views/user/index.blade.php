@@ -100,7 +100,7 @@
                         <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="password" name="password" type="password" class="">
+                        <input id="password" name="password" type="password" autocomplete="new-password">
                         <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
                     </div>
                 </div>
