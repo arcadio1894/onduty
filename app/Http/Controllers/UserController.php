@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('enable', 1)->with('role')->get();
-        $roles = Role::where('enable', 1)->get();
+        $roles = Role::where('enable', 1)->where('id', '<>', 1)->get();
         //dd($users);
         return view('user.index')->with(compact('users', 'roles'));
     }
@@ -61,6 +61,28 @@ class UserController extends Controller
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
+    }
+
+    public function edit( Request $request )
+    {
+        if ($request->get('name') == null OR $request->get('name') == "")
+            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
+
+        // TODO: Validación que solo pueda bajar o subir de rol el super administrador
+
+        if ($request->get('role') == null OR $request->get('role') == "")
+            return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
+
+        $user = User::find( $request->get('id') );
+        $user->name = $request->get('name');
+        $user->role_id = $request->get('role');
+
+        if ($request->get('password') != "")
+            $user->password = bcrypt($request->get('password'));
+
+        $user->save();
+
+        return response()->json(['error' => false, 'message' => 'Usuario modificado correctamente']);
     }
 
     public function delete( Request $request )

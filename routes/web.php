@@ -41,10 +41,12 @@ Route::post('/area/editar', 'AreaController@edit');
 Route::post('/area/delete', 'AreaController@delete');
 
 Route::get('/roles', 'RoleController@index');
+Route::get('/roles/users', 'RoleController@getRoles');
 Route::post('/role/register', 'RoleController@store');
 Route::post('/role/editar', 'RoleController@edit');
 Route::post('/role/delete', 'RoleController@delete');
 
 Route::get('/users', 'UserController@index');
 Route::post('/user/register', 'UserController@store');
+Route::post('/user/editar', 'UserController@edit');
 Route::post('/user/delete', 'UserController@delete');
