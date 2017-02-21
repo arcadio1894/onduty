@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -44,12 +45,14 @@ class UserController extends Controller
         if( $request->file('image') == null OR $request->file('image') == "" )
             return response()->json(['error' => true, 'message' => 'Es necesario escoger una imagen del usuario']);
 
+        $request['confirmation_code'] = str_random(25);
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
             'role_id' => $request->get('role'),
             'enable' => '1',
+            'confirmation_code' => $request->get('confirmation_code'),
             'image' => $request->file('image')->getClientOriginalExtension()
         ]);
 
@@ -62,9 +65,28 @@ class UserController extends Controller
         }
 
         // TODO: Enviar email de confirmación
+        Mail::send('emails.confirm', $request->all(), function ($msj) use ($request) {
+            $msj->subject('Correo de confirmación');
+            $msj->to($request->get('email'));
+        });
+
+
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
+    }
+
+    public function verify($code)
+    {
+        $user = User::where('confirmation_code', $code)->first();
+        if (! $user)
+            return redirect('/');
+
+        $user->confirmed = true;
+        $user->confirmation_code = null;
+        $user->save();
+
+        return redirect('/login');
     }
 
     public function edit( Request $request )

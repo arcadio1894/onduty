@@ -20,6 +20,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
 
+            // Data verification
+            $table->boolean('confirmed')->default(0);
+            $table->string('confirmation_code')->nullable();
+
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
 

@@ -17,6 +17,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'role_id' => 1,
             'password' => bcrypt('123123'),
+            'confirmed' => true,
+            'confirmation_code' => null,
             'enable' => 1,
             'image'=> 'jpg'
         ]);
@@ -26,6 +28,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'juancagb.17@gmail.com',
             'role_id' => 2,
             'password' => bcrypt('123123'),
+            'confirmation_code' => null,
+            'confirmed' => true,
             'enable' => 1,
             'image'=> 'png'
         ]);
@@ -35,6 +39,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'jose_perez.17@gmail.com',
             'role_id' => 3,
             'password' => bcrypt('123123'),
+            'confirmed' => true,
+            'confirmation_code' => null,
             'enable' => 1,
             'image'=> 'jpg'
         ]);
@@ -44,6 +50,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'joryes1894@gmail.com',
             'role_id' => 2,
             'password' => bcrypt('123123'),
+            'confirmed' => true,
+            'confirmation_code' => null,
             'enable' => 1,
             'image'=> 'png'
         ]);

@@ -50,3 +50,6 @@ Route::get('/users', 'UserController@index');
 Route::post('/user/register', 'UserController@store');
 Route::post('/user/editar', 'UserController@edit');
 Route::post('/user/delete', 'UserController@delete');
+
+// Confirmation email
+Route::get('/register/verify/{code}', 'UserController@verify');
