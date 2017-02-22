@@ -16,13 +16,14 @@ class UserController extends Controller
     {
         $users = User::where('enable', 1)->with('role')->get();
         $roles = Role::where('enable', 1)->where('id', '<>', 1)->get();
-        //dd($users);
+
         return view('user.index')->with(compact('users', 'roles'));
     }
 
     public function store( Request $request )
     {
-        // TODO: Solo pueden crear usuarios el del rol super administrador que es el rol 1
+        // TODO: Solo puede crear usuarios el de rol super administrador que es el rol 1
+
         if ( Auth::user()->role_id > 2 )
             return response()->json(['error' => true, 'message' => 'No cuenta con permisos para crear un usuario.']);
         
@@ -69,8 +70,6 @@ class UserController extends Controller
             $msj->subject('Correo de confirmación');
             $msj->to($request->get('email'));
         });
-
-
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);

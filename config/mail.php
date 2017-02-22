@@ -59,7 +59,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'admin@conciviles.com'),
         'name' => env('MAIL_FROM_NAME', 'Conciviles'),
     ],*/
-    'from' => ['address' => 'admin@gmail.com', 'name' => 'Conciviles'],
+    'from' => ['address' => 'info@mauriciogutierrez.xyz', 'name' => 'Conciviles'],
 
     /*
     |--------------------------------------------------------------------------
