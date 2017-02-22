@@ -12,7 +12,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::where('enable', 1)->get();
+        $roles = Role::all();
         //dd($speakers);
         return view('role.index')->with(compact('roles'));
     }
@@ -60,7 +60,7 @@ class RoleController extends Controller
             return response()->json(['error' => true, 'message' => 'No existe el rol especificado.']);
 
         // TODO: Validación si tiene usuario
-        $user_roles = User::where('enable', 1)->where('role_id', $request->get('id'))->first();
+        $user_roles = User::where('role_id', $request->get('id'))->first();
         if ( $user_roles )
             return response()->json(['error' => true, 'message' => 'No se puede eliminar el rol especificado porque hay usuarios con este rol.']);
 
@@ -68,8 +68,7 @@ class RoleController extends Controller
         if ( Auth::user()->role_id > 1 )
             return response()->json(['error' => true, 'message' => 'No cuenta con permisos para eliminar un rol.']);
 
-        $role->enable = 0;
-        $role->save();
+        $role->delete();
 
         return response()->json(['error' => false, 'message' => 'Rol eliminado correctamente.']);
 
@@ -77,7 +76,7 @@ class RoleController extends Controller
     
     public function getRoles()
     {
-        $roles = Role::where('enable',1)->get();
+        $roles = Role::all();
         return response()->json($roles);
     }
 }

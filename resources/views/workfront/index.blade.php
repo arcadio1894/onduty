@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
+@section('styles')
+    <style>
+        .breadcrumbs {
+            margin-left: -80px;
+            padding-left: 3px;
+            width: 100% !important;
+        }
+    </style>
+@endsection
+
 @section('content')
+    <nav class="breadcrumbs">
+        <div class="nav-wrapper">
+            <div class="col s12">
+                <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
+                <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">Localización: {{ $location->name }}</a>
+                <a href="{{ url('/workFronts/plant/'.$plant->id) }}" class="breadcrumb">Planta: {{ $plant->name }}</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="row">
         <br>

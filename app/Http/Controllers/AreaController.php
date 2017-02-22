@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AreaController extends Controller
 {
     public function index()
     {
-        $areas = Area::where('enable', 1)->get();
+        $areas = Area::all();
         //dd($speakers);
         return view('area.index')->with(compact('areas'));
     }
@@ -62,8 +63,7 @@ class AreaController extends Controller
 
         // TODO: Validaciones en el futuro
 
-        $area->enable = 0;
-        $area->save();
+        $area->delete();
 
         return response()->json(['error' => false, 'message' => 'Área eliminada correctamente.']);
 

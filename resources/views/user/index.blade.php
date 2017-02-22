@@ -12,7 +12,9 @@
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Email</th>
                 <th data-field="name">Rol</th>
-                <th data-field="price">Acciones</th>
+                @if( Auth::user()->role_id <3 )
+                    <th data-field="">Acciones</th>
+                @endif
             </tr>
             </thead>
 
@@ -22,10 +24,12 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
-                    </td>
+                    @if( Auth::user()->role_id < 3 )
+                        <td>
+                            <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
+                            <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
 
