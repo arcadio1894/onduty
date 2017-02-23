@@ -55,12 +55,10 @@ return [
     |
     */
 
-    /*'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@conciviles.com'),
-        'name' => env('MAIL_FROM_NAME', 'Conciviles'),
-    ],*/
-    'from' => ['address' => 'info@mauriciogutierrez.xyz', 'name' => 'Conciviles'],
-
+    'from' => [
+        'address' => env('MAIL_FROM_ADDRESS'),
+        'name' => env('MAIL_FROM_NAME'),
+    ],
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol

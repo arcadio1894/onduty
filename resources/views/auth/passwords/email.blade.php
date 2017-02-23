@@ -6,9 +6,9 @@
     <div class="row">
         <div class="col s6 offset-s3">
             <div class="card">
-
                 <div class="card-content">
                     <span class="card-title">Resetear contraseña</span>
+
                     <form class="s12" role="form" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}
 
@@ -30,7 +30,6 @@
                     </form>
 
                 </div>
-
             </div>
         </div>
     </div>
