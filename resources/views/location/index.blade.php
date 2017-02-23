@@ -1,26 +1,19 @@
 @extends('layouts.app')
 
-@section('styles')
-    <style>
-        .breadcrumbs {
-            margin-left: -80px;
-            padding-left: 3px;
-            width: 100% !important;
-        }
-    </style>
+@section('breadcrumbs')
+    <div class="row">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
+                </div>
+            </div>
+        </nav>
+    </div>
 @endsection
 
 @section('content')
-    <nav class="breadcrumbs">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
-            </div>
-        </div>
-    </nav>
-
     <div class="row">
-        <br>
         <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva Localización</a>
         <br><br>
         <table class="responsive-table">

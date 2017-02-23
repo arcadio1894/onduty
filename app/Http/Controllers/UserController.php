@@ -68,7 +68,7 @@ class UserController extends Controller
             $user->image = $request->file('image')->getClientOriginalExtension();
         }
         else
-            $user->image = 'jpg';
+            $user->image = null;
 
         /*// TODO: Enviar email de confirmación
         Mail::send('emails.confirm', $request->all(), function ($msj) use ($request) {

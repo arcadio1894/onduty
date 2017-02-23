@@ -1,28 +1,21 @@
 @extends('layouts.app')
 
-@section('styles')
-    <style>
-        .breadcrumbs {
-            margin-left: -80px;
-            padding-left: 3px;
-            width: 100% !important;
-        }
-    </style>
+@section('breadcrumbs')
+    <div class="row">
+        <nav class="breadcrumbs">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
+                    <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">Localización: {{ $location->name }}</a>
+                    <a href="{{ url('/workFronts/plant/'.$plant->id) }}" class="breadcrumb">Planta: {{ $plant->name }}</a>
+                </div>
+            </div>
+        </nav>
+    </div>
 @endsection
 
 @section('content')
-    <nav class="breadcrumbs">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
-                <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">Localización: {{ $location->name }}</a>
-                <a href="{{ url('/workFronts/plant/'.$plant->id) }}" class="breadcrumb">Planta: {{ $plant->name }}</a>
-            </div>
-        </div>
-    </nav>
-
     <div class="row">
-        <br>
         <a class="waves-effect waves-light btn modal-trigger" id="newPlant" href="#modal1">Nuevo frente de trabajo</a>
         <a class="waves-effect waves-light btn" href="{{ url('/plants/location/'.$plant->location->id) }}">Regresar</a>
         <br><br>

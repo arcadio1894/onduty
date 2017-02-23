@@ -12,7 +12,7 @@
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Email</th>
                 <th data-field="name">Rol</th>
-                @if( Auth::user()->role_id <3 )
+                @if (Auth::user()->role_id <3)
                     <th data-field="">Acciones</th>
                 @endif
             </tr>
@@ -24,7 +24,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    @if( Auth::user()->role_id < 3 )
+                    @if (Auth::user()->role_id < 3)
                         <td>
                             <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
                             <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
@@ -55,7 +55,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="password" name="password" type="password" class="">
+                    <input id="password" name="password" type="password" autocomplete="new-password">
                     <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
                 </div>
                 <div class="input-field col s6">

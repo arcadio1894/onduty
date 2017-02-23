@@ -1,28 +1,21 @@
 @extends('layouts.app')
 
-@section('styles')
-    <style>
-        .breadcrumbs {
-            margin-left: -80px;
-            padding-left: 3px;
-            width: 100% !important;
-            max-width: 100%;
-        }
-    </style>
+@section('breadcrumbs')
+    <div class="row">
+        <nav class="breadcrumbs">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
+                    <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">{{ $location->name }}</a>
+                </div>
+            </div>
+        </nav>
+    </div>
 @endsection
 
 @section('content')
-    <nav class="breadcrumbs">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
-                <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">{{ $location->name }}</a>
-            </div>
-        </div>
-    </nav>
-
     <div class="row">
-        <br>
+
         <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva planta</a>
         <a class="waves-effect waves-light btn" href="{{ url('/locations') }}">Regresar</a>
         <br><br>

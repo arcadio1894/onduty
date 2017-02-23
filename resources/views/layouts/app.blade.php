@@ -103,7 +103,11 @@
         </div>
     </nav>
 
-    <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"></a></div>
+    @yield('breadcrumbs')
+
+    <div class="container">
+        <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only"></a>
+    </div>
     @if (Auth::check())
     <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
         <li class="logo">
@@ -111,10 +115,10 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="file" style="display: none" id="avatarInput" name="photo">
             </form>
-            @if (Auth::user()->image == null)
-                <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="">
-            @else
+            @if (Auth::user()->image)
                 <img src=" {{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="">
+            @else
+                <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="">
             @endif
         </li>
         <li class="no-padding">
@@ -151,6 +155,7 @@
     </ul>
     @endif
 </header>
+
     <main>
         <div class="container">
             @yield('content')
