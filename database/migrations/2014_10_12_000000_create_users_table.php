@@ -27,11 +27,12 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
 
-            $table->string('image');
+            $table->string('image')->nullable();
 
             $table->integer('enable')->unsigned();
 
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

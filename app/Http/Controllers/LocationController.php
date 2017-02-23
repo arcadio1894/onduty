@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Location;
 use App\Plant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LocationController extends Controller
 {
     public function index()
     {
-        $locations = Location::where('enable', 1)->get();
+        $locations = Location::all();
         //dd($speakers);
         return view('location.index')->with(compact('locations'));
     }
@@ -62,12 +63,11 @@ class LocationController extends Controller
             return response()->json(['error' => true, 'message' => 'No existe la localización especificada.']);
         
         // TODO: Validación si tiene plantas
-        $plants = Plant::where('location_id', $location->id)->where('enable', 1)->first();
+        $plants = Plant::where('location_id', $location->id)->first();
         if($plants)
             return response()->json(['error' => true, 'message' => 'No se puede eliminar la localización porque hay plantas activas dentro de esta localización.']);
 
-        $location->enable = 0;
-        $location->save();
+        $location->delete();
         
         return response()->json(['error' => false, 'message' => 'Localización eliminada correctamente.']);
 

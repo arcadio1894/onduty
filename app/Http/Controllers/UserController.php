@@ -14,9 +14,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('enable', 1)->with('role')->get();
-        $roles = Role::where('enable', 1)->where('id', '<>', 1)->get();
-
+        $users = User::with('role')->get();
+        $roles = Role::where('id', '<>', 1)->get();
+        // dd($users);
         return view('user.index')->with(compact('users', 'roles'));
     }
 
@@ -40,11 +40,14 @@ class UserController extends Controller
         if ($request->get('password') == null OR $request->get('password') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el password del usuario']);
 
+        if ( strlen($request->get('password')) < 6 )
+            return response()->json(['error' => true, 'message' => 'Ingrese una constraseña de 6 dígitos o más.']);
+
         if ($request->get('role') == null OR $request->get('role') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
 
-        if( $request->file('image') == null OR $request->file('image') == "" )
-            return response()->json(['error' => true, 'message' => 'Es necesario escoger una imagen del usuario']);
+        /*if( $request->file('image') == null OR $request->file('image') == "" )
+            return response()->json(['error' => true, 'message' => 'Es necesario escoger una imagen del usuario']);*/
 
         $request['confirmation_code'] = str_random(25);
         $user = User::create([
@@ -53,8 +56,7 @@ class UserController extends Controller
             'password' => bcrypt($request->get('password')),
             'role_id' => $request->get('role'),
             'enable' => '1',
-            'confirmation_code' => $request->get('confirmation_code'),
-            'image' => $request->file('image')->getClientOriginalExtension()
+            'confirmation_code' => $request->get('confirmation_code')
         ]);
 
         if( $request->file('image') )
@@ -63,13 +65,16 @@ class UserController extends Controller
             $extension = $request->file('image')->getClientOriginalExtension();
             $fileName = $user->id . '.' . $extension;
             $request->file('image')->move($path, $fileName);
+            $user->image = $request->file('image')->getClientOriginalExtension();
         }
+        else
+            $user->image = 'jpg';
 
-        // TODO: Enviar email de confirmación
+        /*// TODO: Enviar email de confirmación
         Mail::send('emails.confirm', $request->all(), function ($msj) use ($request) {
             $msj->subject('Correo de confirmación');
             $msj->to($request->get('email'));
-        });
+        });*/
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
@@ -102,6 +107,11 @@ class UserController extends Controller
         if ( Auth::user()->role_id == 2 && $user_edited->role_id <= 2 && $user_edited->id != Auth::user()->id )
             return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar a otro administrador.']);
 
+        // TODO: Los administradores no se pueden aumentar de nivel
+        if ( Auth::user()->role_id > $request->get('role') )
+            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para aumentarse de rol.']);
+
+
         if ($request->get('role') == null OR $request->get('role') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
 
@@ -130,8 +140,7 @@ class UserController extends Controller
 
         // TODO: Validación si tiene plantas
 
-        $user->enable = 0;
-        $user->save();
+        $user->delete();
 
         return response()->json(['error' => false, 'message' => 'Usuario eliminado correctamente.']);
 

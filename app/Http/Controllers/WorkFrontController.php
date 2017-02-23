@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Location;
 use App\Plant;
 use App\WorkFront;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkFrontController extends Controller
 {
     public function index( $id )
     {
         $plant = Plant::with('location')->find($id);
-        $workFronts = WorkFront::where('plant_id', $id)->where('enable', 1)->with('plant')->get();
+        $location = Location::find($plant->location_id);
+        $workFronts = WorkFront::where('plant_id', $id)->with('plant')->get();
         //dd($plant);
-        return view('workfront.index')->with(compact('plant', 'workFronts'));
+        return view('workfront.index')->with(compact('location', 'plant', 'workFronts'));
     }
 
     public function store( Request $request )
@@ -63,8 +66,7 @@ class WorkFrontController extends Controller
         if($workFronts == null)
             return response()->json(['error' => true, 'message' => 'No existe el frente de trabajo especificada.']);
 
-        $workFronts->enable = 0;
-        $workFronts->save();
+        $workFronts->delete();
 
         return response()->json(['error' => false, 'message' => 'Frente de trabajo eliminado correctamente.']);
 

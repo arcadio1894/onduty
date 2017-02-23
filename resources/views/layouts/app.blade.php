@@ -17,7 +17,7 @@
             height: 144px;
         }
         @section('padding-left-nav')
-            header,main,footer{padding-left:300px}
+            header,main,footer{padding-left:300px;}
         @show
     </style>
     @yield('styles')
@@ -111,7 +111,11 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                 <input type="file" style="display: none" id="avatarInput" name="photo">
             </form>
-            <img src="{{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="">
+            @if (Auth::user()->image == null)
+                <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="">
+            @else
+                <img src=" {{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="">
+            @endif
         </li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">

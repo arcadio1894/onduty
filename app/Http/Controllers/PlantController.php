@@ -6,13 +6,14 @@ use App\Location;
 use App\Plant;
 use App\WorkFront;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlantController extends Controller
 {
     public function index( $id )
     {
         $location = Location::find($id);
-        $plants = Plant::where('location_id', $id)->where('enable', 1)->with('location')->get();
+        $plants = Plant::where('location_id', $id)->with('location')->get();
         //dd($plants);
         return view('plant.index')->with(compact('plants', 'location'));
     }
@@ -65,12 +66,11 @@ class PlantController extends Controller
             return response()->json(['error' => true, 'message' => 'No existe la planta especificada.']);
 
         // TODO: Validación si tiene frentes de trabajo
-        $workfront = WorkFront::where('plant_id', $plant->id)->where('enable', 1)->first();
+        $workfront = WorkFront::where('plant_id', $plant->id)->first();
         if($workfront)
             return response()->json(['error' => true, 'message' => 'No se puede eliminar la planta porque hay frentes de trabajo activas dentro de esta planta.']);
 
-        $plant->enable = 0;
-        $plant->save();
+        $plant->delete();
 
         return response()->json(['error' => false, 'message' => 'Planta eliminada correctamente.']);
 
