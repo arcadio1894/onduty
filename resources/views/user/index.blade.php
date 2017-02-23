@@ -11,6 +11,7 @@
             <tr>
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Email</th>
+                <th data-field="name">Estado</th>
                 <th data-field="name">Rol</th>
                 @if (Auth::user()->role_id <3)
                     <th data-field="">Acciones</th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
                     <td>{{ $user->role->name }}</td>
                     @if (Auth::user()->role_id < 3)
                         <td>

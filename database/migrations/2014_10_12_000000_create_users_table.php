@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             // Data verification
-            $table->boolean('confirmed')->default(0);
+            $table->boolean('confirmed')->default(false);
             $table->string('confirmation_code')->nullable();
 
             $table->integer('role_id')->unsigned();
