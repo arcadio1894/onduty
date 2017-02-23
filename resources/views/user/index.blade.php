@@ -133,7 +133,7 @@
                 <input type="hidden" name="id">
                 <div class="row">
                     <p>¿Está seguro de eliminar éste usuario? </p>
-                    <p>Recuerde que si este usuario tiene (acciones) registradas no podrá eliminarlo.</p>
+                    <p>Recuerde que si este usuario tiene acciones registradas no podrá eliminarlo.</p>
                     <div class="input-field col s12">
                         <input disabled id="disabled" type="text" name="name">
                     </div>

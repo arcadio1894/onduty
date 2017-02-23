@@ -70,11 +70,10 @@ class UserController extends Controller
         else
             $user->image = null;
 
-        /*// TODO: Enviar email de confirmación
-        Mail::send('emails.confirm', $request->all(), function ($msj) use ($request) {
-            $msj->subject('Correo de confirmación');
-            $msj->to($request->get('email'));
-        });*/
+        Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+            $m->subject('Correo de confirmación');
+            $m->to($request->get('email'));
+        });
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
