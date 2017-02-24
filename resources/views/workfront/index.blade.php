@@ -27,7 +27,9 @@
                 <th data-field="name">Descripción</th>
                 <th data-field="name">Localización</th>
                 <th data-field="name">Planta</th>
-                <th data-field="price">Acciones</th>
+                @if (Auth::user()->role_id <3)
+                    <th data-field="">Acciones</th>
+                @endif
             </tr>
             </thead>
 
@@ -38,10 +40,12 @@
                     <td>{{ $workfront->description }}</td>
                     <td>{{ $plant->location->name }}</td>
                     <td>{{ $plant->name }}</td>
-                    <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{ $workfront->id }}" data-plant="{{ $plant->id }}" href="#modal2" data-name="{{$workfront->name}}" data-description="{{$workfront->description}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-delete="{{ $workfront->id }}" href="#modal3" data-name="{{$workfront->name}}" ><i class="material-icons">delete</i></a>
-                    </td>
+                    @if (Auth::user()->role_id < 3)
+                        <td>
+                            <a class="waves-effect waves-light btn" data-edit="{{ $workfront->id }}" data-plant="{{ $plant->id }}" href="#modal2" data-name="{{$workfront->name}}" data-description="{{$workfront->description}}" ><i class="material-icons">mode_edit</i></a>
+                            <a class="waves-effect waves-light btn" data-delete="{{ $workfront->id }}" href="#modal3" data-name="{{$workfront->name}}" ><i class="material-icons">delete</i></a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
 
