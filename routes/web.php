@@ -46,5 +46,11 @@ Route::post('/user/register', 'UserController@store');
 Route::post('/user/editar', 'UserController@edit');
 Route::post('/user/delete', 'UserController@delete');
 
+Route::get('/critical_risks', 'CriticalRiskController@index');
+Route::post('/critical_risk/register', 'CriticalRiskController@store');
+Route::post('/critical_risk/editar', 'CriticalRiskController@edit');
+Route::post('/critical_risk/delete', 'CriticalRiskController@delete');
+
+
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');

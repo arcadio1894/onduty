@@ -25,8 +25,7 @@ class AreaController extends Controller
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del área']);
         $area = Area::create([
             'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'enable' => 1
+            'description' => $request->get('description')
         ]);
 
         $area->save();
