@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="row">
+
         <br>
         @if (Auth::user()->role_id < 3)
             <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo Rol</a>

@@ -63,7 +63,7 @@ class UserController extends Controller
             'confirmation_code' => $request->get('confirmation_code')
         ]);
 
-        if( $request->file('image') )
+        if ($request->file('image'))
         {
             $path = public_path().'/images/users';
             $extension = $request->file('image')->getClientOriginalExtension();
