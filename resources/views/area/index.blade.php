@@ -11,7 +11,9 @@
             <tr>
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Descripción</th>
-                <th data-field="price">Acciones</th>
+                @if (Auth::user()->role_id <3)
+                    <th data-field="">Acciones</th>
+                @endif
             </tr>
             </thead>
 
@@ -20,10 +22,12 @@
                 <tr>
                     <td>{{ $area->name }}</td>
                     <td>{{ $area->description }}</td>
-                    <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{ $area->id }}" href="#modal2" data-name="{{$area->name}}" data-description="{{$area->description}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-delete="{{ $area->id }}" href="#modal3" data-name="{{$area->name}}" ><i class="material-icons">delete</i></a>
-                    </td>
+                    @if (Auth::user()->role_id < 3)
+                        <td>
+                            <a class="waves-effect waves-light btn" data-edit="{{ $area->id }}" href="#modal2" data-name="{{$area->name}}" data-description="{{$area->description}}" ><i class="material-icons">mode_edit</i></a>
+                            <a class="waves-effect waves-light btn" data-delete="{{ $area->id }}" href="#modal3" data-name="{{$area->name}}" ><i class="material-icons">delete</i></a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
 

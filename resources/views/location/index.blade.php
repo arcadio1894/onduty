@@ -21,7 +21,9 @@
             <tr>
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Descripción</th>
-                <th data-field="price">Acciones</th>
+                @if (Auth::user()->role_id <3)
+                    <th data-field="">Acciones</th>
+                @endif
             </tr>
             </thead>
 
@@ -31,8 +33,10 @@
                     <td>{{ $location->name }}</td>
                     <td>{{ $location->description }}</td>
                     <td>
-                        <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
-                        <a class="waves-effect waves-light btn" data-delete="{{ $location->id }}" href="#modal3" data-name="{{$location->name}}" ><i class="material-icons">delete</i></a>
+                        @if (Auth::user()->role_id < 3)
+                            <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
+                            <a class="waves-effect waves-light btn" data-delete="{{ $location->id }}" href="#modal3" data-name="{{$location->name}}" ><i class="material-icons">delete</i></a>
+                        @endif
                         <a class="waves-effect waves-light btn" href="{{ url('/plants/location/'.$location->id) }}" ><i class="material-icons left">playlist_add</i>Plantas</a>
 
                     </td>
