@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="row">
-        <br>
-        <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo Rol</a>
+        @if (Auth::user()->role_id < 3)
+            <br>
+            <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo rol</a>
+        @endif
         <br><br>
         <table class="responsive-table">
             <thead>
             <tr>
                 <th data-field="id">Rol</th>
                 <th data-field="name">Descripción</th>
-                <th data-field="price">Acciones</th>
+                @if (Auth::user()->role_id < 3)
+                    <th data-field="price">Acciones</th>
+                @endif
             </tr>
             </thead>
 
@@ -20,10 +23,12 @@
                 <tr>
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->description }}</td>
+                    @if (Auth::user()->role_id < 3)
                     <td>
                         <a class="waves-effect waves-light btn" data-edit="{{ $role->id }}" href="#modal2" data-name="{{$role->name}}" data-description="{{$role->description}}" ><i class="material-icons">mode_edit</i></a>
                         <a class="waves-effect waves-light btn" data-delete="{{ $role->id }}" href="#modal3" data-name="{{$role->name}}" ><i class="material-icons">delete</i></a>
                     </td>
+                    @endif
                 </tr>
             @endforeach
 
