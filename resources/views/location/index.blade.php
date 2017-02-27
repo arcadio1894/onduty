@@ -14,7 +14,9 @@
 
 @section('content')
     <div class="row">
-        <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva Localización</a>
+        @if (Auth::user()->role_id < 3)
+            <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva Localización</a>
+        @endif
         <br><br>
         <table class="responsive-table">
             <thead>
@@ -37,7 +39,7 @@
                             <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
                             <a class="waves-effect waves-light btn" data-delete="{{ $location->id }}" href="#modal3" data-name="{{$location->name}}" ><i class="material-icons">delete</i></a>
                         @endif
-                        <a class="waves-effect waves-light btn" href="{{ url('/plants/location/'.$location->id) }}" ><i class="material-icons left">playlist_add</i>Plantas</a>
+                        <a class="waves-effect waves-light btn" href="{{ url('/workFronts/location/'.$location->id) }}" ><i class="material-icons left">playlist_add</i>Frentes de trabajo</a>
 
                     </td>
                 </tr>

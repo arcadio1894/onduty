@@ -27,8 +27,7 @@ class RoleController extends Controller
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del rol']);
         $rol = Role::create([
             'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'enable' => 1
+            'description' => $request->get('description')
         ]);
 
         $rol->save();

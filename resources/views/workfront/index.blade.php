@@ -6,8 +6,7 @@
             <div class="nav-wrapper">
                 <div class="col s12">
                     <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
-                    <a href="{{ url('/plants/location/'.$location->id) }}" class="breadcrumb">Localización: {{ $location->name }}</a>
-                    <a href="{{ url('/workFronts/plant/'.$plant->id) }}" class="breadcrumb">Planta: {{ $plant->name }}</a>
+                    <a href="{{ url('/workFronts/location/'.$location->id) }}" class="breadcrumb">Localización: {{ $location->name }}</a>
                 </div>
             </div>
         </nav>
@@ -16,17 +15,18 @@
 
 @section('content')
     <div class="row">
-        <a class="waves-effect waves-light btn modal-trigger" id="newPlant" href="#modal1">Nuevo frente de trabajo</a>
-        <a class="waves-effect waves-light btn" href="{{ url('/plants/location/'.$plant->location->id) }}">Regresar</a>
+        @if (Auth::user()->role_id < 3)
+            <a class="waves-effect waves-light btn modal-trigger" id="newPlant" href="#modal1">Nuevo frente de trabajo</a>
+        @endif
+        <a class="waves-effect waves-light btn" href="{{ url('/locations') }}">Regresar</a>
         <br><br>
-        <p>Frentes de trabajo de la planta {{ $plant->name }}</p>
+        <p>Frentes de trabajo de la localización {{ $location->name }}</p>
         <table class="responsive-table">
             <thead>
             <tr>
                 <th data-field="id">Frente de Trabajo</th>
                 <th data-field="name">Descripción</th>
                 <th data-field="name">Localización</th>
-                <th data-field="name">Planta</th>
                 @if (Auth::user()->role_id <3)
                     <th data-field="">Acciones</th>
                 @endif
@@ -38,11 +38,10 @@
                 <tr>
                     <td>{{ $workfront->name }}</td>
                     <td>{{ $workfront->description }}</td>
-                    <td>{{ $plant->location->name }}</td>
-                    <td>{{ $plant->name }}</td>
+                    <td>{{ $workfront->location->name }}</td>
                     @if (Auth::user()->role_id < 3)
                         <td>
-                            <a class="waves-effect waves-light btn" data-edit="{{ $workfront->id }}" data-plant="{{ $plant->id }}" href="#modal2" data-name="{{$workfront->name}}" data-description="{{$workfront->description}}" ><i class="material-icons">mode_edit</i></a>
+                            <a class="waves-effect waves-light btn" data-edit="{{ $workfront->id }}" data-location="{{ $location->id }}" href="#modal2" data-name="{{$workfront->name}}" data-description="{{$workfront->description}}" ><i class="material-icons">mode_edit</i></a>
                             <a class="waves-effect waves-light btn" data-delete="{{ $workfront->id }}" href="#modal3" data-name="{{$workfront->name}}" ><i class="material-icons">delete</i></a>
                         </td>
                     @endif
@@ -56,7 +55,7 @@
     <div id="modal1" class="modal">
         <form class="col s12" id="form-register" action="{{ url('/workFront/register') }}">
             {{ csrf_field() }}
-            <input type="hidden" name="plant" value="{{ $plant->id }}">
+            <input type="hidden" name="location" value="{{ $location->id }}">
         <div class="modal-content">
             <h4>Registrar frente de trabajo</h4>
 
@@ -87,7 +86,7 @@
             <div class="modal-content">
                 <h4>Editar frente de trabajo</h4>
                 <input type="hidden" name="id">
-                <input type="hidden" name="plant">
+                <input type="hidden" name="location">
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="name" name="name" type="text" class="validate">

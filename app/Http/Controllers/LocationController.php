@@ -11,7 +11,7 @@ class LocationController extends Controller
 {
     public function index()
     {
-        $locations = Location::all();
+        $locations = Location::orderBy('name')->get();
         //dd($speakers);
         return view('location.index')->with(compact('locations'));
     }
@@ -26,8 +26,7 @@ class LocationController extends Controller
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
         $location = Location::create([
             'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'enable' => '1'
+            'description' => $request->get('description')
         ]);
 
         $location->save();

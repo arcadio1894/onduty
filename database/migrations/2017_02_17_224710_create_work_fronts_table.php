@@ -17,9 +17,8 @@ class CreateWorkFrontsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
-            $table->integer('plant_id')->unsigned();
-            $table->foreign('plant_id')->references('id')->on('plants');
-            $table->integer('enable')->unsigned();
+            $table->integer('location_id')->unsigned();
+            $table->foreign('location_id')->references('id')->on('locations');
             $table->softDeletes();
             $table->timestamps();
         });

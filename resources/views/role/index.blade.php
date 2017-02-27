@@ -4,7 +4,9 @@
 
     <div class="row">
         <br>
-        <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo Rol</a>
+        @if (Auth::user()->role_id < 3)
+            <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo Rol</a>
+        @endif
         <br><br>
         <table class="responsive-table">
             <thead>

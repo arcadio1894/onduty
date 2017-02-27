@@ -29,8 +29,6 @@ class CreateUsersTable extends Migration
 
             $table->string('image')->nullable();
 
-            $table->integer('enable')->unsigned();
-
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

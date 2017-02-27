@@ -15,18 +15,15 @@ class LocationsTableSeeder extends Seeder
     {
         Location::create([
             'name' => 'CON 2113-2013',
-            'description' => 'Locación de prueba 1',
-            'enable' => 1
+            'description' => 'Locación de prueba 1'
         ]);
         Location::create([
             'name' => 'CON 2113-2014',
-            'description' => 'Locación de prueba 2',
-            'enable' => 1
+            'description' => 'Locación de prueba 2'
         ]);
         Location::create([
             'name' => 'CON 2113-2015',
-            'description' => 'Locación de prueba 3',
-            'enable' => 1
+            'description' => 'Locación de prueba 3'
         ]);
     }
 }

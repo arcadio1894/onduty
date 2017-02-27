@@ -19,7 +19,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123123'),
             'confirmed' => true,
             'confirmation_code' => null,
-            'enable' => 1,
             'image'=> 'jpg'
         ]);
 
@@ -30,7 +29,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123123'),
             'confirmation_code' => null,
             'confirmed' => true,
-            'enable' => 1,
             'image'=> 'png'
         ]);
 
@@ -41,7 +39,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123123'),
             'confirmed' => true,
             'confirmation_code' => null,
-            'enable' => 1,
             'image'=> 'jpg'
         ]);
 
@@ -52,7 +49,6 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('123123'),
             'confirmed' => true,
             'confirmation_code' => null,
-            'enable' => 1,
             'image'=> 'png'
         ]);
     }

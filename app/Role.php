@@ -10,7 +10,7 @@ class Role extends Model
     use SoftDeletes;
         
     protected $fillable = [
-        'name', 'description', 'enable'
+        'name', 'description'
     ];
 
     public function users()

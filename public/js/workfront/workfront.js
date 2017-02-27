@@ -32,12 +32,12 @@ $ (function () {
     
     $('[data-edit]').on('click', function () {
         var id = $(this).data('edit');
-        var plant = $(this).data('plant');
+        var location = $(this).data('location');
         var name = $(this).data('name');
         var description = $(this).data('description');
 
         $formEdit.find('[name="id"]').val(id);
-        $formEdit.find('[name="plant"]').val(plant);
+        $formEdit.find('[name="location"]').val(location);
         $formEdit.find('[name="name"]').val(name);
         $formEdit.find('[name="description"]').val(description);
         $modalEditar.modal('open');

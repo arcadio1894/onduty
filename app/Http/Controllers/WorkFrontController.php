@@ -12,11 +12,10 @@ class WorkFrontController extends Controller
 {
     public function index( $id )
     {
-        $plant = Plant::with('location')->find($id);
-        $location = Location::find($plant->location_id);
-        $workFronts = WorkFront::where('plant_id', $id)->with('plant')->get();
+        $location = Location::find($id);
+        $workFronts = WorkFront::where('location_id', $id)->with('location')->orderBy('name')->get();
         //dd($plant);
-        return view('workfront.index')->with(compact('location', 'plant', 'workFronts'));
+        return view('workfront.index')->with(compact('location', 'workFronts'));
     }
 
     public function store( Request $request )
@@ -30,8 +29,7 @@ class WorkFrontController extends Controller
         $workFront = WorkFront::create([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
-            'plant_id' => $request->get('plant'),
-            'enable' => '1'
+            'location_id' => $request->get('location')
         ]);
 
         $workFront->save();
@@ -49,7 +47,7 @@ class WorkFrontController extends Controller
 
         $workFronts = WorkFront::find( $request->get('id') );
         $workFronts->name = $request->get('name');
-        $workFronts->plant_id = $request->get('plant');
+        $workFronts->location_id = $request->get('location');
         $workFronts->description = $request->get('description');
         $workFronts->save();
 

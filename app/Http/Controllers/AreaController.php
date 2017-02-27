@@ -10,7 +10,7 @@ class AreaController extends Controller
 {
     public function index()
     {
-        $areas = Area::all();
+        $areas = Area::orderBy('name')->get();
         //dd($speakers);
         return view('area.index')->with(compact('areas'));
     }

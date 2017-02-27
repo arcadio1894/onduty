@@ -37,10 +37,11 @@
 </head>
 <body>
 <header>
-    <nav class="top-nav">
+    <div class="navbar-fixed">
+        <nav class="top-nav orange">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="#!" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
+                <a href="{{ url('/home') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     @if (Auth::guest())
@@ -102,7 +103,7 @@
             </div>
         </div>
     </nav>
-
+    </div>
     @yield('breadcrumbs')
 
     <div class="container">
@@ -131,14 +132,16 @@
                         </ul>
                     </div>
                 </li>
-                <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Entidades</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
-                            <li><a href="{{ url('/areas') }}">Áreas</a></li>
-                        </ul>
-                    </div>
-                </li>
+                @if (Auth::user()->role_id < 3)
+                    <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Entidades</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
+                                <li><a href="{{ url('/areas') }}">Áreas</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">

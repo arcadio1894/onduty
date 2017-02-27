@@ -17,28 +17,23 @@ class AreasTableSeeder extends Seeder
     {
         Area::create([
             'name' => 'Administración',
-            'description' => 'Área de administración',
-            'enable' => 1
+            'description' => 'Área de administración'
         ]);
         Area::create([
             'name' => 'Mantenimiento',
-            'description' => 'Área de mantenimiento',
-            'enable' => 1
+            'description' => 'Área de mantenimiento'
         ]);
         Area::create([
             'name' => 'Producción',
-            'description' => 'Área de producción',
-            'enable' => 1
+            'description' => 'Área de producción'
         ]);
         Area::create([
             'name' => 'HSE',
-            'description' => 'Área de HSE',
-            'enable' => 1
+            'description' => 'Área de HSE'
         ]);
         Area::create([
             'name' => 'MQ',
-            'description' => 'Área de MQ',
-            'enable' => 1
+            'description' => 'Área de MQ'
         ]);
     }
 }

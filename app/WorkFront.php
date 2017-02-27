@@ -10,12 +10,12 @@ class WorkFront extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'name', 'description', 'plant_id', 'enable'
+        'name', 'description', 'location_id'
     ];
 
-    public function plant()
+    public function location()
     {
-        return $this->belongsTo('App\Plant');
+        return $this->belongsTo('App\Location');
     }
 
     protected $dates = ['deleted_at'];

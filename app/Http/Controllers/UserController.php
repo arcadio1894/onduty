@@ -34,6 +34,11 @@ class UserController extends Controller
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
 
+        $email_user = User::where('email', $request->get('email'))->first();
+
+        if ( $email_user )
+            return response()->json(['error' => true, 'message' => 'Ya existe un usuario con este email.']);
+
         if ($request->get('email') == null OR $request->get('email') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el email del usuario']);
 
@@ -55,7 +60,6 @@ class UserController extends Controller
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
             'role_id' => $request->get('role'),
-            'enable' => '1',
             'confirmation_code' => $request->get('confirmation_code')
         ]);
 

@@ -18,14 +18,12 @@ class WorkFrontsTableSeeder extends Seeder
         WorkFront::create([
             'name' => 'Estrella',
             'description' => 'Frente de trabajo de prueba 1',
-            'plant_id' => 1,
-            'enable' => 1
+            'location_id' => 1
         ]);
         WorkFront::create([
             'name' => 'Concreto',
             'description' => 'Frente de trabajo de prueba 2',
-            'plant_id' => 2,
-            'enable' => 1
+            'location_id' => 2
         ]);
     }
 }
