@@ -14,6 +14,7 @@
                 <th data-field="name">Email</th>
                 <th data-field="name">Estado</th>
                 <th data-field="name">Rol</th>
+                <th data-field="name">Cargo</th>
                 @if (Auth::user()->role_id <3)
                     <th data-field="">Acciones</th>
                 @endif
@@ -27,9 +28,16 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
                         <td>{{ $user->role->name }}</td>
+                        <td>
+                            @if( $user->position_id == 1 )
+                                {{ "" }}
+                            @else
+                                {{ $user->position->name }}
+                            @endif
+                        </td>
                         @if (Auth::user()->role_id < 3)
                             <td>
-                                <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
+                                <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-positionid="{{ $user->position_id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
                                 <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
                             </td>
                         @endif
@@ -73,7 +81,16 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s6" id="positions">
+                        <select id="position" name="position">
+                            <option value="" disabled selected>Escoja un cargo</option>
+                            @foreach( $positions as $position )
+                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="position">Cargos </label>
+                    </div>
+                    <div class="input-field col s6">
                         <div class="file-field input-field">
                             <div class="btn">
                                 <span>Imagen</span>
@@ -84,6 +101,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -117,6 +135,12 @@
 
                             </select>
                             <label for="role_select">Roles de usuario</label>
+                        </div>
+                        <div class="input-field col s6" id="positionDropdown">
+                            <select id="position_select" name="position_select">
+
+                            </select>
+                            <label for="position_select">Cargo de usuario XD</label>
                         </div>
                     </div>
 

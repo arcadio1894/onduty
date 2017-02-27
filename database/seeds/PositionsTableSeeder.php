@@ -17,16 +17,20 @@ class PositionsTableSeeder extends Seeder
     public function run()
     {
         Position::create([
+            'name' => 'Sin cargo',
+            'description' => 'Sin cargo'
+        ]);
+        Position::create([
             'name' => 'Cargo 1',
             'description' => 'Cargo 1'
         ]);
         Position::create([
             'name' => 'Cargo 2',
-            'description' => 'Cargo 1'
+            'description' => 'Cargo 2'
         ]);
         Position::create([
-            'name' => 'Cargo 2',
-            'description' => 'Cargo 1'
+            'name' => 'Cargo 3',
+            'description' => 'Cargo 3'
         ]);
 
     }

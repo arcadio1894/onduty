@@ -1,4 +1,4 @@
-var $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $avatarInput, $selectDropdown;
+var $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
 
 $ (function () {
     $formRegister = $('#form-register');
@@ -9,6 +9,22 @@ $ (function () {
     $modalEliminar = $('#modal3');
 
     $avatarInput = $('#avatarInput');
+
+    $selectRol = $('#role');
+
+    $selectPosition = $('#positions');
+
+    var role = $selectRol.val();
+
+    $selectRol.on('change', function () {
+        var role = $selectRol.val();
+        if (role == 4)
+        {
+            $selectPosition.fadeOut();
+        }else{
+            $selectPosition.fadeIn();
+        }
+    });
 
     $formRegister.on('submit', function () {
         event.preventDefault();
@@ -40,7 +56,12 @@ $ (function () {
 
     $selectDropdown = $('#role_select');
 
+    $divPositionD = $('#positionDropdown');
+
     $selectDropdown.material_select();
+
+    $selectPositionDropdowm = $('#position_select');
+    $selectPositionDropdowm.material_select();
 
     $.getJSON('roles/users',function(response)
     {
@@ -53,21 +74,56 @@ $ (function () {
 
     });
 
+    $.getJSON('positions/users',function(response)
+    {
+        console.log(response);
+        $selectPositionDropdowm.append($("<option></option>").attr("value", "").text("Escoja una opcion"));
+        $.each(response,function(key,value)
+        {
+            console.log("got you");
+            $selectPositionDropdowm.append($("<option></option>").attr("value", value.id).text(value.name));
+        });
+
+    });
+
     $('[data-edit]').on('click', function () {
         var id = $(this).data('edit');
         var name = $(this).data('name');
         var password = $(this).data('password');
         var role_id = $(this).data('roleid');
+        var position_id = $(this).data('positionid');
         var role = $(this).data('role');
+        console.log('role_id'+role_id);
+        console.log('role'+role);
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
+
+        if (role_id == 4)
+        {
+            $divPositionD.fadeOut();
+        }else{
+            $divPositionD.fadeIn();
+            $selectPositionDropdowm.val(position_id).change();
+        }
+
         $selectDropdown.val(role_id).change();
 
         $modalEditar.modal('open');
 
         Materialize.updateTextFields(); // use this after change the field values
         $selectDropdown.material_select();
+        $selectPositionDropdowm.material_select();
+    });
+
+    $selectDropdown.on('change', function () {
+        var role = $selectDropdown.val();
+        if (role == 4)
+        {
+            $divPositionD.fadeOut();
+        }else{
+            $divPositionD.fadeIn();
+        }
     });
 
     $formEdit.on('submit', function () {

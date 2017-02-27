@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Position;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,10 +15,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->get();
+        $users = User::with('role')->with('position')->get();
         $roles = Role::where('id', '<>', 1)->get();
+        $positions = Position::where('id', '<>', 1)->get();
         // dd($users);
-        return view('user.index')->with(compact('users', 'roles'));
+        return view('user.index')->with(compact('users', 'roles', 'positions'));
     }
 
     public function store( Request $request )
@@ -72,12 +74,21 @@ class UserController extends Controller
             $user->image = $request->file('image')->getClientOriginalExtension();
         }
         else
+        {
             $user->image = null;
+        }
 
-        Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+        if ( $request->get('position') == null )
+        {
+            $user->position_id = 1;
+        }else{
+            $user->position_id = $request->get('position');
+        }
+
+        /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
             $m->subject('Correo de confirmación');
             $m->to($request->get('email'));
-        });
+        });*/
 
         $user->save();
         return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
@@ -98,6 +109,10 @@ class UserController extends Controller
 
     public function edit( Request $request )
     {
+        //dd($request->get('position_select'));
+        if ($request->get('position_select') == "" AND $request->get('role')!=4)
+            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el cargo del usuario']);
+
         if ($request->get('name') == null OR $request->get('name') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
 
@@ -125,6 +140,14 @@ class UserController extends Controller
         if ($request->get('password') != "")
             $user->password = bcrypt($request->get('password'));
 
+        if ( $request->get('position_select') == null OR $request->get('role_id')==4)
+        {
+            $user->position_id = 1;
+        }else{
+
+            $user->position_id = $request->get('position_select');
+        }
+
         $user->save();
 
         return response()->json(['error' => false, 'message' => 'Usuario modificado correctamente']);
@@ -147,6 +170,12 @@ class UserController extends Controller
 
         return response()->json(['error' => false, 'message' => 'Usuario eliminado correctamente.']);
 
+    }
+
+    public function getPositions()
+    {
+        $positions = Position::where('id', '<>', 1)->get();
+        return response()->json($positions);
     }
 
 }

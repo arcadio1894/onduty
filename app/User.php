@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'role_id', 'confirmed', 'confirmation_code'
+        'name', 'email', 'password', 'image', 'role_id', 'position_id', 'confirmed', 'confirmation_code'
     ];
 
     /**
@@ -32,6 +32,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo('App\Role');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo('App\Position');
     }
 
     protected $dates = ['deleted_at'];

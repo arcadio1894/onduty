@@ -55,6 +55,7 @@ Route::get('/positions', 'PositionController@index');
 Route::post('/position/register', 'PositionController@store');
 Route::post('/position/editar', 'PositionController@edit');
 Route::post('/position/delete', 'PositionController@delete');
+Route::get('/positions/users', 'UserController@getPositions');
 
 
 // Confirmation email
