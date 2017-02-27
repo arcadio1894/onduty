@@ -51,6 +51,11 @@ Route::post('/critical_risk/register', 'CriticalRiskController@store');
 Route::post('/critical_risk/editar', 'CriticalRiskController@edit');
 Route::post('/critical_risk/delete', 'CriticalRiskController@delete');
 
+Route::get('/positions', 'PositionController@index');
+Route::post('/position/register', 'PositionController@store');
+Route::post('/position/editar', 'PositionController@edit');
+Route::post('/position/delete', 'PositionController@delete');
+
 
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');
