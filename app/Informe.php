@@ -5,12 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WorkFront extends Model
+class Informe extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
-        'name', 'description', 'location_id'
+        'location_id', 'user_id', 'from_date', 'to_date'
     ];
 
     public function location()
@@ -18,9 +18,9 @@ class WorkFront extends Model
         return $this->belongsTo('App\Location');
     }
 
-    public function reportes()
+    public function user()
     {
-        return $this->hasMany('App\Report');
+        return $this->belongsTo('App\User');
     }
 
     protected $dates = ['deleted_at'];

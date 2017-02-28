@@ -39,5 +39,15 @@ class User extends Authenticatable
         return $this->belongsTo('App\Position');
     }
 
+    public function informes()
+    {
+        return $this->hasMany('App\Informe', 'onduty');
+    }
+
+    public function reportes()
+    {
+        return $this->hasMany('App\Report');
+    }
+
     protected $dates = ['deleted_at'];
 }

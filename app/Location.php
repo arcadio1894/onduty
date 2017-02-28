@@ -18,5 +18,10 @@ class Location extends Model
         return $this->hasMany('App\WorkFront', 'location_id');
     }
 
+    public function informes()
+    {
+        return $this->hasMany('App\Informes', 'location_id');
+    }
+
     protected $dates = ['deleted_at'];
 }

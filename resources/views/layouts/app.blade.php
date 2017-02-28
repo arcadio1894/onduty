@@ -140,6 +140,7 @@
                                 <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
                                 <li><a href="{{ url('/areas') }}">Áreas</a></li>
                                 <li><a href="{{ url('/critical_risks') }}">Riesgos críticos</a></li>
+                                <li><a href="{{ url('/informes') }}">Informes</a></li>
                             </ul>
                         </div>
                     </li>

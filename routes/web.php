@@ -57,6 +57,15 @@ Route::post('/position/editar', 'PositionController@edit');
 Route::post('/position/delete', 'PositionController@delete');
 Route::get('/positions/users', 'UserController@getPositions');
 
+Route::get('/informes', 'InformeController@index');
+Route::post('/informe/register', 'InformeController@store');
+Route::post('/informe/edit', 'InformeController@edit');
+Route::post('/informe/delete', 'InformeController@delete');
+
+Route::get('/reports/informe/{id}', 'ReportController@index');
+Route::get('/informes/users', 'ReportController@getUsers');
+Route::get('/informes/locations', 'ReportController@getLocations');
+
 
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');

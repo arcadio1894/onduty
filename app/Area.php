@@ -12,6 +12,11 @@ class Area extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
+    public function reportes()
+    {
+        return $this->hasMany('App\Report');
+    }
     
     protected $dates = ['deleted_at'];
 }

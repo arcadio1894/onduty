@@ -13,5 +13,10 @@ class CriticalRisk extends Model
         'name', 'description'
     ];
 
+    public function reportes()
+    {
+        return $this->hasMany('App\Report');
+    }
+
     protected $dates = ['deleted_at'];
 }

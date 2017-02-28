@@ -122,5 +122,5 @@
             $('.modal').modal();
         });
     </script>
-    <script type="text/javascript" src="{{ asset('js/area/area.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/position/position.js') }}"></script>
 @endsection
