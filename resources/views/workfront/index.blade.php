@@ -27,12 +27,8 @@
                 <th data-field="id">Frente de Trabajo</th>
                 <th data-field="name">Descripción</th>
                 <th data-field="name">Localización</th>
-<<<<<<< HEAD
-                @if (Auth::user()->role_id <3)
-=======
                 <th data-field="name">Planta</th>
                 @if (Auth::user()->role_id < 3)
->>>>>>> 415a287e56374ddaf44af0cebf70cbb1d1d92f0b
                     <th data-field="">Acciones</th>
                 @endif
             </tr>

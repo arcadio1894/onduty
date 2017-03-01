@@ -38,10 +38,10 @@
 <body>
 <header>
     <div class="navbar-fixed">
-        <nav class="top-nav orange">
+        <nav class="top-nav light-blue">
         <div class="container">
             <div class="nav-wrapper">
-                <a href="{{ url('/home') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
+                <a href="{{ url('/') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     @if (Auth::guest())
@@ -139,7 +139,7 @@
                             <ul>
                                 <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
                                 <li><a href="{{ url('/areas') }}">Áreas</a></li>
-                                <li><a href="{{ url('/critical_risks') }}">Riesgos críticos</a></li>
+                                <li><a href="{{ url('/critical-risks') }}">Riesgos críticos</a></li>
                                 <li><a href="{{ url('/informes') }}">Informes</a></li>
                             </ul>
                         </div>

@@ -37,7 +37,7 @@
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
-        <form class="col s12" id="form-register" action="{{ url('/critical_risk/register') }}">
+        <form class="col s12" id="form-register" action="{{ url('/critical-risk/register') }}">
             {{ csrf_field() }}
         <div class="modal-content">
             <h4>Registrar riesgo crítico</h4>
@@ -58,7 +58,7 @@
     </div>
 
     <div id="modal2" class="modal">
-        <form class="col s12" id="form-editar" action="{{ url('/critical_risk/editar') }}">
+        <form class="col s12" id="form-editar" action="{{ url('/critical-risk/editar') }}">
             {{ csrf_field() }}
             <div class="modal-content">
                 <h4>Editar riesgo crítico</h4>
@@ -79,7 +79,7 @@
     </div>
 
     <div id="modal3" class="modal">
-        <form class="col s12" id="form-delete" action="{{ url('/critical_risk/delete') }}">
+        <form class="col s12" id="form-delete" action="{{ url('/critical-risk/delete') }}">
             {{ csrf_field() }}
             <div class="modal-content">
                 <h4>Eliminar riesgo crítico</h4>
@@ -108,5 +108,5 @@
             $('.modal').modal();
         });
     </script>
-    <script type="text/javascript" src="{{ asset('js/critical_risk/risk.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/risk/risk.js') }}"></script>
 @endsection

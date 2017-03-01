@@ -78,7 +78,7 @@ class UserController extends Controller
             $user->image = null;
         }
 
-        if ( $request->get('position') == null )
+        if ( $request->get('position') == null OR $request->get('role')==4 )
         {
             $user->position_id = 1;
         }else{

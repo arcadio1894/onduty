@@ -33,7 +33,7 @@ class CreateReportsTable extends Migration
             $table->string('image');
             $table->string('image_action');
             $table->date('planned_date');
-            $table->date('deadline');
+            $table->date('deadline')->nullable();
             $table->integer('inspections');
             $table->string('description');
             $table->string('actions');

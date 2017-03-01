@@ -46,10 +46,10 @@ Route::post('/user/register', 'UserController@store');
 Route::post('/user/editar', 'UserController@edit');
 Route::post('/user/delete', 'UserController@delete');
 
-Route::get('/critical_risks', 'CriticalRiskController@index');
-Route::post('/critical_risk/register', 'CriticalRiskController@store');
-Route::post('/critical_risk/editar', 'CriticalRiskController@edit');
-Route::post('/critical_risk/delete', 'CriticalRiskController@delete');
+Route::get('/critical-risks', 'CriticalRiskController@index');
+Route::post('/critical-risk/register', 'CriticalRiskController@store');
+Route::post('/critical-risk/editar', 'CriticalRiskController@edit');
+Route::post('/critical-risk/delete', 'CriticalRiskController@delete');
 
 Route::get('/positions', 'PositionController@index');
 Route::post('/position/register', 'PositionController@store');

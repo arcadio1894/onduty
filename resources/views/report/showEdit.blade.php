@@ -177,7 +177,7 @@
                                 <label for="inspections" data-error="Please choose a date " data-success="right">Número de inspecciones</label>
                             </div>
                             <div class="input-field col s4">
-                                <input type="text" value="{{ $report->description }}" id="description" name="description" required>
+                                <input type="text" value="{{ $report->description }}" id="description" name="description" >
                                 <label for="description" data-success="right">Descripción</label>
                             </div>
 

@@ -20,7 +20,7 @@ class ReportController extends Controller
     {
         $informe = Informe::with('location')->with('user')->find($id);
         $users = User::where('id', '<>', 1)->get();
-        $workfronts = WorkFront::all();
+        $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
         $reports = Report::where('informe_id', $id)
@@ -40,7 +40,7 @@ class ReportController extends Controller
     {
         $informe = Informe::with('location')->with('user')->find($id);
         $users = User::where('id', '<>', 1)->get();
-        $workfronts = WorkFront::all();
+        $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
 
@@ -52,7 +52,7 @@ class ReportController extends Controller
     {
         $informe = Informe::with('location')->with('user')->find($informe_id);
         $users = User::where('id', '<>', 1)->get();
-        $workfronts = WorkFront::all();
+        $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
         $report = Report::with('user')
@@ -104,21 +104,21 @@ class ReportController extends Controller
 
         if ($request->get('planned-date') == null OR $request->get('planned-date') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario escoger el fecha planeada del reporte']);
-
-        if ($request->get('deadline') == null OR $request->get('deadline') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario escoger el fecha de cierre del reporte']);
-
+        
         if ($request->get('deadline') < $request->get('deadline'))
             return response()->json(['error' => true, 'message' => 'Inconsistencia de fechas']);
 
-        if ($request->get('inspections') == null OR $request->get('inspections') == "" OR $request->get('inspections') < 0)
+        if ($request->get('inspections') == null OR $request->get('inspections') == "" OR $request->get('inspections') < 1)
             return response()->json(['error' => true, 'message' => 'Es necesario escribir una cantidad adecuada']);
 
-        if ($request->get('description') == null OR $request->get('description') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario indicar la descripción del reporte']);
+        if ($request->get('description') != null AND strlen($request->get('description')) < 5)
+            return response()->json(['error' => true, 'message' => 'Es necesario mas de 5 caracteres la descripción del reporte']);
 
-        if ($request->get('actions') == null OR $request->get('actions') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario indicar las acciones a tomar en el reporte']);
+        if ($request->get('actions') != null AND strlen($request->get('actions')) <5)
+            return response()->json(['error' => true, 'message' => 'Es necesario escribir mas de 5 caracteres las acciones a tomar en el reporte']);
+
+        if ($request->get('observation') != null AND strlen($request->get('observation')) < 5)
+            return response()->json(['error' => true, 'message' => 'Es necesario escribir mas de 5 caracteres las observaciones en el reporte']);
 
         if ( $request->file('image') == null OR $request->file('image') == "")
             return response()->json(['error' => true, 'message' => 'Es necesario subir una imagen para el reporte']);
