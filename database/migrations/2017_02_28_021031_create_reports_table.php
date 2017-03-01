@@ -15,6 +15,8 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('informe_id')->unsigned();
+            $table->foreign('informe_id')->references('id')->on('informes');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('work_front_id')->unsigned();
@@ -28,6 +30,10 @@ class CreateReportsTable extends Migration
             $table->foreign('critical_risks_id')->references('id')->on('critical_risks');
             $table->string('potential');
             $table->string('state');
+            $table->string('image');
+            $table->string('image_action');
+            $table->date('planned_date');
+            $table->date('deadline');
             $table->integer('inspections');
             $table->string('description');
             $table->string('actions');

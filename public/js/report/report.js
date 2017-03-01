@@ -1,15 +1,23 @@
-var $formEdit, $modalEditar;
+var $formEliminar, $modalEliminar;
 
-var $selectLocation, $selectUsers;
+var $selectLocation, $selectUsers, $elementImg, $modalShowImage, $elementAction, $modalShowAction;
 
 $ (function () {
 
-    $formEdit = $('#form-edit');
+    $formEliminar = $('#form-delete');
     
-    $modalEditar = $('#modal1');
+    $modalEliminar = $('#modal1');
 
     $selectLocation = $('#location-select');
     $selectUsers = $('#user-select');
+
+    $elementImg = $('#verImage');
+
+    $modalShowImage = $('#modal2');
+
+    $elementAction = $('#verAction');
+
+    $modalShowAction = $('#modal3');
 
     $selectLocation.material_select();
     $selectUsers.material_select();
@@ -35,36 +43,21 @@ $ (function () {
         });
     });
 
+    $('[data-delete]').on('click', function () {
+        var id = $(this).data('delete');
 
-    
-    $('#edit-informe').on('click', function () {
-        var id = $(this).data('informe');
-        var location = $(this).data('location');
-        var user = $(this).data('user');
-        var from_date = $(this).data('fromdate');
-        var to_date = $(this).data('todate');
+        $formEliminar.find('[name="id"]').val(id);
 
-        $selectUsers.val(user).change();
-        $selectLocation.val(location).change();
-
-        $formEdit.find('[name="id"]').val(id);
-        $formEdit.find('[name="fromdate"]').val(from_date);
-        $formEdit.find('[name="todate"]').val(to_date);
-
-        $modalEditar.modal('open');
-        Materialize.updateTextFields(); // use this after change the field values
-
-        $selectUsers.material_select();
-        $selectLocation.material_select();
+        $modalEliminar.modal('open');
     });
 
-    $('#save-informe').on('click', function () {
+    $('#delete-report').on('click', function () {
         event.preventDefault();
-        avatarUrl = $formEdit.attr('action');
+        avatarUrl = $formEliminar.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEdit.serialize()
+            data: $formEliminar.serialize()
         })
             .done(function (data) {
                 if(data.error)
@@ -79,6 +72,18 @@ $ (function () {
             .fail(function () {
                 alert('Ocurrió un error inesperado');
             });
+    });
+
+    $('[data-img]').on('click', function () {
+        var path = "/images/report/"+$(this).data('img');
+        $elementImg.attr("src",path);
+        $modalShowImage.modal('open');
+    });
+
+    $('[data-action]').on('click', function () {
+        var path = "/images/action/"+$(this).data('action');
+        $elementAction.attr("src",path);
+        $modalShowAction.modal('open');
     });
 });
 

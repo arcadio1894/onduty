@@ -63,8 +63,13 @@ Route::post('/informe/edit', 'InformeController@edit');
 Route::post('/informe/delete', 'InformeController@delete');
 
 Route::get('/reports/informe/{id}', 'ReportController@index');
+Route::get('/register/report/{id}', 'ReportController@show');
 Route::get('/informes/users', 'ReportController@getUsers');
 Route::get('/informes/locations', 'ReportController@getLocations');
+Route::post('/report/register', 'ReportController@store');
+Route::post('/report/edit', 'ReportController@edit');
+Route::post('/report/delete', 'ReportController@delete');
+Route::get('/edit/informe/report/{informe_id}/{report_id}', 'ReportController@showEdit');
 
 
 // Confirmation email

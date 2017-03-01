@@ -10,8 +10,10 @@ class Report extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'work_front_id', 'area_id', 'responsible_id', 'aspect', 'critical_risks_id', 'potential',
-        'state', 'inspections', 'description', 'actions', 'observations'
+        'informe_id', 'user_id', 'work_front_id', 'area_id', 'responsible_id', 'aspect', 'critical_risks_id', 'potential',
+        'state', 'inspections', 'description', 'actions', 'observations', 'image', 'image_action',
+        'planned_date', 'deadline'
+
     ];
 
     public function user()
