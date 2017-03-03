@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use App\Plant;
+use App\WorkFront;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LocationController extends Controller
 {
@@ -19,56 +21,93 @@ class LocationController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear una localización.']);
-        
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
-        $location = Location::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description')
-        ]);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre de la localización',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        $location->save();
-        return response()->json(['error' => false, 'message' => 'Localización registrada correctamente']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear una localización');
+            }
+        });
+
+        if(!$validator->fails()) {
+            $location = Location::create([
+                'name' => $request->get('name'),
+                'description' => $request->get('description')
+            ]);
+
+            $location->save();
+        }
+
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function edit( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar una localización.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre de la localización',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre de la localización']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para editar una localización');
+            }
+        });
 
-        $location = Location::find( $request->get('id') );
-        $location->name = $request->get('name');
-        $location->description = $request->get('description');
-        $location->save();
+        if(!$validator->fails()) {
+            $location = Location::find( $request->get('id') );
+            $location->name = $request->get('name');
+            $location->description = $request->get('description');
+            $location->save();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Localización modificado correctamente']);
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function delete( Request $request )
     {
         // TODO: Solo el que puede eliminar es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar una localización.']);
+        $rules = array(
+            'id' => 'exists:locations',
+        );
 
-        $location = Location::find($request->get('id'));
+        $messsages = array(
+            'id.exists'=>'No existe al localización especificada',
+        );
 
-        if($location == null)
-            return response()->json(['error' => true, 'message' => 'No existe la localización especificada.']);
-        
-        // TODO: Validación si tiene plantas
-        $plants = Plant::where('location_id', $location->id)->first();
-        if($plants)
-            return response()->json(['error' => true, 'message' => 'No se puede eliminar la localización porque hay plantas activas dentro de esta localización.']);
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        $location->delete();
-        
-        return response()->json(['error' => false, 'message' => 'Localización eliminada correctamente.']);
+        $validator->after(function ($validator) use ($request) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar una localización');
+            }
+            // TODO: Validación si tiene Frentes de Trabajo
+            $workFront = WorkFront::where('location_id', $request->get('id'))->first();
+            if ($workFront) {
+                $validator->errors()->add('work', 'No puede eliminar porque hay frentes de trabajo dentro de esta localización.');
+            }
+        });
+
+        if(!$validator->fails()) {
+            $location = Location::find($request->get('id'));
+            $location->delete();
+        }
+
+        return response()->json($validator->messages(), 200);
 
     }
 }

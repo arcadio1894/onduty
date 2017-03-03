@@ -7,6 +7,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
@@ -20,56 +21,90 @@ class RoleController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo pueden crear usuarios el del rol super administrador que es el rol 1
-        if ( Auth::user()->role_id > 2 )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para crear un rol.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del rol']);
-        $rol = Role::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description')
-        ]);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+            }
+        });
 
-        $rol->save();
-        return response()->json(['error' => false, 'message' => 'Rol registrado correctamente']);
+        if(!$validator->fails()) {
+            $rol = Role::create([
+                'name' => $request->get('name'),
+                'description' => $request->get('description')
+            ]);
+
+            $rol->save();
+        }
+
+        return response()->json($validator->messages(), 200);
     }
 
     public function edit( Request $request )
     {
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del rol']);
-        
-        // TODO: Validación si el usuario tiene permisos para editar
-        if ( Auth::user()->role_id > 2 )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar un rol.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        $role = Role::find( $request->get('id') );
-        $role->name = $request->get('name');
-        $role->description = $request->get('description');
-        $role->save();
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+            }
+        });
 
-        return response()->json(['error' => false, 'message' => 'Rol modificado correctamente']);
+        if(!$validator->fails()) {
+            $role = Role::find( $request->get('id') );
+            $role->name = $request->get('name');
+            $role->description = $request->get('description');
+            $role->save();
+        }
+
+
+        return response()->json($validator->messages(), 200);
     }
 
     public function delete( Request $request )
     {
-        $role = Role::find($request->get('id'));
+        $rules = array(
+            'id' => 'exists:roles',
+        );
 
-        if($role == null)
-            return response()->json(['error' => true, 'message' => 'No existe el rol especificado.']);
+        $messsages = array(
+            'id.exists'=>'No existe el rol especificado',
+        );
 
-        // TODO: Validación si tiene usuario
-        $user_roles = User::where('role_id', $request->get('id'))->first();
-        if ( $user_roles )
-            return response()->json(['error' => true, 'message' => 'No se puede eliminar el rol especificado porque hay usuarios con este rol.']);
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        // // TODO: Solo el que puede eliminar es el super administrador
-        if ( Auth::user()->role_id > 1 )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para eliminar un rol.']);
+        $validator->after(function ($validator) use ($request) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un rol de usuario');
+            }
+            // TODO: Validación si tiene Frentes de Trabajo
+            $users = User::where('role_id', $request->get('id'))->first();
+            if ($users) {
+                $validator->errors()->add('work', 'No puede eliminar porque hay usuarios dentro de este rol.');
+            }
+        });
 
-        $role->delete();
-
-        return response()->json(['error' => false, 'message' => 'Rol eliminado correctamente.']);
+        if(!$validator->fails()) {
+            $role = Role::find($request->get('id'));
+            $role->delete();
+        }
+        
+        return response()->json($validator->messages(), 200);
 
     }
     

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CriticalRisk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CriticalRiskController extends Controller
 {
@@ -18,51 +19,86 @@ class CriticalRiskController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un riesgo crítico.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del riesgo crítico',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del riesgo crítico']);
-        $area = CriticalRisk::create([
-            'name' => $request->get('name')
-        ]);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un riesgo crítico');
+            }
+        });
 
-        $area->save();
-        return response()->json(['error' => false, 'message' => 'Riesgo crítico registrado correctamente']);
+        if(!$validator->fails()) {
+            $area = CriticalRisk::create([
+                'name' => $request->get('name')
+            ]);
+            $area->save();
+        }
+
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function edit( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un riesgo crítico.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del riesgo crítico',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del riesgo crítico']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para editar un riesgo crítco');
+            }
+        });
 
-        $area = CriticalRisk::find( $request->get('id') );
-        $area->name = $request->get('name');
-        $area->save();
+        if(!$validator->fails()) {
+            $area = CriticalRisk::find($request->get('id'));
+            $area->name = $request->get('name');
+            $area->save();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Riesgo Crítico modificado correctamente']);
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function delete( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un Riesgo Crítico.']);
+        $rules = array(
+            'id' => 'exists:critical_risks'
+        );
 
-        $area = CriticalRisk::find($request->get('id'));
+        $messsages = array(
+            'id.exists'=>'No existe el riesgo crítico especificada',
+        );
 
-        if($area == null)
-            return response()->json(['error' => true, 'message' => 'No existe el Riesgo Crítico especificado.']);
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un riesgo crítico');
+            }
+        });
+
+        if(!$validator->fails()) {
+            $risk = CriticalRisk::find($request->get('id'));
+            $risk->delete();
+        }
         // TODO: Validaciones en el futuro
 
-        $area->delete();
-
-        return response()->json(['error' => false, 'message' => 'Riesgo Crítico eliminado correctamente.']);
+        return response()->json($validator->messages(), 200);
 
     }
 }

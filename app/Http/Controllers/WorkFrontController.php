@@ -7,6 +7,7 @@ use App\Plant;
 use App\WorkFront;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class WorkFrontController extends Controller
 {
@@ -21,52 +22,93 @@ class WorkFrontController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo el que puede crear es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un frente de trabajo.']);
+        $rules = array(
+            'name' => 'required|min:2',
+            'location_id' => 'exists:locations, id'
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del frente de trabajo',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'location_id'=> 'No existe la localización de este frente de trabajo',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del frente de trabajo']);
-        $workFront = WorkFront::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'location_id' => $request->get('location')
-        ]);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un frente de trabajo');
+            }
+        });
 
-        $workFront->save();
-        return response()->json(['error' => false, 'message' => 'Frente de trabajo registrado correctamente']);
+        if(!$validator->fails()) {
+            $workFront = WorkFront::create([
+                'name' => $request->get('name'),
+                'description' => $request->get('description'),
+                'location_id' => $request->get('location')
+            ]);
+            $workFront->save();
+        }
+
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function edit( Request $request )
     {
         // TODO: Solo el que puede editar es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un frente de trabajo.']);
+        $rules = array(
+            'name' => 'required|min:2',
+            'location_id' => 'exists:locations, id',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del frente de trabajo',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'location_id'=> 'No existe la localización de este frente de trabajo',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del frente de trabajo']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para editar un frente de trabajo');
+            }
+        });
 
-        $workFronts = WorkFront::find( $request->get('id') );
-        $workFronts->name = $request->get('name');
-        $workFronts->location_id = $request->get('location');
-        $workFronts->description = $request->get('description');
-        $workFronts->save();
+        if(!$validator->fails()) {
+            $workFronts = WorkFront::find( $request->get('id') );
+            $workFronts->name = $request->get('name');
+            $workFronts->location_id = $request->get('location');
+            $workFronts->description = $request->get('description');
+            $workFronts->save();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Frente de trabajo modificado correctamente']);
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function delete( Request $request )
     {
         // TODO: Solo el que puede eliminar es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un frente de trabajo.']);
+        $rules = array(
+            'id' => 'exists:work_fronts'
+        );
 
-        $workFronts = WorkFront::find($request->get('id'));
-        if($workFronts == null)
-            return response()->json(['error' => true, 'message' => 'No existe el frente de trabajo especificada.']);
+        $messsages = array(
+            'id.exists'=>'No existe el frente de trabajo especificado',
+        );
 
-        $workFronts->delete();
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        return response()->json(['error' => false, 'message' => 'Frente de trabajo eliminado correctamente.']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un frente de trabajo');
+            }
+        });
+
+        if(!$validator->fails()) {
+            $workFronts = WorkFront::find($request->get('id'));
+            $workFronts->delete();
+        }
+
+        return response()->json($validator->messages(), 200);
 
     }
 }

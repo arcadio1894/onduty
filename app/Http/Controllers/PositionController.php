@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PositionController extends Controller
 {
@@ -18,53 +19,88 @@ class PositionController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un cargo.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del cargo',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del cargo']);
-        $area = Position::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description')
-        ]);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un cargo');
+            }
+        });
 
-        $area->save();
-        return response()->json(['error' => false, 'message' => 'Cargo registrado correctamente']);
+        if(!$validator->fails()) {
+            $area = Position::create([
+                'name' => $request->get('name'),
+                'description' => $request->get('description')
+            ]);
+            $area->save();
+        }
+
+        return response()->json($validator->messages(), 200);
     }
 
     public function edit( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un cargo.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del cargo']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para editar un cargo');
+            }
+        });
 
-        $area = Position::find( $request->get('id') );
-        $area->name = $request->get('name');
-        $area->description = $request->get('description');
-        $area->save();
+        if(!$validator->fails()) {
+            $area = Position::find( $request->get('id') );
+            $area->name = $request->get('name');
+            $area->description = $request->get('description');
+            $area->save();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Cargo modificado correctamente']);
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function delete( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un cargo.']);
+        $rules = array(
+            'id' => 'exists:positions'
+        );
 
-        $position = Position::find($request->get('id'));
+        $messsages = array(
+            'id.exists'=>'No existe el cargo especificado',
+        );
 
-        if($position == null)
-            return response()->json(['error' => true, 'message' => 'No existe el cargo especificada.']);
+        $validator = Validator::make($request->all(), $rules, $messsages);
+
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un cargo');
+            }
+        });
+
+        if(!$validator->fails()) {
+            $position = Position::find($request->get('id'));
+            $position->delete();
+        }
 
         // TODO: Validaciones en el futuro
 
-        $position->delete();
-
-        return response()->json(['error' => false, 'message' => 'Cargo eliminado correctamente.']);
+        return response()->json($validator->messages(), 200);
 
     }
 }

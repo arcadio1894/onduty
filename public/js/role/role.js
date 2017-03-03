@@ -13,21 +13,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formRegister.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 400);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formRegister.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Rol registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
     
     $('[data-edit]').on('click', function () {
@@ -47,21 +51,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEdit.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 3000);
-                else{
-                    Materialize.toast(data.message, 3000);
+            data: $formEdit.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Rol modificado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 
     $('[data-delete]').on('click', function () {
@@ -78,21 +86,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formDelete.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 2000);
+            data: $formDelete.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Rol eliminado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
-                    }, 1000);
+                    }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 });
 

@@ -13,21 +13,26 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formRegister.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formRegister.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 2000);
+                    }
+                } else {
+                    Materialize.toast("Localización registrada correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
+
     });
     
     $('[data-edit]').on('click', function () {
@@ -48,21 +53,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEdit.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
-                    setTimeout(function(){
+            data: $formEdit.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 2000);
+                    }
+                } else {
+                    Materialize.toast("Localización moodificada correctamente", 2000);
+                    setTimeout(function () {
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 
     $('[data-delete]').on('click', function () {
@@ -80,21 +89,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formDelete.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
-                    setTimeout(function(){
+            data: $formDelete.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 2000);
+                    }
+                } else {
+                    Materialize.toast("Localización eliminada correctamente", 2000);
+                    setTimeout(function () {
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 
 });

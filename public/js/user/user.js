@@ -34,21 +34,25 @@ $ (function () {
             method: 'POST',
             data: new FormData(this),
             processData: false,
-            contentType: false
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Usuario registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 
     // initialize
@@ -132,21 +136,26 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEdit.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formEdit.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Usuaro modificado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
+
     });
 
     $('[data-delete]').on('click', function () {
@@ -163,21 +172,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formDelete.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formDelete.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Usuario eliminado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 });
 

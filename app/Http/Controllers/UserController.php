@@ -25,73 +25,70 @@ class UserController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo puede crear usuarios el de rol super administrador que es el rol 1
+        $rules = array(
+            'name' => 'required|min:2',
+            'password'=> 'required|min:6',
+            'role' => 'required',
+        );
 
-        if ( Auth::user()->role_id > 2 )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para crear un usuario.']);
-        
-        $validator = Validator::make($request->all(), [ 'image'=>'image' ]);
-        if ( $validator->fails() )
-            return response()->json(['error' => true, 'message' => 'Solo se permiten imágenes']);
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'password.required'=>'Es necesario indicar el password',
+            'password.min'=>'El password debe tener por lo menos 6 caracteres',
+            'role.required'=>'Es necesario ingresar el role del usuario',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
+        $validator->after(function ($validator) use ($request) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un usuario');
+            }
 
-        $email_user = User::where('email', $request->get('email'))->first();
+            $email_user = User::where('email', $request->get('email'))->first();
+            if ( $email_user )
+                $validator->errors()->add('user', 'Ya existe un usuario con este email');
+        });
 
-        if ( $email_user )
-            return response()->json(['error' => true, 'message' => 'Ya existe un usuario con este email.']);
+        if(!$validator->fails()) {
+            $request['confirmation_code'] = str_random(25);
+            $user = User::create([
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password')),
+                'role_id' => $request->get('role'),
+                'confirmation_code' => $request->get('confirmation_code')
+            ]);
 
-        if ($request->get('email') == null OR $request->get('email') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el email del usuario']);
+            if ($request->file('image'))
+            {
+                $path = public_path().'/images/users';
+                $extension = $request->file('image')->getClientOriginalExtension();
+                $fileName = $user->id . '.' . $extension;
+                $request->file('image')->move($path, $fileName);
+                $user->image = $request->file('image')->getClientOriginalExtension();
+            }
+            else
+            {
+                $user->image = null;
+            }
 
-        if ($request->get('password') == null OR $request->get('password') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el password del usuario']);
+            if ( $request->get('position') == null OR $request->get('role')==4 )
+            {
+                $user->position_id = 1;
+            }else{
+                $user->position_id = $request->get('position');
+            }
 
-        if ( strlen($request->get('password')) < 6 )
-            return response()->json(['error' => true, 'message' => 'Ingrese una constraseña de 6 dígitos o más.']);
+            /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+                $m->subject('Correo de confirmación');
+                $m->to($request->get('email'));
+            });*/
 
-        if ($request->get('role') == null OR $request->get('role') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
-
-        /*if( $request->file('image') == null OR $request->file('image') == "" )
-            return response()->json(['error' => true, 'message' => 'Es necesario escoger una imagen del usuario']);*/
-
-        $request['confirmation_code'] = str_random(25);
-        $user = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
-            'role_id' => $request->get('role'),
-            'confirmation_code' => $request->get('confirmation_code')
-        ]);
-
-        if ($request->file('image'))
-        {
-            $path = public_path().'/images/users';
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $fileName = $user->id . '.' . $extension;
-            $request->file('image')->move($path, $fileName);
-            $user->image = $request->file('image')->getClientOriginalExtension();
+            $user->save();
         }
-        else
-        {
-            $user->image = null;
-        }
 
-        if ( $request->get('position') == null OR $request->get('role')==4 )
-        {
-            $user->position_id = 1;
-        }else{
-            $user->position_id = $request->get('position');
-        }
-
-        /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
-            $m->subject('Correo de confirmación');
-            $m->to($request->get('email'));
-        });*/
-
-        $user->save();
-        return response()->json(['error' => false, 'message' => 'Usuario registrado correctamente']);
+        return response()->json($validator->messages(), 200);
     }
 
     public function verify($code)
@@ -110,65 +107,89 @@ class UserController extends Controller
     public function edit( Request $request )
     {
         //dd($request->get('position_select'));
-        if ($request->get('position_select') == "" AND $request->get('role')!=4)
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el cargo del usuario']);
+        $rules = array(
+            'name' => 'required|min:2',
+            'role' => 'required',
+        );
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del usuario']);
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'role.required'=>'Es necesario ingresar el role del usuario',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        // TODO: Validación que solo pueda bajar o subir de rol el super administrador
-        if ( Auth::user()->role_id > 2 )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar un usuario.']);
+        $validator->after(function ($validator) use ($request) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un usuario');
+            }
 
-        // TODO: Los administradores no pueden editar de otros administradores
-        $user_edited = User::find( $request->get('id') );
-        if ( Auth::user()->role_id == 2 && $user_edited->role_id <= 2 && $user_edited->id != Auth::user()->id )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para editar a otro administrador.']);
+            $email_user = User::where('email', $request->get('email'))->first();
+            if ( $email_user )
+                $validator->errors()->add('userEmail', 'Ya existe un usuario con este email');
 
-        // TODO: Los administradores no se pueden aumentar de nivel
-        if ( Auth::user()->role_id > $request->get('role') )
-            return response()->json(['error' => true, 'message' => 'No cuenta con permisos para aumentarse de rol.']);
+            if ($request->get('position_select') == "" AND $request->get('role')!=4)
+                $validator->errors()->add('positionUser', 'Es necesario ingresar el cargo del usuario');
 
+            // TODO: Los administradores no pueden editar de otros administradores
+            $user_edited = User::find( $request->get('id') );
+            if ( Auth::user()->role_id == 2 && $user_edited->role_id <= 2 && $user_edited->id != Auth::user()->id )
+                $validator->errors()->add('edited', 'No cuenta con permisos para editar a otro administrador.');
 
-        if ($request->get('role') == null OR $request->get('role') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario escoger el rol del usuario']);
+            // TODO: Los administradores no se pueden aumentar de nivel
+            if ( Auth::user()->role_id > $request->get('role') )
+                $validator->errors()->add('aument', 'No cuenta con permisos para aumentarse de rol.');
 
-        $user = User::find( $request->get('id') );
-        $user->name = $request->get('name');
-        $user->role_id = $request->get('role');
+        });
 
-        if ($request->get('password') != "")
-            $user->password = bcrypt($request->get('password'));
+        if(!$validator->fails()) {
+            $user = User::find( $request->get('id') );
+            $user->name = $request->get('name');
+            $user->role_id = $request->get('role');
 
-        if ( $request->get('position_select') == null OR $request->get('role_id')==4)
-        {
-            $user->position_id = 1;
-        }else{
+            if ($request->get('password') != "")
+                $user->password = bcrypt($request->get('password'));
 
-            $user->position_id = $request->get('position_select');
+            if ( $request->get('position_select') == null OR $request->get('role_id')==4)
+            {
+                $user->position_id = 1;
+            }else{
+
+                $user->position_id = $request->get('position_select');
+            }
+
+            $user->save();
         }
 
-        $user->save();
 
-        return response()->json(['error' => false, 'message' => 'Usuario modificado correctamente']);
+        return response()->json($validator->messages(), 200);
     }
 
     public function delete( Request $request )
     {
-        $user = User::find($request->get('id'));
+        $rules = array(
+            'id' => 'exists:areas'
+        );
 
-        // TODO: Solo el que puede eliminar es el super administrador
-        if (Auth::user()->role_id > 1)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar el usuario especificado.']);
+        $messsages = array(
+            'id.exists'=>'No existe el usuario especificada',
+        );
 
-        if($user == null)
-            return response()->json(['error' => true, 'message' => 'No existe el usuario especificado.']);
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        // TODO: Validación si tiene plantas
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un usuario');
+            }
+        });
 
-        $user->delete();
+        if(!$validator->fails()) {
+            $user = User::find($request->get('id'));
+            $user->delete();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Usuario eliminado correctamente.']);
+
+        return response()->json($validator->messages(), 200);
 
     }
 

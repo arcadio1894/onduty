@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AreaController extends Controller
 {
@@ -18,53 +19,88 @@ class AreaController extends Controller
     public function store( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para crear un área.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del área']);
-        $area = Area::create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description')
-        ]);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+            }
+        });
 
-        $area->save();
-        return response()->json(['error' => false, 'message' => 'Área registrada correctamente']);
+        if(!$validator->fails()) {
+            $area = Area::create([
+                'name' => $request->get('name'),
+                'description' => $request->get('description')
+            ]);
+            $area->save();
+        }
+        //dd($validator->messages());
+        return response()->json($validator->messages(), 200);
+
     }
 
     public function edit( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para editar un área.']);
+        $rules = array(
+            'name' => 'required|min:2',
+        );
+        $messsages = array(
+            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+        );
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        if ($request->get('name') == null OR $request->get('name') == "")
-            return response()->json(['error' => true, 'message' => 'Es necesario ingresar el nombre del Área']);
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+            }
+        });
 
-        $area = Area::find( $request->get('id') );
-        $area->name = $request->get('name');
-        $area->description = $request->get('description');
-        $area->save();
+        if(!$validator->fails()) {
+            $area = Area::find($request->get('id'));
+            $area->name = $request->get('name');
+            $area->description = $request->get('description');
+            $area->save();
+        }
 
-        return response()->json(['error' => false, 'message' => 'Área modificado correctamente']);
+        return response()->json($validator->messages(), 200);
     }
 
     public function delete( Request $request )
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        if (Auth::user()->role_id > 2)
-            return response()->json(['error' => true, 'message' => 'No tiene permisos para eliminar un área.']);
+        $rules = array(
+            'id' => 'exists:areas'
+        );
+        
+        $messsages = array(
+            'id.exists'=>'No existe el área especificada',
+        );
+        
+        $validator = Validator::make($request->all(), $rules, $messsages);
 
-        $area = Area::find($request->get('id'));
+        $validator->after(function ($validator) {
+            if (Auth::user()->role_id > 2) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+            }
+        });
 
-        if($area == null)
-            return response()->json(['error' => true, 'message' => 'No existe el área especificada.']);
-
+        if(!$validator->fails()) {
+            $area = Area::find($request->get('id'));
+            $area->delete();
+        }
+        
         // TODO: Validaciones en el futuro
 
-        $area->delete();
-
-        return response()->json(['error' => false, 'message' => 'Área eliminada correctamente.']);
+        return response()->json($validator->messages(), 200);
 
     }
 
