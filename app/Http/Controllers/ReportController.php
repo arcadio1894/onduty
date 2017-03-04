@@ -32,8 +32,6 @@ class ReportController extends Controller
             ->with('critical_risks')
             ->get();
 
-        
-        //dd($reports);
         return view('report.index')->with(compact('reports', 'informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
@@ -45,7 +43,6 @@ class ReportController extends Controller
         $areas = Area::all();
         $risks = CriticalRisk::all();
 
-        //dd($informes);
         return view('report.show')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
@@ -57,13 +54,12 @@ class ReportController extends Controller
         $areas = Area::all();
         $risks = CriticalRisk::all();
         $report = Report::with('user')
-        ->with('work_front')
-        ->with('area')
-        ->with('responsible')
-        ->with('critical_risks')
-        ->find($report_id);
+            ->with('work_front')
+            ->with('area')
+            ->with('responsible')
+            ->with('critical_risks')
+            ->find($report_id);
 
-        //dd($report);
         return view('report.showEdit')->with(compact('report', 'informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
@@ -81,8 +77,6 @@ class ReportController extends Controller
 
     public function store( Request $request )
     {
-        //dd($request->all());
-
         $rules = array(
             'workfront' => 'required',
             'area' => 'required',
@@ -132,7 +126,7 @@ class ReportController extends Controller
 
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $user = Auth::user();
 
             $report = Report::create([
@@ -177,9 +171,7 @@ class ReportController extends Controller
         }
 
         // TODO: Faltan validaciones de los que crean
-
         return response()->json($validator->messages(), 200);
-
     }
 
     public function edit( Request $request )

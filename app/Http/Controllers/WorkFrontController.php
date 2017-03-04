@@ -15,13 +15,13 @@ class WorkFrontController extends Controller
     {
         $location = Location::find($id);
         $workFronts = WorkFront::where('location_id', $id)->with('location')->orderBy('name')->get();
-        //dd($plant);
+
         return view('workfront.index')->with(compact('location', 'workFronts'));
     }
 
     public function store( Request $request )
     {
-        // TODO: Solo el que puede crear es el super administrador o administrador
+        // Solo puede crear el super administrador o administrador
         $rules = array(
             'name' => 'required|min:2',
             'location_id' => 'exists:locations, id'
@@ -49,12 +49,11 @@ class WorkFrontController extends Controller
         }
 
         return response()->json($validator->messages(), 200);
-
     }
 
     public function edit( Request $request )
     {
-        // TODO: Solo el que puede editar es el super administrador o administrador
+        // Solo puede editar el super administrador o administrador
         $rules = array(
             'name' => 'required|min:2',
             'location_id' => 'exists:locations, id',
@@ -86,7 +85,7 @@ class WorkFrontController extends Controller
 
     public function delete( Request $request )
     {
-        // TODO: Solo el que puede eliminar es el super administrador o administrador
+        // Solo puede eliminar el super administrador o administrador
         $rules = array(
             'id' => 'exists:work_fronts'
         );
@@ -103,7 +102,7 @@ class WorkFrontController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $workFronts = WorkFront::find($request->get('id'));
             $workFronts->delete();
         }

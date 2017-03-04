@@ -14,21 +14,19 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        //dd($speakers);
         return view('role.index')->with(compact('roles'));
     }
 
     public function store( Request $request )
     {
-        // TODO: Solo pueden crear usuarios el del rol super administrador que es el rol 1
-        $rules = array(
+        $rules = [
             'name' => 'required|min:2',
-        );
-        $messsages = array(
+        ];
+        $messages = [
             'name.required'=>'Es necesario ingresar el nombre del rol',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-        );
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
@@ -36,7 +34,7 @@ class RoleController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $rol = Role::create([
                 'name' => $request->get('name'),
                 'description' => $request->get('description')
@@ -50,13 +48,13 @@ class RoleController extends Controller
 
     public function edit( Request $request )
     {
-        $rules = array(
+        $rules = [
             'name' => 'required|min:2',
-        );
-        $messsages = array(
+        ];
+        $messsages = [
             'name.required'=>'Es necesario ingresar el nombre del rol',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-        );
+        ];
         $validator = Validator::make($request->all(), $rules, $messsages);
 
         $validator->after(function ($validator) {
@@ -65,47 +63,46 @@ class RoleController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $role = Role::find( $request->get('id') );
             $role->name = $request->get('name');
             $role->description = $request->get('description');
             $role->save();
         }
 
-
         return response()->json($validator->messages(), 200);
     }
 
     public function delete( Request $request )
     {
-        $rules = array(
+        $rules = [
             'id' => 'exists:roles',
-        );
+        ];
 
-        $messsages = array(
+        $messages = [
             'id.exists'=>'No existe el rol especificado',
-        );
+        ];
 
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
                 $validator->errors()->add('role', 'No tiene permisos para eliminar un rol de usuario');
             }
-            // TODO: Validación si tiene Frentes de Trabajo
+
+            // Validación si tiene frentes de trabajo
             $users = User::where('role_id', $request->get('id'))->first();
             if ($users) {
-                $validator->errors()->add('work', 'No puede eliminar porque hay usuarios dentro de este rol.');
+                $validator->errors()->add('work', 'No puede eliminar porque hay usuarios dentro de este rol');
             }
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $role = Role::find($request->get('id'));
             $role->delete();
         }
         
         return response()->json($validator->messages(), 200);
-
     }
     
     public function getRoles()

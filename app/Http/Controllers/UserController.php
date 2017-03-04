@@ -24,21 +24,19 @@ class UserController extends Controller
 
     public function store( Request $request )
     {
-        // TODO: Solo puede crear usuarios el de rol super administrador que es el rol 1
-        $rules = array(
+        $rules = [
             'name' => 'required|min:2',
             'password'=> 'required|min:6',
             'role' => 'required',
-        );
-
-        $messsages = array(
+        ];
+        $messages = [
             'name.required'=>'Es necesario ingresar el nombre del área',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
             'password.required'=>'Es necesario indicar el password',
             'password.min'=>'El password debe tener por lo menos 6 caracteres',
             'role.required'=>'Es necesario ingresar el role del usuario',
-        );
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
@@ -46,11 +44,11 @@ class UserController extends Controller
             }
 
             $email_user = User::where('email', $request->get('email'))->first();
-            if ( $email_user )
+            if ($email_user)
                 $validator->errors()->add('user', 'Ya existe un usuario con este email');
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $request['confirmation_code'] = str_random(25);
             $user = User::create([
                 'name' => $request->get('name'),
@@ -80,10 +78,10 @@ class UserController extends Controller
                 $user->position_id = $request->get('position');
             }
 
-            /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+            Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
                 $m->subject('Correo de confirmación');
                 $m->to($request->get('email'));
-            });*/
+            });
 
             $user->save();
         }
@@ -106,11 +104,10 @@ class UserController extends Controller
 
     public function edit( Request $request )
     {
-        //dd($request->get('position_select'));
-        $rules = array(
+        $rules = [
             'name' => 'required|min:2',
             'role' => 'required',
-        );
+        ];
 
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del área',
@@ -125,24 +122,24 @@ class UserController extends Controller
             }
 
             $email_user = User::where('email', $request->get('email'))->first();
-            if ( $email_user )
+            if ($email_user)
                 $validator->errors()->add('userEmail', 'Ya existe un usuario con este email');
 
             if ($request->get('position_select') == "" AND $request->get('role')!=4)
                 $validator->errors()->add('positionUser', 'Es necesario ingresar el cargo del usuario');
 
-            // TODO: Los administradores no pueden editar de otros administradores
+            // Los administradores no pueden editar a otros administradores
             $user_edited = User::find( $request->get('id') );
             if ( Auth::user()->role_id == 2 && $user_edited->role_id <= 2 && $user_edited->id != Auth::user()->id )
                 $validator->errors()->add('edited', 'No cuenta con permisos para editar a otro administrador.');
 
-            // TODO: Los administradores no se pueden aumentar de nivel
+            // Los administradores no se pueden aumentar de nivel
             if ( Auth::user()->role_id > $request->get('role') )
                 $validator->errors()->add('aument', 'No cuenta con permisos para aumentarse de rol.');
 
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $user = User::find( $request->get('id') );
             $user->name = $request->get('name');
             $user->role_id = $request->get('role');
@@ -161,21 +158,20 @@ class UserController extends Controller
             $user->save();
         }
 
-
         return response()->json($validator->messages(), 200);
     }
 
     public function delete( Request $request )
     {
-        $rules = array(
+        $rules = [
             'id' => 'exists:areas'
-        );
+        ];
 
-        $messsages = array(
-            'id.exists'=>'No existe el usuario especificada',
-        );
+        $messages = [
+            'id.exists'=>'No existe el usuario indicado',
+        ];
 
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
@@ -183,11 +179,10 @@ class UserController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (! $validator->fails()) {
             $user = User::find($request->get('id'));
             $user->delete();
         }
-
 
         return response()->json($validator->messages(), 200);
 
