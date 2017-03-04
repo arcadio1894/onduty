@@ -26,6 +26,7 @@
 
     <div class="row">
         <br>
+        <a data-position="bottom" data-delay="50" data-tooltip="Listado de informes" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="{{ url('/informes') }}">Regresar</a>
         <div class="col s12">
             <div class="row card padding-1">
                 <div class="col s5">
