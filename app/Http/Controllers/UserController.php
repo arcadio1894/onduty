@@ -121,7 +121,7 @@ class UserController extends Controller
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un usuario');
+                $validator->errors()->add('role', 'No tiene permisos para editar un usuario');
             }
 
             $email_user = User::where('email', $request->get('email'))->first();

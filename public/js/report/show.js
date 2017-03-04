@@ -20,7 +20,7 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Informe registrado correctamente", 4000);
+                    Materialize.toast("Reporte registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);

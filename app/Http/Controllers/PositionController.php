@@ -52,7 +52,7 @@ class PositionController extends Controller
             'name' => 'required|min:2',
         );
         $messsages = array(
-            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.required'=>'Es necesario ingresar el nombre del cargo',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
         );
         $validator = Validator::make($request->all(), $rules, $messsages);

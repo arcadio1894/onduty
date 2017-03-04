@@ -60,7 +60,7 @@ class AreaController extends Controller
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+                $validator->errors()->add('role', 'No tiene permisos para editar un área');
             }
         });
 
@@ -89,7 +89,7 @@ class AreaController extends Controller
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un área');
             }
         });
 

@@ -122,7 +122,7 @@ class ReportController extends Controller
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+                $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
             }
             if ( $request->get('deadline') ) {
                 if ($request->get('deadline') < $request->get('planned-date')) {
@@ -222,7 +222,7 @@ class ReportController extends Controller
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para editar un informe');
+                $validator->errors()->add('role', 'No tiene permisos para editar un reporte');
             }
             if ( $request->get('deadline') ) {
                 if ($request->get('deadline') < $request->get('planned-date')) {

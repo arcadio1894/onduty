@@ -25,14 +25,14 @@ class RoleController extends Controller
             'name' => 'required|min:2',
         );
         $messsages = array(
-            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.required'=>'Es necesario ingresar el nombre del rol',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+                $validator->errors()->add('role', 'No tiene permisos para crear un rol');
             }
         });
 
@@ -54,14 +54,14 @@ class RoleController extends Controller
             'name' => 'required|min:2',
         );
         $messsages = array(
-            'name.required'=>'Es necesario ingresar el nombre del área',
+            'name.required'=>'Es necesario ingresar el nombre del rol',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un área');
+                $validator->errors()->add('role', 'No tiene permisos para editar un rol');
             }
         });
 
