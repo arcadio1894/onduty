@@ -14,28 +14,33 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formRegister.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formRegister.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Informe registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
     
-    $('[data-edit]').on('click', function () {
-        var id = $(this).data('edit');
-        var location = $(this).data('location');
-        var name = $(this).data('name');
-        var description = $(this).data('description');
+    $('#edit-informe').on('click', function () {
+        var id = $(this).data('informe');
+        var location_id = $(this).data('location');
+        var user_id = $(this).data('user');
+        var fromdate = $(this).data('fromdate');
+        var todate = $(this).data('todate');
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
@@ -50,21 +55,26 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEdit.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formEdit.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Informe registrada correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
+
     });
 
     $('[data-delete]').on('click', function () {
@@ -81,21 +91,26 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formDelete.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formDelete.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Informe eliminado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
+
     });
 });
 

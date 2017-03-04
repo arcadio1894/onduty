@@ -12,21 +12,25 @@ $ (function () {
             method: 'POST',
             data: new FormData(this),
             processData: false,
-            contentType: false
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Informe registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 });
 

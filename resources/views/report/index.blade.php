@@ -32,7 +32,7 @@
                     <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
                 </div>
                 <div class="col s7">
-                    <a data-todate="{{ $informe->to_date }}" data-fromdate="{{ $informe->from_date }}" data-user="{{ $informe->user_id }}" data-location="{{ $informe->location_id }}" data-informe="{{ $informe->id }}" id="edit-informe" data-position="bottom" data-delay="50" data-tooltip="Editar informe" class="waves-effect waves-light btn tooltipped right teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de"><i class="material-icons">mode_edit</i></a>
+                    <a data-todate="{{ $informe->to_date }}" data-fromdate="{{ $informe->from_date }}" data-user="{{ $informe->user_id }}" data-location="{{ $informe->location_id }}" data-informe="{{ $informe->id }}" id="edit-informe" data-position="bottom" data-delay="50" data-tooltip="Editar informe" class="waves-effect waves-light btn tooltipped right teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="#modal4"><i class="material-icons">mode_edit</i></a>
                 </div>
             </div>
             <div class="row card padding-1">
@@ -189,6 +189,46 @@
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
         </div>
     </div>
+
+    <div id="modal4" class="modal">
+        <form class="col s12" id="form-edit" action="{{ url('/informe/edit') }}">
+            {{ csrf_field() }}
+            <input type="hidden" name="id">
+            <div class="modal-content">
+                <h4>Editar informe</h4>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select id="location-select" name="location-select">
+                            <option value="" disabled selected>Escoja una localización</option>
+                        </select>
+                        <label for="location-select">Localizaciones </label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select id="user-select" name="user-select">
+                            <option value="" disabled selected>Escoja un onduty</option>
+                        </select>
+                        <label for="user-select">Onduty </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="date" class="datepicker" id="fromdate" name="fromdate" required>
+                        <label for="fromdate" data-error="Please choose a date " data-success="right">Fecha de incio de visita</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="date" class="datepicker" id="todate" name="todate" required>
+                        <label for="todate" data-error="Please choose a date" data-success="right">Fecha de fin de visita</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a href="#" class="waves-effect waves-green btn-flat" id="save-edit">Guardar</a>
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('scripts')
@@ -196,6 +236,7 @@
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
+            $('select').material_select();
         });
         $('.datepicker').pickadate({
             selectMonths: true, // Creates a dropdown to control month

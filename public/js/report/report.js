@@ -1,4 +1,4 @@
-var $formEliminar, $modalEliminar;
+var $formEliminar, $modalEliminar, $formEdit, $modalEditar;
 
 var $selectLocation, $selectUsers, $elementImg, $modalShowImage, $elementAction, $modalShowAction;
 
@@ -7,9 +7,12 @@ $ (function () {
     $formEliminar = $('#form-delete');
     
     $modalEliminar = $('#modal1');
+    $modalEditar = $('#modal4');
 
     $selectLocation = $('#location-select');
     $selectUsers = $('#user-select');
+
+    $formEdit = $('#form-edit');
 
     $elementImg = $('#verImage');
 
@@ -19,8 +22,7 @@ $ (function () {
 
     $modalShowAction = $('#modal3');
 
-    $selectLocation.material_select();
-    $selectUsers.material_select();
+
 
     $.getJSON('/informes/users',function(response)
     {
@@ -38,7 +40,7 @@ $ (function () {
         console.log(response);
         $.each(response,function(key,value)
         {
-            console.log("got you");
+            console.log("Entro");
             $selectLocation.append($("<option></option>").attr("value", value.id).text(value.name));
         });
     });
@@ -57,21 +59,25 @@ $ (function () {
         $.ajax({
             url: avatarUrl,
             method: 'POST',
-            data: $formEliminar.serialize()
-        })
-            .done(function (data) {
-                if(data.error)
-                    Materialize.toast(data.message, 4000);
-                else{
-                    Materialize.toast(data.message, 4000);
+            data: $formEliminar.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Reporte eliminado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-            })
-            .fail(function () {
-                alert('Ocurrió un error inesperado');
-            });
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
     });
 
     $('[data-img]').on('click', function () {
@@ -84,6 +90,55 @@ $ (function () {
         var path = "/images/action/"+$(this).data('action');
         $elementAction.attr("src",path);
         $modalShowAction.modal('open');
+    });
+
+    $('#edit-informe').on('click', function () {
+        console.log("Entre");
+        var id = $(this).data('informe');
+        var location_id = $(this).data('location');
+        var user_id = $(this).data('user');
+        var fromdate = $(this).data('fromdate');
+        var todate = $(this).data('todate');
+
+        $selectLocation.val(location_id).change();
+        $selectUsers.val(user_id).change();
+
+        $formEdit.find('[name="id"]').val(id);
+        $formEdit.find('[name="fromdate"]').val(fromdate);
+        $formEdit.find('[name="todate"]').val(todate);
+
+        $selectLocation.material_select();
+        $selectUsers.material_select();
+
+        $modalEditar.modal('open');
+        Materialize.updateTextFields(); // use this after change the field values
+    });
+
+    $('#save-edit').on('click', function () {
+        avatarUrl = $formEdit.attr('action');
+        $.ajax({
+            url: avatarUrl,
+            method: 'POST',
+            data: $formEdit.serialize(),
+            success: function (data) {
+                console.log(data);
+                if (data != "") {
+                    for (var property in data) {
+                        Materialize.toast(data[property], 4000);
+                    }
+                } else {
+                    Materialize.toast("Informe modificado correctamente", 4000);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                console.log("CZFDFDSF");
+                // Render the errors with js ...
+            }
+        })
+
     });
 });
 
