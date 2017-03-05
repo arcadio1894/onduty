@@ -2,7 +2,7 @@
 
 @section('breadcrumbs')
     <div class="row">
-        <nav>
+        <nav class="light-blue">
             <div class="nav-wrapper">
                 <div class="col s12">
                     <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
@@ -39,7 +39,7 @@
                             <a class="waves-effect waves-light btn" data-edit="{{ $location->id }}" href="#modal2" data-name="{{$location->name}}" data-description="{{$location->description}}" ><i class="material-icons">mode_edit</i></a>
                             <a class="waves-effect waves-light btn" data-delete="{{ $location->id }}" href="#modal3" data-name="{{$location->name}}" ><i class="material-icons">delete</i></a>
                         @endif
-                        <a class="waves-effect waves-light btn" href="{{ url('/workFronts/location/'.$location->id) }}" ><i class="material-icons left">playlist_add</i>Frentes de trabajo</a>
+                        <a class="waves-effect waves-light btn" href="{{ url('/location/'.$location->id.'/work-fronts') }}" ><i class="material-icons left">playlist_add</i>Frentes de trabajo</a>
 
                     </td>
                 </tr>

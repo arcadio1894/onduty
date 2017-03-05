@@ -2,7 +2,7 @@
 
 @section('breadcrumbs')
     <div class="row">
-        <nav class="breadcrumbs">
+        <nav class="breadcrumbs light-blue">
             <div class="nav-wrapper">
                 <div class="col s12">
                     <a href="{{ url('/locations') }}" class="breadcrumb">Localizaciones</a>
@@ -27,7 +27,6 @@
                 <th data-field="id">Frente de Trabajo</th>
                 <th data-field="name">Descripción</th>
                 <th data-field="name">Localización</th>
-                <th data-field="name">Planta</th>
                 @if (Auth::user()->role_id < 3)
                     <th data-field="">Acciones</th>
                 @endif

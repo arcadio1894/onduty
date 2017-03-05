@@ -140,11 +140,12 @@
                                 <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
                                 <li><a href="{{ url('/areas') }}">Áreas</a></li>
                                 <li><a href="{{ url('/critical-risks') }}">Riesgos críticos</a></li>
-                                <li><a href="{{ url('/informes') }}">Informes</a></li>
+
                             </ul>
                         </div>
                     </li>
                 @endif
+                <li class="bold"><a class="collapsible-header waves-effect waves-teal" href="{{ url('/informes') }}">Informes</a></li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">

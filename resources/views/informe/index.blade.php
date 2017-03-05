@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+    <div class="row">
+        <nav class="light-blue">
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">
@@ -29,10 +41,10 @@
                     <td>{{ $informe->from_date }}</td>
                     <td>{{ $informe->to_date }}</td>
                     <td>
-                    @if (Auth::user()->role_id < 3)
-                        <a class="waves-effect waves-light btn" data-delete="{{ $informe->id }}" href="#modal3" ><i class="material-icons">delete</i></a>
-                    @endif
                         <a class="waves-effect waves-light btn" href="{{ url('reports/informe/'. $informe->id) }}"><i class="material-icons">visibility</i> Reportes</a>
+                        @if (Auth::user()->role_id < 3)
+                            <a class="waves-effect waves-light btn" data-delete="{{ $informe->id }}" href="#modal3" ><i class="material-icons">delete</i></a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

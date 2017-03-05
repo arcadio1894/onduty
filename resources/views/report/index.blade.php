@@ -1,5 +1,20 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+    <div class="row">
+        <div class="navbar-fixed">
+            <nav class="light-blue">
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
+                        <a href="{{ url('/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+@endsection
+
 @section('styles')
     <style>
         .caja_table{
@@ -26,17 +41,17 @@
 
     <div class="row">
         <br>
-        <a data-position="bottom" data-delay="50" data-tooltip="Listado de informes" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="{{ url('/informes') }}">Regresar</a>
         <div class="col s12">
             <div class="row card padding-1">
-                <div class="col s5">
-                    <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
+                <div class="col s12">
+                    <div class="col s5">
+                        <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
+                    </div>
+                    <div class="col s7">
+                        <a data-todate="{{ $informe->to_date }}" data-fromdate="{{ $informe->from_date }}" data-user="{{ $informe->user_id }}" data-location="{{ $informe->location_id }}" data-informe="{{ $informe->id }}" id="edit-informe" data-position="bottom" data-delay="50" data-tooltip="Editar informe" class="waves-effect waves-light btn tooltipped right teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="#modal4"><i class="material-icons">mode_edit</i></a>
+                    </div>
                 </div>
-                <div class="col s7">
-                    <a data-todate="{{ $informe->to_date }}" data-fromdate="{{ $informe->from_date }}" data-user="{{ $informe->user_id }}" data-location="{{ $informe->location_id }}" data-informe="{{ $informe->id }}" id="edit-informe" data-position="bottom" data-delay="50" data-tooltip="Editar informe" class="waves-effect waves-light btn tooltipped right teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="#modal4"><i class="material-icons">mode_edit</i></a>
-                </div>
-            </div>
-            <div class="row card padding-1">
+                <br><br><br>
                 <div class="col s12 m2 l2">
                     <label>Localización</label>
                     <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
@@ -60,24 +75,23 @@
             </div>
         </div>
 
-        <div class="col s12">
-            <div class="row card padding-1">
-                <div class="col s5">
-                    <span class="flow-text">Reportes</span>
-                </div>
-                <div class="col s7">
-                    <div class="right">
-                        @if (Auth::user()->role_id < 3)
-                            <a href="{{ url('register/report/' . $informe->id) }}" data-position="" data-delay="50" data-tooltip="Registrar nuevo reporte" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de">Nuevo reporte</a>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="col s12" >
             <div class="row card padding-1" >
-                <div style="overflow-x:auto; height: 400px !important; overflow-y: scroll !important;">
+                <div class="col s12">
+                    <div class="col s5">
+                        <span class="flow-text">Reportes</span>
+                    </div>
+                    <div class="col s7">
+                        <div class="right">
+                            @if (Auth::user()->role_id < 3)
+                                <a href="{{ url('register/report/' . $informe->id) }}" data-position="" data-delay="50" data-tooltip="Registrar nuevo reporte" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de">Nuevo reporte</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="col s12">
+                    <div style="overflow-x:auto; height: 400px !important; overflow-y: scroll !important;">
                     <table class="responsive-table highlight centered striped">
                     <thead>
                     <tr>
@@ -114,25 +128,34 @@
                             <td>{{ $report->critical_risks->name }}</td>
                             <td>{{ $report->potential }}</td>
                             <td>{{ $report->state }}</td>
-                            <td><a class="modal-trigger" href="#modal2"><img data-img="{{ $report->id.'.'.$report->image }}" class="imagen"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt=""></a> </td>
-                            <td><a class="modal-trigger" href="#modal3"><img data-action="{{ $report->id.'.'.$report->image_action }}" class="imagen"  src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" alt=""></a> </td>
-                            <td>{{ $report->planned_date }}</td>
+                            @if(!$report->image)
+                                <td><a class="modal-trigger" href="#modal2"><img data-img="default.png" class="imagen"  src="{{ asset('images/report/default.png') }}" alt=""></a> </td>
+                            @else
+                                <td><a class="modal-trigger" href="#modal2"><img data-img="{{ $report->id.'.'.$report->image }}" class="imagen"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt=""></a> </td>
+                            @endif
+                            @if(!$report->image_action)
+                                <td><a class="modal-trigger" href="#modal3"><img data-action="default.png" class="imagen"  src="{{ asset('images/action/default.png') }}" alt=""></a> </td>
+                            @else
+                                <td><a class="modal-trigger" href="#modal3"><img data-action="{{ $report->id.'.'.$report->image_action }}" class="imagen"  src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" alt=""></a> </td>
+                            @endif
+                                               <td>{{ $report->planned_date }}</td>
                             <td>{{ $report->deadline }}</td>
                             <td>{{ $report->inspections }}</td>
                             <td>{{ $report->description }}</td>
                             <td>{{ $report->actions }}</td>
                             <td>{{ $report->observations }}</td>
                             <td>
+                                <a class="waves-effect waves-light tooltipped btn" data-delay="50" data-tooltip="Editar reporte" href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}"><i class="material-icons">mode_edit</i></a>
                                 @if (Auth::user()->role_id < 3)
                                     <a class="waves-effect waves-light tooltipped btn" data-delay="50" data-tooltip="Eliminar reporte" data-delete="{{ $report->id }}" href="#modal1" ><i class="material-icons">delete</i></a>
                                 @endif
-                                <a class="waves-effect waves-light tooltipped btn" data-delay="50" data-tooltip="Editar reporte" href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}"><i class="material-icons">mode_edit</i></a>
                             </td>
                         </tr>
                     @endforeach
 
                     </tbody>
                 </table>
+                </div>
                 </div>
             </div>
         </div>

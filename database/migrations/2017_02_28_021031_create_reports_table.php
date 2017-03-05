@@ -30,8 +30,8 @@ class CreateReportsTable extends Migration
             $table->foreign('critical_risks_id')->references('id')->on('critical_risks');
             $table->string('potential');
             $table->string('state');
-            $table->string('image');
-            $table->string('image_action');
+            $table->string('image')->nullable();
+            $table->string('image_action')->nullable();
             $table->date('planned_date');
             $table->date('deadline')->nullable();
             $table->integer('inspections');

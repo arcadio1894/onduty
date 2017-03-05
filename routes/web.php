@@ -25,7 +25,7 @@ Route::post('/location/register', 'LocationController@store');
 Route::post('/location/editar', 'LocationController@edit');
 Route::post('/location/delete', 'LocationController@delete');
 
-Route::get('/workFronts/location/{id}', 'WorkFrontController@index');
+Route::get('/location/{id}/work-fronts', 'WorkFrontController@index');
 Route::post('/workFront/register', 'WorkFrontController@store');
 Route::post('/workFront/editar', 'WorkFrontController@edit');
 Route::post('/workFront/delete', 'WorkFrontController@delete');

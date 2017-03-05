@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@section('breadcrumbs')
+    <div class="row">
+        <div class="navbar-fixed">
+            <nav class="light-blue">
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
+                        <a href="{{ url('/reports/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
+                        <a href="{{ url('/register/report/'.$informe->id) }}" class="breadcrumb">Crear reporte</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">

@@ -95,9 +95,8 @@ class ReportController extends Controller
             'inspections' => 'required|min:1',
             'description' => 'min:5',
             'actions' => 'min:5',
-            'observation' => 'min:5',
-            'image' => 'required|image',
-            'image-action' => 'required|image',
+            'image' => 'image',
+            'image-action' => 'image',
         );
         $messages = array(
             'workfront.required'=>'Es necesario escoger el frente de trabajo del reporte',
@@ -112,10 +111,7 @@ class ReportController extends Controller
             'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
             'actions.min'=>'Es necesario más de 5 caracteres para las acciones del reporte',
             'description.min'=>'Es necesario más de 5 caracteres para la descripción del reporte',
-            'observation.min'=>'Es necesario más de 5 caracteres para la observación del reporte',
-            'image.required' => 'Es necesario subir una imagen del reporte',
             'image.image' => 'Solo se admiten archivos tipo imagen',
-            'image-action.required' => 'Es necesario subir una imagen del reporte',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
         );
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -150,28 +146,37 @@ class ReportController extends Controller
                 'inspections' => $request->get('inspections'),
                 'description' => $request->get('description'),
                 'actions' => $request->get('actions'),
-                'observations' => $request->get('observation'),
-                'image' => $request->file('image')->getClientOriginalExtension(),
-                'image_action' => $request->file('image-action')->getClientOriginalExtension()
+                'observations' => $request->get('observation')
             ]);
 
-            $extension_image = $request->file('image')->getClientOriginalExtension();
-            $file_name_image = $report->id . '.' . $extension_image;
+            if ($request->file('image'))
+            {
+                $extension_image = $request->file('image')->getClientOriginalExtension();
+                $file_name_image = $report->id . '.' . $extension_image;
 
-            $path_image = public_path('images/report/' . $file_name_image);
+                $path_image = public_path('images/report/' . $file_name_image);
 
-            Image::make($request->file('image'))
-                ->fit(144, 144)
-                ->save($path_image);
+                Image::make($request->file('image'))
+                    ->fit(144, 144)
+                    ->save($path_image);
 
-            $extension_image_action = $request->file('image-action')->getClientOriginalExtension();
-            $file_name_image_action = $report->id . '.' . $extension_image_action;
+                $report->image = $extension_image;
+                $report->save();
+            }
+            if ($request->file('image-action'))
+            {
+                $extension_image_action = $request->file('image-action')->getClientOriginalExtension();
+                $file_name_image_action = $report->id . '.' . $extension_image_action;
 
-            $path_image_action = public_path('images/action/' . $file_name_image_action);
+                $path_image_action = public_path('images/action/' . $file_name_image_action);
 
-            Image::make($request->file('image-action'))
-                ->fit(144, 144)
-                ->save($path_image_action);
+                Image::make($request->file('image-action'))
+                    ->fit(144, 144)
+                    ->save($path_image_action);
+
+                $report->image_action = $extension_image_action;
+                $report->save();
+            }
 
             $report->save();
         }

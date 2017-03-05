@@ -58,7 +58,7 @@
     </div>
 
     <div id="modal2" class="modal">
-        <form class="col s12" id="form-editar" action="{{ url('/critical-risk/editar') }}">
+        <form class="col s12" id="form-editar" method="POST" action="{{ url('/critical-risk/editar') }}">
             {{ csrf_field() }}
             <div class="modal-content">
                 <h4>Editar riesgo crítico</h4>
@@ -73,7 +73,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a href="#" class="waves-effect waves-green btn-flat" id="edit-area">Guardar</a>
+                <button type="submit" class="waves-effect waves-green btn-flat" >Guardar</button>
             </div>
         </form>
     </div>

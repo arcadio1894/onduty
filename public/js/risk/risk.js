@@ -49,7 +49,8 @@ $ (function () {
         Materialize.updateTextFields(); // use this after change the field values
     });
 
-    $('#edit-area').on('click', function () {
+    $formEdit.on('submit', function () {
+        event.preventDefault();
         avatarUrl = $formEdit.attr('action');
         $.ajax({
             url: avatarUrl,
