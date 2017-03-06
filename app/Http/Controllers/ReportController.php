@@ -46,7 +46,7 @@ class ReportController extends Controller
         return view('report.show')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
-    public function showEdit( $informe_id, $report_id )
+    public function showEdit($informe_id, $report_id)
     {
         $informe = Informe::with('location')->with('user')->find($informe_id);
         $users = User::where('id', '<>', 1)->get();
@@ -140,7 +140,7 @@ class ReportController extends Controller
                 'inspections' => $request->get('inspections'),
                 'description' => $request->get('description'),
                 'actions' => $request->get('actions'),
-                'observations' => $request->get('observation')
+                'observations' => $request->get('observation') ?: ''
             ]);
 
             if ($request->file('image'))
@@ -175,7 +175,7 @@ class ReportController extends Controller
             $report->save();
         }
 
-        // TODO: Faltan validaciones de los que crean
+        // Faltan validaciones de los que crean
         return response()->json($validator->messages(), 200);
     }
 
