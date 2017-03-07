@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
 
-            $table->integer('position_id')->nullable();
+            $table->integer('position_id')->unsigned()->nullable();
             $table->foreign('position_id')->references('id')->on('positions');
 
             $table->string('image')->nullable();
