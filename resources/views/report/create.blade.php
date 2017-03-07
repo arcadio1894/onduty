@@ -17,63 +17,50 @@
 @endsection
 
 @section('content')
-
     <div class="row">
-        <br>
         <div class="col s12">
-            <div class="row card padding-1">
-                <div class="col s5">
-                    <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
-                </div>
+            <div class="card ">
+                <div class="card-content">
+                    <span class="card-title">Informe - {{ $informe->id }}</span>
 
-            </div>
-            <div class="row card padding-1">
-                <div class="col s12 m2 l2">
-                    <label>Localización</label>
-                    <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
-                </div>
-                <div class="col s12 m3 l3">
-                    <label>Onduty</label>
-                    <p class="margin-0 ng-binding">{{ $informe->user->name }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de registro</label>
-                    <p class="margin-0 ng-binding">{{ $informe->updated_at }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de visita de</label>
-                    <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de visita hasta</label>
-                    <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col s12">
-            <div class="row card padding-1">
-                <div class="col s5">
-                    <span class="flow-text">Registrar reporte</span>
-                </div>
-                <div class="col s7">
-                    <div class="right">
-
+                    <div class="row">
+                        <div class="col s12 m2 l2">
+                            <label>Localización</label>
+                            <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
+                        </div>
+                        <div class="col s12 m3 l3">
+                            <label>Onduty</label>
+                            <p class="margin-0 ng-binding">{{ $informe->user->name }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de registro</label>
+                            <p class="margin-0 ng-binding">{{ $informe->updated_at }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de visita de</label>
+                            <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de visita hasta</label>
+                            <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col s12">
-            <div class="row card padding-3">
-                <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Registrar reporte</span>
                     <form action="{{ url('report/register') }}" enctype="multipart/form-data" id="form-register" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="informe" value="{{ $informe->id }}">
                         <div class="row">
                             <div class="input-field col s3">
                                 <select id="workfront" name="workfront">
-                                    <option value="" disabled selected>Selecciona un frente de trabajo</option>
-                                    @foreach( $workfronts as $workfront )
+                                    <option value="" disabled selected>Selecciona un frente</option>
+                                    @foreach ($workfronts as $workfront)
                                         <option value="{{ $workfront->id }}">{{ $workfront->name }}</option>
                                     @endforeach
                                 </select>
@@ -82,11 +69,11 @@
                             <div class="input-field col s3">
                                 <select id="area" name="area">
                                     <option value="" disabled selected>Selecciona una área</option>
-                                    @foreach( $areas as $area )
+                                    @foreach ($areas as $area)
                                         <option value="{{ $area->id }}">{{ $area->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="area">Áreas </label>
+                                <label for="area">Áreas</label>
                             </div>
                             <div class="input-field col s3">
                                 <select id="responsible" name="responsible">
@@ -95,7 +82,7 @@
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="responsible">Responsables </label>
+                                <label for="responsible">Responsables</label>
                             </div>
                             <div class="input-field col s3">
                                 <select id="aspect" name="aspect">
@@ -103,7 +90,7 @@
                                     <option value="Por mejorar">Por mejorar</option>
                                     <option value="Positivo">Positivo</option>
                                 </select>
-                                <label for="aspect">Aspectos </label>
+                                <label for="aspect">Aspectos</label>
                             </div>
                         </div>
                         <div class="row">
@@ -123,7 +110,7 @@
                                     <option value="Medio">Medio</option>
                                     <option value="Bajo">Bajo</option>
                                 </select>
-                                <label for="potencial">Potencial </label>
+                                <label for="potencial">Potencial</label>
                             </div>
                             <div class="input-field col s3">
                                 <select id="state" name="state">
@@ -131,7 +118,7 @@
                                     <option value="Abierto">Abierto</option>
                                     <option value="Cerrado">Cerrado</option>
                                 </select>
-                                <label for="state">Estados </label>
+                                <label for="state">Estados</label>
                             </div>
                             <div class="input-field col s3">
                                 <input type="date" class="datepicker" id="planned-date" name="planned-date" required>

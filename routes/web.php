@@ -63,7 +63,7 @@ Route::post('/informe/edit', 'InformeController@edit');
 Route::post('/informe/delete', 'InformeController@delete');
 
 Route::get('/reports/informe/{id}', 'ReportController@index');
-Route::get('/register/report/{id}', 'ReportController@show');
+Route::get('/register/report/{id}', 'ReportController@create');
 Route::get('/informes/users', 'ReportController@getUsers');
 Route::get('/informes/locations', 'ReportController@getLocations');
 Route::post('/report/register', 'ReportController@store');

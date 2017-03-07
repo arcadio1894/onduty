@@ -17,85 +17,75 @@
 
 @section('styles')
     <style>
-        .caja_table{
-            display: block;
-            max-height: 53%;
-            min-width: 1000px!important;
-            overflow-y: auto;
-        }
-        .imagen{
-            width: 40px;
-            height: 40px;
-        }
-        .image{
+        .card .image {
             width: 280px;
             height: 280px;
         }
-        .image-reveal{
+        .card .image-reveal {
             width: 235px;
             height: 235px;
         }
-
-        .imagen:hover{
-            cursor: -moz-zoom-in;
-            cursor: -webkit-zoom-in;
-            cursor: zoom-in;
-        }
-
     </style>
 @endsection
 
 @section('content')
 
     <div class="row">
-        <br>
         <div class="col s12">
-            <div class="row card padding-1">
-                <div class="col s12">
-                    <div class="col s5">
-                        <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title flow-text ng-binding">Informe - {{ $informe->id }}</span>
+                    <a data-todate="{{ $informe->to_date }}"
+                       data-fromdate="{{ $informe->from_date }}"
+                       data-user="{{ $informe->user_id }}"
+                       data-location="{{ $informe->location_id }}"
+                       data-informe="{{ $informe->id }}"
+                       id="edit-informe"
+                       data-delay="50" data-tooltip="Editar informe"
+                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right"
+                       href="#modalEdit">
+                        <i class="material-icons">mode_edit</i>
+                    </a>
+
+                    <div class="row">
+                        <div class="col s12 m2 l2">
+                            <label>Localización</label>
+                            <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
+                        </div>
+                        <div class="col s12 m3 l3">
+                            <label>Onduty</label>
+                            <p class="margin-0 ng-binding">{{ $informe->user->name }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de registro</label>
+                            <p class="margin-0 ng-binding">{{ $informe->updated_at }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de visita de</label>
+                            <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
+                        </div>
+                        <div class="col s12 m2 l2">
+                            <label>Fecha de visita hasta</label>
+                            <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
+                        </div>
                     </div>
-                    <div class="col s7">
-                        <a data-todate="{{ $informe->to_date }}" data-fromdate="{{ $informe->from_date }}" data-user="{{ $informe->user_id }}" data-location="{{ $informe->location_id }}" data-informe="{{ $informe->id }}" id="edit-informe" data-position="bottom" data-delay="50" data-tooltip="Editar informe" class="waves-effect waves-light btn tooltipped right teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de" href="#modal4"><i class="material-icons">mode_edit</i></a>
-                    </div>
-                </div>
-                <br><br><br>
-                <div class="col s12 m2 l2">
-                    <label>Localización</label>
-                    <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
-                </div>
-                <div class="col s12 m3 l3">
-                    <label>Onduty</label>
-                    <p class="margin-0 ng-binding">{{ $informe->user->name }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de registro</label>
-                    <p class="margin-0 ng-binding">{{ $informe->updated_at }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de visita de</label>
-                    <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
-                </div>
-                <div class="col s12 m2 l2">
-                    <label>Fecha de visita hasta</label>
-                    <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
                 </div>
             </div>
         </div>
 
         <div class="col s12" >
-            <div class="row card padding-1" >
-                <div class="col s12">
-                    <div class="col s5">
-                        <span class="flow-text">Reportes</span>
-                    </div>
-                    <div class="col s7">
-                        <div class="right">
-                            @if (Auth::user()->role_id < 3)
-                                <a href="{{ url('register/report/' . $informe->id) }}" data-position="" data-delay="50" data-tooltip="Registrar nuevo reporte" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de">Nuevo reporte</a>
-                            @endif
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Reportes</span>
+
+                    @if (Auth::user()->role_id < 3)
+                        <a href="{{ url('register/report/' . $informe->id) }}"
+                           data-delay="50"
+                           data-tooltip="Nuevo reporte"
+                           class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
+                            <i class="material-icons">add</i>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -115,10 +105,13 @@
                                 </div>
                                 <div class="card-content">
                                     <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
-                                    <p>Fecha registro: {{ $report->created_at->format('Y-m-d') }}</p>
-                                    <p>Fecha de cierre: {{ $report->deadline }}</p>
-                                    <p>Estado: {{ $report->state }}</p>
-                                    <p>Observación: {{ $report->observations }}</p>
+                                    <p><strong>Fecha de registro:</strong> {{ $report->created_at->format('Y-m-d') }}</p>
+                                    <p><strong>Frente:</strong> {{ $report->work_front->name }}</p>
+                                    <p><strong>Área:</strong> {{ $report->area->name }}</p>
+                                    <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>
+                                    <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
+                                    <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
+                                    <p><strong>Estado:</strong> {{ $report->state }}</p>
                                 </div>
                                 <div class="card-action">
                                     <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
@@ -127,14 +120,17 @@
                                 <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
 
-                                    @if(!$report->image_action)
+                                    @if (!$report->image_action)
                                         <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
                                     @else
                                         <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
                                     @endif
 
-                                    <p>Fecha de cierre: {{ $report->deadline }}</p>
-                                    <p>Observación: {{ $report->observations }}</p>
+                                    <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
+                                    <p><strong>Potencial:</strong> {{ $report->potential }}</p>
+                                    <p><strong># inspecciones:</strong> {{ $report->inspections }}</p>
+                                    <p><strong>Riesgo crítico:</strong> {{ $report->critical_risks->name }}</p>
+                                    <p><strong>Observación:</strong> {{ $report->observations }}</p>
                                 </div>
                             </div>
                         </div>
@@ -144,90 +140,6 @@
         </div>
 
 
-        {{--<div class="col s12" >
-            <div class="row card padding-1" >
-                <div class="col s12">
-                    <div class="col s5">
-                        <span class="flow-text">Reportes</span>
-                    </div>
-                    <div class="col s7">
-                        <div class="right">
-                            @if (Auth::user()->role_id < 3)
-                                <a href="{{ url('register/report/' . $informe->id) }}" data-position="" data-delay="50" data-tooltip="Registrar nuevo reporte" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de">Nuevo reporte</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <br><br><br>
-                <div class="col s12">
-                    <div style="overflow-x:auto; height: 400px !important; overflow-y: scroll !important;">
-                    <table class="responsive-table highlight centered striped">
-                    <thead>
-                    <tr>
-                        <th data-field="id">Sujeto</th>
-                        <th data-field="name">Frente de trabajo</th>
-                        <th data-field="id">Área</th>
-                        <th data-field="name">Responsable</th>
-                        <th data-field="id">Aspecto</th>
-                        <th data-field="name">Riesgo crítico</th>
-                        <th data-field="id">Potencial</th>
-                        <th data-field="name">Estado</th>
-                        <th data-field="id">Imagen</th>
-                        <th data-field="name">Imagen de accion</th>
-                        <th data-field="id">Fecha planeada</th>
-                        <th data-field="name">Fecha de cierre</th>
-                        <th data-field="id">Numero de inspecciones</th>
-                        <th data-field="name">Descripción</th>
-                        <th data-field="id">Acciones a tomar</th>
-                        <th data-field="name">Observación</th>
-                        @if (Auth::user()->role_id <3)
-                            <th data-field="">Acciones</th>
-                        @endif
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    @foreach ($reports as $report)
-                        <tr>
-                            <td>{{ $report->user->name }}</td>
-                            <td>{{ $report->work_front->name }}</td>
-                            <td>{{ $report->area->name }}</td>
-                            <td>{{ $report->responsible->name }}</td>
-                            <td>{{ $report->aspect }}</td>
-                            <td>{{ $report->critical_risks->name }}</td>
-                            <td>{{ $report->potential }}</td>
-                            <td>{{ $report->state }}</td>
-                            @if(!$report->image)
-                                <td><a class="modal-trigger" href="#modal2"><img data-img="default.png" class="imagen"  src="{{ asset('images/report/default.png') }}" alt=""></a> </td>
-                            @else
-                                <td><a class="modal-trigger" href="#modal2"><img data-img="{{ $report->id.'.'.$report->image }}" class="imagen"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt=""></a> </td>
-                            @endif
-                            @if(!$report->image_action)
-                                <td><a class="modal-trigger" href="#modal3"><img data-action="default.png" class="imagen"  src="{{ asset('images/action/default.png') }}" alt=""></a> </td>
-                            @else
-                                <td><a class="modal-trigger" href="#modal3"><img data-action="{{ $report->id.'.'.$report->image_action }}" class="imagen"  src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" alt=""></a> </td>
-                            @endif
-                                               <td>{{ $report->planned_date }}</td>
-                            <td>{{ $report->deadline }}</td>
-                            <td>{{ $report->inspections }}</td>
-                            <td>{{ $report->description }}</td>
-                            <td>{{ $report->actions }}</td>
-                            <td>{{ $report->observations }}</td>
-                            <td>
-                                <a class="waves-effect waves-light tooltipped btn" data-delay="50" data-tooltip="Editar reporte" href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}"><i class="material-icons">mode_edit</i></a>
-                                @if (Auth::user()->role_id < 3)
-                                    <a class="waves-effect waves-light tooltipped btn" data-delay="50" data-tooltip="Eliminar reporte" data-delete="{{ $report->id }}" href="#modal1" ><i class="material-icons">delete</i></a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
-                </div>
-                </div>
-            </div>
-        </div>--}}
     </div>
 
     <!-- Modal Structure -->
@@ -240,8 +152,7 @@
 
                 <input type="hidden" name="id">
                 <div class="row">
-                    <p>¿Está seguro de eliminar éste reporte? </p>
-                    <p>Si este informe (alguna validación) no podrá eliminarlo </p>
+                    <p>¿Está seguro de eliminar este reporte?</p>
                 </div>
 
             </div>
@@ -252,38 +163,7 @@
         </form>
     </div>
 
-    <div id="modal2" class="modal">
-        <div class="modal-content">
-            <h4>Imagen</h4>
-
-            <div class="row">
-                <div class="col s6 offset-s5 ">
-                    <img id="verImage" src="" alt="">
-                </div>
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-
-        </div>
-    </div>
-
-    <div id="modal3" class="modal">
-        <div class="modal-content">
-            <h4>Imagen</h4>
-            <div class="row">
-                <div class="col s6 offset-s5 ">
-                    <img class="" id="verAction" src="" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        </div>
-    </div>
-
-    <div id="modal4" class="modal">
+    <div id="modalEdit" class="modal">
         <form class="col s12" id="form-edit" action="{{ url('/informe/edit') }}">
             {{ csrf_field() }}
             <input type="hidden" name="id">

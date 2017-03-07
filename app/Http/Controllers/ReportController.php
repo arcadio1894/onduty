@@ -35,7 +35,7 @@ class ReportController extends Controller
         return view('report.index')->with(compact('reports', 'informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
-    public function show( $id )
+    public function create($id)
     {
         $informe = Informe::with('location')->with('user')->find($id);
         $users = User::where('id', '<>', 1)->get();
@@ -43,7 +43,7 @@ class ReportController extends Controller
         $areas = Area::all();
         $risks = CriticalRisk::all();
 
-        return view('report.show')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
+        return view('report.create')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
     public function showEdit($informe_id, $report_id)
