@@ -86,9 +86,7 @@ class ReportController extends Controller
             'potencial' => 'required',
             'state' => 'required',
             'planned-date' => 'required',
-            'inspections' => 'required|min:1',
-            'description' => 'min:5',
-            'actions' => 'min:5',
+            'inspections' => 'required|numeric|min:1',
             'image' => 'image',
             'image-action' => 'image',
         );
@@ -102,9 +100,6 @@ class ReportController extends Controller
             'state.required'=>'Es necesario escoger el estado del reporte',
             'planned-date.required'=>'Es necesario escoger la fecha planeada del reporte',
             'inspections.required'=>'Es necesario escribir una cantidad de inspecciones',
-            'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
-            'actions.min'=>'Es necesario más de 5 caracteres para las acciones del reporte',
-            'description.min'=>'Es necesario más de 5 caracteres para la descripción del reporte',
             'image.image' => 'Solo se admiten archivos tipo imagen',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
         );
@@ -118,6 +113,15 @@ class ReportController extends Controller
                 if ($request->get('deadline') < $request->get('planned-date')) {
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
+            }
+            if ( $request->get('actions') AND strlen($request->get('actions'))<5) {
+                $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
+            }
+            if ( $request->get('description') AND strlen($request->get('description'))<5) {
+                $validator->errors()->add('description', 'Debe escribir minimo 5 caracteres en la descripción');
+            }
+            if ( $request->get('observation') AND strlen($request->get('observation'))<5) {
+                $validator->errors()->add('observation', 'Debe escribir minimo 5 caracteres en la observación');
             }
 
         });
@@ -191,10 +195,7 @@ class ReportController extends Controller
             'potencial' => 'required',
             'state' => 'required',
             'planned-date' => 'required',
-            'inspections' => 'required|min:1',
-            'description' => 'min:5',
-            'actions' => 'min:5',
-            'observation' => 'min:5',
+            'inspections' => 'required|numeric|min:1',
             'image' => 'image',
             'image-action' => 'image',
         );
@@ -209,9 +210,6 @@ class ReportController extends Controller
             'planned-date.required'=>'Es necesario escoger la fecha planeada del reporte',
             'inspections.required'=>'Es necesario escribir una cantidad de inspecciones',
             'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
-            'actions.min'=>'Es necesario más de 5 caracteres para las acciones del reporte',
-            'description.min'=>'Es necesario más de 5 caracteres para la descripción del reporte',
-            'observation.min'=>'Es necesario más de 5 caracteres para la observación del reporte',
             'image.image' => 'Solo se admiten archivos tipo imagen',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
         );
@@ -225,6 +223,15 @@ class ReportController extends Controller
                 if ($request->get('deadline') < $request->get('planned-date')) {
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
+            }
+            if ( $request->get('actions') AND strlen($request->get('actions'))<5) {
+                $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
+            }
+            if ( $request->get('description') AND strlen($request->get('description'))<5) {
+                $validator->errors()->add('description', 'Debe escribir minimo 5 caracteres en la descripción');
+            }
+            if ( $request->get('observation') AND strlen($request->get('observation'))<5) {
+                $validator->errors()->add('observation', 'Debe escribir minimo 5 caracteres en la observación');
             }
 
         });

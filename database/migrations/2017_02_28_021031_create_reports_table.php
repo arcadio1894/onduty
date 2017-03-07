@@ -35,9 +35,9 @@ class CreateReportsTable extends Migration
             $table->date('planned_date');
             $table->date('deadline')->nullable();
             $table->integer('inspections');
-            $table->string('description');
-            $table->string('actions');
-            $table->string('observations');
+            $table->string('description')->nullable();
+            $table->string('actions')->nullable();
+            $table->string('observations')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
