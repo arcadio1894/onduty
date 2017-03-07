@@ -27,6 +27,10 @@
             width: 40px;
             height: 40px;
         }
+        .image{
+            width: 280px;
+            height: 280px;
+        }
 
         .imagen:hover{
             cursor: -moz-zoom-in;
@@ -76,6 +80,49 @@
         </div>
 
         <div class="col s12" >
+            <div class="row card padding-1" >
+                <div class="col s12">
+                    <div class="col s5">
+                        <span class="flow-text">Reportes</span>
+                    </div>
+                    <div class="col s7">
+                        <div class="right">
+                            @if (Auth::user()->role_id < 3)
+                                <a href="{{ url('register/report/' . $informe->id) }}" data-position="" data-delay="50" data-tooltip="Registrar nuevo reporte" class="waves-effect waves-light btn tooltipped left teal margin-1 ng-hide" data-tooltip-id="82dd755b-da34-def9-871a-21cf68abe1de">Nuevo reporte</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach ($reports as $report)
+                <div class="col s12 m6 l4" >
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            @if(!$report->image)
+                                <img class="activator image"  src="{{ asset('images/report/default.png') }}" alt="">
+                            @else
+                                <img class="activator image"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                            @endif
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">more_vert</i></span>
+                            <p>Fecha de cierre: {{ $report->deadline }}</p>
+                            <p>Observación: {{ $report->observations }}</p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+
+        {{--<div class="col s12" >
             <div class="row card padding-1" >
                 <div class="col s12">
                     <div class="col s5">
@@ -158,7 +205,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
     </div>
 
     <!-- Modal Structure -->
