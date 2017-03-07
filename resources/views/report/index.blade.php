@@ -31,6 +31,10 @@
             width: 280px;
             height: 280px;
         }
+        .image-reveal{
+            width: 235px;
+            height: 235px;
+        }
 
         .imagen:hover{
             cursor: -moz-zoom-in;
@@ -96,31 +100,49 @@
             </div>
         </div>
 
-        <div class="row">
-            @foreach ($reports as $report)
-                <div class="col s12 m6 l4" >
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            @if(!$report->image)
-                                <img class="activator image"  src="{{ asset('images/report/default.png') }}" alt="">
-                            @else
-                                <img class="activator image"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
-                            @endif
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">more_vert</i></span>
-                            <p>Fecha de cierre: {{ $report->deadline }}</p>
-                            <p>Observación: {{ $report->observations }}</p>
-                        </div>
-                        <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
-                            <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+        <div class="col s12">
+            <div class="row">
+                <div class="cards">
+                    @foreach ($reports as $report)
+                        <div class="col s12 m6 l4" >
+                            <div class="card">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    @if(!$report->image)
+                                        <img class="activator image"  src="{{ asset('images/report/default.png') }}" alt="">
+                                    @else
+                                        <img class="activator image"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                                    @endif
+                                </div>
+                                <div class="card-content">
+                                    <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
+                                    <p>Fecha registro: {{ $report->created_at->format('Y-m-d') }}</p>
+                                    <p>Fecha de cierre: {{ $report->deadline }}</p>
+                                    <p>Estado: {{ $report->state }}</p>
+                                    <p>Observación: {{ $report->observations }}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                    <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                </div>
+                                <div class="card-reveal">
+                                    <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
 
+                                    @if(!$report->image_action)
+                                        <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
+                                    @else
+                                        <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                    @endif
+
+                                    <p>Fecha de cierre: {{ $report->deadline }}</p>
+                                    <p>Observación: {{ $report->observations }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
+
 
         {{--<div class="col s12" >
             <div class="row card padding-1" >
@@ -303,6 +325,7 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="{{ asset('js/masonry.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -314,6 +337,12 @@
             selectYears: 15, // Creates a dropdown of 15 years to control year
             format: 'yyyy-mm-dd'
         });
+
+        $('.cards').masonry({
+            itemSelector: '.col'
+        });
+
     </script>
+
     <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
 @endsection
