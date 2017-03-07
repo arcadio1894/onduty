@@ -26,7 +26,7 @@ class CreateReportsTable extends Migration
             $table->foreign('work_front_id')->references('id')->on('work_fronts');
 
             $table->integer('area_id')->unsigned();
-            $table->foreign('area_id')->references('id')->on('area');
+            $table->foreign('area_id')->references('id')->on('areas');
 
             $table->integer('responsible_id')->unsigned();
             $table->foreign('responsible_id')->references('id')->on('users');
