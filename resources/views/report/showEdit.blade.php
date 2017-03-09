@@ -53,19 +53,17 @@
         </div>
 
         <div class="col s12">
-            <div class="row card padding-1">
-                <div class="col s5">
-                    <span class="flow-text">Editar reporte</span>
-                </div>
-                <div class="col s7">
-                    <div class="right">
+            <div class="row card padding-3">
+                <div class="col s12">
+                    <div class="col s4">
+                        <span class="flow-text">Editar reporte</span>
+                    </div>
+                    <div class="col s8">
+                        <div class="right">
 
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col s12">
-            <div class="row card padding-3">
                 <div class="col s12">
                     <form action="{{ url('report/edit') }}" enctype="multipart/form-data" id="form-edit" method="POST">
                         {{ csrf_field() }}
