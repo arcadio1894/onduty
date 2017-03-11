@@ -20,11 +20,12 @@ class PositionController extends Controller
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
-            'name' => 'required|min:2',
+            'name' => 'required|min:2|unique:positions',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del cargo',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'name.unique'=>'Existe un cargo con el mismo nombre.'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
@@ -49,11 +50,12 @@ class PositionController extends Controller
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
-            'name' => 'required|min:2',
+            'name' => 'required|min:2|unique:positions',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del cargo',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'name.unique'=>'Existe un cargo con el mismo nombre.'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 

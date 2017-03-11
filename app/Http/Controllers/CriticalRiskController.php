@@ -20,11 +20,12 @@ class CriticalRiskController extends Controller
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
-            'name' => 'required|min:2',
+            'name' => 'required|min:2|unique:critical_risks',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del riesgo crítico',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'name.unique'=>'Existe un riesgo crítico con el mismo nombre'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
@@ -49,11 +50,12 @@ class CriticalRiskController extends Controller
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
-            'name' => 'required|min:2',
+            'name' => 'required|min:2|unique:critical_risks',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del riesgo crítico',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
+            'name.unique'=>'Existe un riesgo crítico con el mismo nombre'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 

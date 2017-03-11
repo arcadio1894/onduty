@@ -8,6 +8,8 @@
             <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva Área</a>
         @endif
         <br><br>
+        Se han registrado {{ $areas->count() }} áreas.
+        <br>
         <table class="responsive-table">
             <thead>
             <tr>

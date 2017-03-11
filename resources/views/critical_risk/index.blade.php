@@ -8,6 +8,8 @@
             <a class="waves-effect waves-light btn modal-trigger" id="newRisk" href="#modal1">Nueva Riesgo Crítico</a>
         @endif
         <br><br>
+        Se han registrado {{ $risks->count() }} riesgos críticos.
+        <br>
         <table class="responsive-table">
             <thead>
             <tr>

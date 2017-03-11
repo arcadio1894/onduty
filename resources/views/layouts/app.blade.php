@@ -14,7 +14,10 @@
     <style>
         .image{
             width: 144px;
-            height: 144px;
+
+        }
+        ul.side-nav.fixed li.logo a:hover, ul.side-nav.fixed li.logo a.active {
+            background-color: #ffffff;
         }
         @section('padding-left-nav')
             header,main,footer{padding-left:300px;}
@@ -37,7 +40,7 @@
 </head>
 <body>
     <header>
-        <div class="navbar-fixed">
+        {{--<div class="navbar-fixed">
             <nav class="top-nav light-blue">
                 <div class="container">
 
@@ -49,7 +52,7 @@
                         <ul class="right hide-on-med-and-down">
                             @if (Auth::guest())
                                 <li><a href="{{ route('login') }}">Ingresar</a></li>
-                                {{--<li><a href="{{ route('register') }}">Register</a></li>--}}
+                                --}}{{--<li><a href="{{ route('register') }}">Register</a></li>--}}{{--
                             @else
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-button" data-activates='dropdown1' role="button"
@@ -71,9 +74,9 @@
                                                 {{ csrf_field() }}
                                             </form>
                                         </li>
-                                        {{--<li>--}}
-                                        {{--<a href="#">Editar perfil</a>--}}
-                                        {{--</li>--}}
+                                        --}}{{--<li>--}}{{--
+                                        --}}{{--<a href="#">Editar perfil</a>--}}{{--
+                                        --}}{{--</li>--}}{{--
                                     </ul>
                                 </li>
                             @endif
@@ -82,13 +85,18 @@
 
                 </div>
             </nav>
-        </div>
+        </div>--}}
         @yield('breadcrumbs')
 
 
         @if (Auth::check())
+
             <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
             <li class="logo">
+
+                <a href="{{ url('/') }}"><img class="image" src="{{ asset('images/logo/logo.png') }}" alt=""></a>
+
+                <br>
                 <form action="{{ url('/user/image') }}" id="avatarForm">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <input type="file" style="display: none" id="avatarInput" name="photo">

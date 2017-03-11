@@ -7,7 +7,7 @@
                 <div class="nav-wrapper">
                     <div class="col s12">
                         <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
-                        <a href="{{ url('/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
+                        <a href="{{ url('/reports/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
                     </div>
                 </div>
             </nav>
@@ -78,7 +78,7 @@
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
 
-                    @if (Auth::user()->role_id < 3)
+                    @if (Auth::user()->role_id < 4)
                         <a href="{{ url('register/report/' . $informe->id) }}"
                            data-delay="50"
                            data-tooltip="Nuevo reporte"
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="card-content">
                                     <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
-                                    <p><strong>Fecha de registro:</strong> {{ $report->created_at->format('Y-m-d') }}</p>
+                                    <p><strong>Fecha de registro:</strong> {{ $report->created_at }}</p>
                                     <p><strong>Frente:</strong> {{ $report->work_front->name }}</p>
                                     <p><strong>Área:</strong> {{ $report->area->name }}</p>
                                     <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>

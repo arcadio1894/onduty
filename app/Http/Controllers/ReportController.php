@@ -106,7 +106,7 @@ class ReportController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
-            if (Auth::user()->role_id > 2) {
+            if (Auth::user()->role_id > 3) {
                 $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
             }
             if ( $request->get('deadline') ) {
@@ -216,7 +216,7 @@ class ReportController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
-            if (Auth::user()->role_id > 2) {
+            if (Auth::user()->role_id > 3) {
                 $validator->errors()->add('role', 'No tiene permisos para editar un reporte');
             }
             if ( $request->get('deadline') ) {

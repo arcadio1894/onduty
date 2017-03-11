@@ -18,6 +18,8 @@
             <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nueva Localización</a>
         @endif
         <br><br>
+            Se han registrado {{ $locations->count() }} localizaciones.
+        <br>
         <table class="responsive-table">
             <thead>
             <tr>

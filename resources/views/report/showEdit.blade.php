@@ -102,15 +102,26 @@
                                     <option value="" disabled selected>Selecciona un responsable</option>
                                     @foreach( $users as $user )
                                         @if($user->id == $report->responsible_id)
-                                            <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
+                                            <option data-email="{{ $user->email }}" data-position="{{ $user->position->name }}" value="{{ $user->id }}" selected>{{ $user->name }}</option>
                                         @else
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            <option data-email="{{ $user->email }}" data-position="{{ $user->position->name }}" value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endif
 
                                     @endforeach
                                 </select>
                                 <label for="responsible">Responsables </label>
                             </div>
+                            <div class="input-field col s3">
+                                <input type="text" class="" id="responsible-position" name="responsible-position" value="">
+                                <label for="responsible-position">Cargo del responsable</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s3">
+                                <input type="text" class="" id="responsible-email" name="responsible-email" value="">
+                                <label for="responsible-email">Email del responsable</label>
+                            </div>
+
                             <div class="input-field col s3">
                                 <select id="aspect" name="aspect">
                                     <option value="" disabled>Selecciona un aspecto</option>
@@ -126,8 +137,6 @@
                                 </select>
                                 <label for="aspect">Aspectos </label>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="input-field col s3">
                                 <select id="risk" name="risk">
                                     <option value="" disabled selected>Selecciona un riesgo crítico</option>
@@ -162,6 +171,10 @@
                                 </select>
                                 <label for="potencial">Potencial </label>
                             </div>
+
+
+                        </div>
+                        <div class="row">
                             <div class="input-field col s3">
                                 <select id="state" name="state">
                                     <option value="" disabled >Selecciona un estado</option>
@@ -180,30 +193,28 @@
                                 <input type="date" value="{{ $report->planned_date }}" class="datepicker" id="planned-date" name="planned-date" required>
                                 <label for="planned-date" data-error="Please choose a date " data-success="right">Fecha planeada</label>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                                 <input type="date" value="{{ $report->deadline }}" class="datepicker" id="deadline" name="deadline" required>
                                 <label for="deadline" data-error="Please choose a date " data-success="right">Fecha de cierre</label>
                             </div>
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                                 <input type="number" value="{{ $report->inspections }}" min="0" id="inspections" name="inspections" required>
                                 <label for="inspections" data-error="Please choose a date " data-success="right">Número de inspecciones</label>
                             </div>
-                            <div class="input-field col s4">
-                                <input type="text" value="{{ $report->description }}" id="description" name="description" >
-                                <label for="description" data-success="right">Descripción</label>
-                            </div>
+                            
 
                         </div>
 
                         <div class="row">
-                            <div class="input-field col s6">
+                            <div class="input-field col s4">
+                                <textarea type="text" id="description" name="description" class="materialize-textarea">{{ $report->description }}</textarea>
+                                <label for="description" data-success="right">Descripción</label>
+                            </div>
+                            <div class="input-field col s4">
                                 <textarea rows="2" id="actions" name="actions" class="materialize-textarea">{{ $report->actions }}</textarea>
                                 <label for="actions">Acciones a tomar</label>
                             </div>
-                            <div class="input-field col s6">
+                            <div class="input-field col s4">
                                 <textarea rows="2" id="observation" name="observation" class="materialize-textarea">{{ $report->observations }}</textarea>
                                 <label for="observation">Observación</label>
                             </div>
@@ -219,6 +230,11 @@
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" >
                                 </div>
+                                @if($report->image == null)
+                                    <img style="display: none;" class="image" id="preview-image" src="" alt="Preview image" />
+                                @else
+                                    <img class="image" id="preview-image" src="{{ asset('images/report/'.$report->id.'.'.$report->image) }}" alt="Preview image" />
+                                @endif
 
                             </div>
                             <div class="file-field input-field col s6">
@@ -230,7 +246,11 @@
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" >
                                 </div>
-
+                                @if($report->image_action == null)
+                                    <img style="display: none;" class="image" id="preview-action" src="" alt="Preview image" />
+                                @else
+                                    <img class="image" id="preview-action" src="{{ asset('images/action/'.$report->id.'.'.$report->image_action) }}" alt="Preview image" />
+                                @endif
                             </div>
                         </div>
                         <div class="row">

@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('styles')
+    <style>
+        .image {
+            width: 280px;
+            height: 280px;
+        }
+    </style>
+@endsection
+
+
 @section('breadcrumbs')
     <div class="row">
         <div class="navbar-fixed">
@@ -79,10 +89,20 @@
                                 <select id="responsible" name="responsible">
                                     <option value="" disabled selected>Selecciona un responsable</option>
                                     @foreach( $users as $user )
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option data-email="{{ $user->email }}" data-position="{{ $user->position->name }}" value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="responsible">Responsables</label>
+                            </div>
+                            <div class="input-field col s3">
+                                <input type="text" class="" id="responsible-position" name="responsible-position" value="">
+                                <label for="responsible-position">Cargo del responsable</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s3">
+                                <input type="text" class="" id="responsible-email" name="responsible-email" value="">
+                                <label for="responsible-email">Email del responsable</label>
                             </div>
                             <div class="input-field col s3">
                                 <select id="aspect" name="aspect">
@@ -92,8 +112,6 @@
                                 </select>
                                 <label for="aspect">Aspectos</label>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="input-field col s3">
                                 <select id="risk" name="risk">
                                     <option value="" disabled selected>Selecciona un riesgo crítico</option>
@@ -112,6 +130,9 @@
                                 </select>
                                 <label for="potencial">Potencial</label>
                             </div>
+                        </div>
+
+                        <div class="row">
                             <div class="input-field col s3">
                                 <select id="state" name="state">
                                     <option value="" disabled selected>Selecciona un estado</option>
@@ -124,30 +145,27 @@
                                 <input type="date" class="datepicker" id="planned-date" name="planned-date" required>
                                 <label for="planned-date" data-error="Please choose a date " data-success="right">Fecha planeada</label>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                                 <input type="date" class="datepicker" id="deadline" name="deadline" required>
                                 <label for="deadline" data-error="Please choose a date " data-success="right">Fecha de cierre</label>
                             </div>
-                            <div class="input-field col s4">
+                            <div class="input-field col s3">
                                 <input type="number" min="0" id="inspections" name="inspections" required>
                                 <label for="inspections" data-error="Please choose a date " data-success="right">Número de inspecciones</label>
-                            </div>
-                            <div class="input-field col s4">
-                                <input type="text" id="description" name="description">
-                                <label for="description" data-success="right">Descripción</label>
                             </div>
 
                         </div>
 
                         <div class="row">
-                            <div class="input-field col s6">
+                            <div class="input-field col s4">
+                                <textarea rows="2" id="description" name="description" class="materialize-textarea"></textarea>
+                                <label for="description">Descripción</label>
+                            </div>
+                            <div class="input-field col s4">
                                 <textarea rows="2" id="actions" name="actions" class="materialize-textarea"></textarea>
                                 <label for="actions">Acciones a tomar</label>
                             </div>
-                            <div class="input-field col s6">
+                            <div class="input-field col s4">
                                 <textarea rows="2" id="observation" name="observation" class="materialize-textarea"></textarea>
                                 <label for="observation">Observación</label>
                             </div>
@@ -159,10 +177,13 @@
                                 <div class="btn">
                                     <span>Imagen</span>
                                     <input type="file" name="image" accept="image/*" id="image">
+
                                 </div>
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" >
+
                                 </div>
+                                <img style="display: none" class="image" id="preview-image" src="#" alt="Preview image" />
 
                             </div>
                             <div class="file-field input-field col s6">
@@ -170,10 +191,13 @@
                                 <div class="btn">
                                     <span>Imagen de accion tomada</span>
                                     <input type="file" name="image-action" accept="image/*" id="image-action">
+
                                 </div>
                                 <div class="file-path-wrapper">
                                     <input class="file-path validate" type="text" >
+
                                 </div>
+                                <img style="display: none" class="image" id="preview-action" src="#" alt="Preview image" />
 
                             </div>
                         </div>
