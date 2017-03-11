@@ -53,12 +53,51 @@ class InformeController extends Controller
         });
 
         if(!$validator->fails()) {
+
+            // Obtener el ultimo informe en la misma location de este que se esta creando
+            $last_informe = Informe::where('location_id', $request->get('location'))->orderBy('created_at', 'desc')->first();
+            $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();
+
+            // Deshabilitamos al ultimo informe tenga o no reportes abiertos
+            $last_informe->active = false;
+            $last_informe->save();
+
             $informe = Informe::create([
                 'location_id' => $request->get('location'),
                 'user_id' => $request->get('user'),
                 'from_date' => $request->get('fromdate'),
-                'to_date' => $request->get('todate')
+                'to_date' => $request->get('todate'),
+                'active' => true
             ]);
+
+            // Heredamos los reportes abiertos del ultimo informe si existen
+            if($inherited_reports)
+            {
+                foreach ( $inherited_reports as $inherited_report )
+                {
+                    $report = Report::create([
+                        'informe_id' => $informe->id,
+                        'user_id' => $inherited_report->user_id,
+                        'work_front_id' => $inherited_report->work_front_id,
+                        'area_id' => $inherited_report->area_id,
+                        'responsible_id' => $inherited_report->responsible_id,
+                        'aspect' => $inherited_report->aspect,
+                        'critical_risks_id' => $inherited_report->critical_risks_id,
+                        'potential' => $inherited_report->potential,
+                        'state' => $inherited_report->state,
+                        'planned_date' => $inherited_report->planned_date,
+                        'deadline' => $inherited_report->deadline,
+                        'inspections' => $inherited_report->inspections,
+                        'description' => $inherited_report->description,
+                        'actions' => $inherited_report->actions,
+                        'observations' => $inherited_report->observations,
+                        'image'=>$inherited_report->image,
+                        'image_action'=>$inherited_report->image_action
+                    ]);
+
+                    $report->save();
+                }
+            }
 
             $informe->save();
         }

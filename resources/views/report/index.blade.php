@@ -78,7 +78,7 @@
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
 
-                    @if (Auth::user()->role_id < 4)
+                    @if (Auth::user()->role_id < 4 AND $informe->active==true)
                         <a href="{{ url('register/report/' . $informe->id) }}"
                            data-delay="50"
                            data-tooltip="Nuevo reporte"
@@ -114,8 +114,10 @@
                                     <p><strong>Estado:</strong> {{ $report->state }}</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                    <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                    @if($informe->active)
+                                        <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                        <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                    @endif
                                 </div>
                                 <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>

@@ -10,7 +10,7 @@ class Informe extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'location_id', 'user_id', 'from_date', 'to_date'
+        'location_id', 'user_id', 'from_date', 'to_date', 'active'
     ];
 
     public function location()
