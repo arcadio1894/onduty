@@ -20,8 +20,8 @@ class ReportController extends Controller
     public function index( $id )
     {
         $informe = Informe::with('location')->with('user')->find($id);
-        $users = User::where('id', '<>', 1)->get();
         $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
+        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
         $reports = Report::where('informe_id', $id)
@@ -38,7 +38,7 @@ class ReportController extends Controller
     public function create($id)
     {
         $informe = Informe::with('location')->with('user')->find($id);
-        $users = User::where('id', '<>', 1)->get();
+        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
         $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
@@ -49,7 +49,7 @@ class ReportController extends Controller
     public function showEdit($informe_id, $report_id)
     {
         $informe = Informe::with('location')->with('user')->find($informe_id);
-        $users = User::where('id', '<>', 1)->get();
+        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
         $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();

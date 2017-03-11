@@ -3,8 +3,7 @@
 @section('styles')
     <style>
         .image {
-            width: 280px;
-            height: 280px;
+            width: 144px;
         }
     </style>
 @endsection
