@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Location;
 use App\Position;
 use App\Role;
 use App\User;
@@ -18,16 +19,20 @@ class UserController extends Controller
         $users = User::with('role')->with('position')->get();
         $roles = Role::where('id', '<>', 1)->get();
         $positions = Position::where('id', '<>', 1)->get();
+        $locations = Location::all();
         // dd($users);
-        return view('user.index')->with(compact('users', 'roles', 'positions'));
+        return view('user.index')->with(compact('users', 'roles', 'positions', 'locations'));
     }
 
     public function store( Request $request )
     {
+        //dd($request->all());
         $rules = [
             'name' => 'required|min:2',
             'password'=> 'required|min:6',
             'role' => 'required',
+            'location-id' => 'required',
+            'email' => 'required'
         ];
         $messages = [
             'name.required'=>'Es necesario ingresar el nombre del área',
@@ -35,6 +40,8 @@ class UserController extends Controller
             'password.required'=>'Es necesario indicar el password',
             'password.min'=>'El password debe tener por lo menos 6 caracteres',
             'role.required'=>'Es necesario ingresar el role del usuario',
+            'location-id.required'=>'Es necesario escoger una localización para el usuario',
+            'email.required'=>'Es necesario ingresar un email para el usuario'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -55,6 +62,7 @@ class UserController extends Controller
                 'email' => $request->get('email'),
                 'password' => bcrypt($request->get('password')),
                 'role_id' => $request->get('role'),
+                'location_id'=> $request->get('location-id'),
                 'confirmation_code' => $request->get('confirmation_code')
             ]);
 
@@ -78,10 +86,10 @@ class UserController extends Controller
                 $user->position_id = $request->get('position');
             }
 
-            Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+            /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
                 $m->subject('Correo de confirmación');
                 $m->to($request->get('email'));
-            });
+            });*/
 
             $user->save();
         }
@@ -107,12 +115,14 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|min:2',
             'role' => 'required',
+            'location_select'=> 'required'
         ];
 
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del área',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
             'role.required'=>'Es necesario ingresar el role del usuario',
+            'location_select.required'=>'Es necesario ingresar una localización para el usuario',
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
@@ -143,6 +153,7 @@ class UserController extends Controller
             $user = User::find( $request->get('id') );
             $user->name = $request->get('name');
             $user->role_id = $request->get('role');
+            $user->location_id = $request->get('location_select');
 
             if ($request->get('password') != "")
                 $user->password = bcrypt($request->get('password'));
@@ -192,6 +203,12 @@ class UserController extends Controller
     {
         $positions = Position::where('id', '<>', 1)->get();
         return response()->json($positions);
+    }
+
+    public function getLocations()
+    {
+        $locations = Location::all();
+        return response()->json($locations);
     }
 
 }

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'role_id', 'position_id', 'confirmed', 'confirmation_code'
+        'name', 'email', 'password', 'image', 'role_id', 'position_id', 'confirmed', 'confirmation_code','location_id'
     ];
 
     /**
@@ -37,6 +37,11 @@ class User extends Authenticatable
     public function position()
     {
         return $this->belongsTo('App\Position');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Location');
     }
 
     public function informes()

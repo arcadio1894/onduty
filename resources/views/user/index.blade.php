@@ -12,6 +12,7 @@
             <tr>
                 <th data-field="id">Nombre</th>
                 <th data-field="name">Email</th>
+                <th data-field="name">Localización</th>
                 <th data-field="name">Estado</th>
                 <th data-field="name">Rol</th>
                 <th data-field="name">Cargo</th>
@@ -26,6 +27,7 @@
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->location->name }}</td>
                         <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
                         <td>{{ $user->role->name }}</td>
                         <td>
@@ -37,7 +39,7 @@
                         </td>
                         @if (Auth::user()->role_id < 3)
                             <td>
-                                <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-positionid="{{ $user->position_id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
+                                <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-positionid="{{ $user->position_id }}" data-locationid="{{ $user->location_id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
                                 <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
                             </td>
                         @endif
@@ -90,6 +92,19 @@
                         </select>
                         <label for="position">Cargos </label>
                     </div>
+                    <div class="input-field col s6" id="">
+                        <select id="location-id" name="location-id">
+                            <option value="" disabled selected>Escoja una localización</option>
+                            @foreach( $locations as $location )
+                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="location-id">Localizaciones </label>
+                    </div>
+
+                </div>
+
+                <div class="row">
                     <div class="input-field col s6">
                         <div class="file-field input-field">
                             <div class="btn">
@@ -101,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
@@ -140,7 +154,16 @@
                             <select id="position_select" name="position_select">
 
                             </select>
-                            <label for="position_select">Cargo de usuario XD</label>
+                            <label for="position_select">Cargo de usuario</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select id="location_select" name="location_select">
+
+                            </select>
+                            <label for="location_select">Localizaciones</label>
                         </div>
                     </div>
 

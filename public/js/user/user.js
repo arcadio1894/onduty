@@ -1,4 +1,4 @@
-var $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
+var $selectLocationD, $selectDropdowmLocation, $selectLocationDropdowm, $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
 
 $ (function () {
     $formRegister = $('#form-register');
@@ -67,6 +67,19 @@ $ (function () {
     $selectPositionDropdowm = $('#position_select');
     $selectPositionDropdowm.material_select();
 
+    $selectLocationD = $('#location_select');
+    $selectLocationD.material_select();
+    $.getJSON('locations/users',function(response)
+    {
+        console.log(response);
+        $.each(response,function(key,value)
+        {
+            console.log("got you");
+            $selectLocationD.append($("<option></option>").attr("value", value.id).text(value.name));
+        });
+
+    });
+
     $.getJSON('roles/users',function(response)
     {
         console.log(response);
@@ -96,9 +109,9 @@ $ (function () {
         var password = $(this).data('password');
         var role_id = $(this).data('roleid');
         var position_id = $(this).data('positionid');
+        var location_id = $(this).data('locationid');
         var role = $(this).data('role');
-        console.log('role_id'+role_id);
-        console.log('role'+role);
+        console.log('location_id'+location_id);
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
@@ -112,12 +125,14 @@ $ (function () {
         }
 
         $selectDropdown.val(role_id).change();
+        $selectLocationD.val(location_id).change();
 
         $modalEditar.modal('open');
 
         Materialize.updateTextFields(); // use this after change the field values
         $selectDropdown.material_select();
         $selectPositionDropdowm.material_select();
+        $selectLocationD.material_select();
     });
 
     $selectDropdown.on('change', function () {
