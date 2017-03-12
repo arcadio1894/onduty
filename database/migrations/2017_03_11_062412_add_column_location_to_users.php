@@ -14,7 +14,7 @@ class AddColumnLocationToUsers extends Migration
     public function up()
     {
         Schema::table('users', function($table) {
-            $table->integer('location_id')->unsigned();
+            $table->integer('location_id')->unsigned()->nullable();
             $table->foreign('location_id')->references('id')->on('locations');
         });
     }
