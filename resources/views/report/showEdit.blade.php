@@ -22,13 +22,11 @@
     <div class="row">
         <br>
         <div class="col s12">
+
             <div class="row card padding-1">
-                <div class="col s5">
+                <div class="col s12">
                     <span class="flow-text ng-binding">Informe - {{ $informe->id }}</span>
                 </div>
-
-            </div>
-            <div class="row card padding-1">
                 <div class="col s12 m2 l2">
                     <label>Localización</label>
                     <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>

@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class InformeController extends Controller
 {
@@ -93,7 +94,24 @@ class InformeController extends Controller
                         'observations' => $inherited_report->observations,
                         'image'=>$inherited_report->image,
                         'image_action'=>$inherited_report->image_action
+
                     ]);
+
+                    // Vemos si existe la imagen
+                    if( file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image) ) {
+                        // Copiar la imagen
+                        $oldPath = public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image;
+                        $newPathWithName = public_path() . '/images/report/'.$report->id.'.'.$inherited_report->image;
+                        File::copy($oldPath , $newPathWithName);
+                    }
+
+                    // Vemos si existe la imagen de action
+                    if( file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action) ) {
+                        // Copiar la imagen
+                        $oldPath = public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action;
+                        $newPathWithName = public_path() . '/images/action/'.$report->id.'.'.$inherited_report->image_action;
+                        File::copy($oldPath , $newPathWithName);
+                    }
 
                     $report->save();
                 }

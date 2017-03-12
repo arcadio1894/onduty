@@ -100,6 +100,8 @@ class ReportController extends Controller
             'state.required'=>'Es necesario escoger el estado del reporte',
             'planned-date.required'=>'Es necesario escoger la fecha planeada del reporte',
             'inspections.required'=>'Es necesario escribir una cantidad de inspecciones',
+            'inspections.numeric'=>'Es necesario escribir una cantidad de inspecciones numérica',
+            'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
             'image.image' => 'Solo se admiten archivos tipo imagen',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
         );
@@ -273,7 +275,7 @@ class ReportController extends Controller
                 File::delete($path.'/'.$request->get('reporte').'.'.$report->image);
                 $extension = $request->file('image-action')->getClientOriginalExtension();
                 $fileName = $request->get('reporte') . '.' . $extension;
-                Image::make($request->file('image'))
+                Image::make($request->file('image-action')->getRealPath())
                     ->fit(144, 144)
                     ->save($path.'/'.$request->get('reporte').'.'.$extension);
                 $report->image_action = $extension;
