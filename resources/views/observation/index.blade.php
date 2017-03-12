@@ -35,17 +35,6 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title flow-text ng-binding">Informe - {{ $informe->id }}</span>
-                    <a data-todate="{{ $informe->to_date }}"
-                       data-fromdate="{{ $informe->from_date }}"
-                       data-user="{{ $informe->user_id }}"
-                       data-location="{{ $informe->location_id }}"
-                       data-informe="{{ $informe->id }}"
-                       id="edit-informe"
-                       data-delay="50" data-tooltip="Editar informe"
-                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right"
-                       href="#modalEdit">
-                        <i class="material-icons">mode_edit</i>
-                    </a>
 
                     <div class="row">
                         <div class="col s12 m2 l2">

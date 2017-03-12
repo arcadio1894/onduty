@@ -112,13 +112,13 @@
                                 <label for="responsible">Responsables </label>
                             </div>
                             <div class="input-field col s3">
-                                <input type="text" class="" id="responsible-position" name="responsible-position" value="">
+                                <input type="text" class="" readonly id="responsible-position" name="responsible-position" value="">
                                 <label for="responsible-position">Cargo del responsable</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s3">
-                                <input type="text" class="" id="responsible-email" name="responsible-email" value="">
+                                <input type="text" class="" readonly id="responsible-email" name="responsible-email" value="">
                                 <label for="responsible-email">Email del responsable</label>
                             </div>
 
@@ -231,7 +231,7 @@
                                     <input class="file-path validate" type="text" >
                                 </div>
                                 @if($report->image == null)
-                                    <img style="display: none;" class="image" id="preview-image" src="" alt="Preview image" />
+                                    <img style="" class="image" id="preview-image" src="{{ asset('images/report/default.png') }}" alt="Preview image" />
                                 @else
                                     <img class="image" id="preview-image" src="{{ asset('images/report/'.$report->id.'.'.$report->image) }}" alt="Preview image" />
                                 @endif
@@ -247,7 +247,7 @@
                                     <input class="file-path validate" type="text" >
                                 </div>
                                 @if($report->image_action == null)
-                                    <img style="display: none;" class="image" id="preview-action" src="" alt="Preview image" />
+                                    <img style="" class="image" id="preview-action" src="{{ asset('images/report/default.png') }}" alt="Preview image" />
                                 @else
                                     <img class="image" id="preview-action" src="{{ asset('images/action/'.$report->id.'.'.$report->image_action) }}" alt="Preview image" />
                                 @endif

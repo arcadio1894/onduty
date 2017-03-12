@@ -1,7 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="col s12" >
+        <div class="card">
+            <div class="card-content">
+                @if (Auth::user()->role_id < 3)
+                <a data-delay="50"
+                   data-tooltip="Nuevo usuario"
+                   class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
+                    <i class="material-icons">add</i></a>
+                @endif
+                <span class="card-title">Listado de usuarios</span>
+                <table class="responsive-table">
+                    <thead>
+                    <tr>
+                        <th data-field="id">Nombre</th>
+                        <th data-field="name">Email</th>
+                        <th data-field="name">Localización</th>
+                        <th data-field="name">Estado</th>
+                        <th data-field="name">Rol</th>
+                        <th data-field="name">Cargo</th>
+                        @if (Auth::user()->role_id <3)
+                            <th data-field="">Acciones</th>
+                        @endif
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->location->name }}</td>
+                            <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
+                            <td>{{ $user->role->name }}</td>
+                            <td>
+                                @if( $user->position_id == 1 )
+                                    {{ "" }}
+                                @else
+                                    {{ $user->position->name }}
+                                @endif
+                            </td>
+                            @if (Auth::user()->role_id < 3)
+                                <td>
+                                    <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-positionid="{{ $user->position_id }}" data-locationid="{{ $user->location_id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}" ><i class="material-icons">mode_edit</i></a>
+                                    <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}" ><i class="material-icons">delete</i></a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {{--<div class="row">
         <br>
         @if (Auth::user()->role_id < 3)
             <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo usuario</a>
@@ -48,9 +102,9 @@
 
                 </tbody>
             </table>
-        </div>
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal">
+    </div>--}}
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
             <form class="col s12" id="form-register" method="POST" action="{{ url('/user/register') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
             <div class="modal-content">
@@ -126,7 +180,7 @@
             </form>
         </div>
 
-        <div id="modal2" class="modal">
+    <div id="modal2" class="modal">
             <form class="col s12" id="form-editar" method="POST" action="{{ url('/user/editar') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="modal-content">
@@ -175,7 +229,7 @@
             </form>
         </div>
 
-        <div id="modal3" class="modal">
+    <div id="modal3" class="modal">
             <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
                 {{ csrf_field() }}
                 <div class="modal-content">
@@ -196,7 +250,7 @@
                 </div>
             </form>
         </div>
-    @endsection
+@endsection
 
     @section('scripts')
         <script>

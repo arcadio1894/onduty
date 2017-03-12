@@ -94,13 +94,13 @@
                                 <label for="responsible">Responsables</label>
                             </div>
                             <div class="input-field col s3">
-                                <input type="text" class="" id="responsible-position" name="responsible-position" value="">
+                                <input type="text" readonly class="" id="responsible-position" name="responsible-position" value="">
                                 <label for="responsible-position">Cargo del responsable</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s3">
-                                <input type="text" class="" id="responsible-email" name="responsible-email" value="">
+                                <input type="text" readonly class="" id="responsible-email" name="responsible-email" value="">
                                 <label for="responsible-email">Email del responsable</label>
                             </div>
                             <div class="input-field col s3">

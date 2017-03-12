@@ -2,7 +2,48 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="col s12" >
+        <div class="card">
+            <div class="card-content">
+                @if (Auth::user()->role_id < 3)
+                <a data-delay="50"
+                   data-tooltip="Nuevo cargo"
+                   class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
+                    <i class="material-icons">add</i></a>
+                @endif
+                <span class="card-title">Listado de Cargos</span>
+                <table class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th data-field="id">Nombre</th>
+                            <th data-field="name">Descripción</th>
+                            @if (Auth::user()->role_id <3)
+                                <th data-field="">Acciones</th>
+                            @endif
+                        </tr>
+                        </thead>
+
+                    <tbody>
+                    @foreach ($positions as $position)
+                        <tr>
+                            <td>{{ $position->name }}</td>
+                            <td>{{ $position->description }}</td>
+                            @if (Auth::user()->role_id < 3)
+                                <td>
+                                    <a class="waves-effect waves-light btn" data-edit="{{ $position->id }}" href="#modal2" data-name="{{$position->name}}" data-description="{{$position->description}}" ><i class="material-icons">mode_edit</i></a>
+                                    <a class="waves-effect waves-light btn" data-delete="{{ $position->id }}" href="#modal3" data-name="{{$position->name}}" ><i class="material-icons">delete</i></a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {{--<div class="row">
         <br>
         @if (Auth::user()->role_id < 3)
             <a class="waves-effect waves-light btn modal-trigger" id="newLocation" href="#modal1">Nuevo Cargo</a>
@@ -35,7 +76,7 @@
 
             </tbody>
         </table>
-    </div>
+    </div>--}}
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">

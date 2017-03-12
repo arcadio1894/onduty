@@ -35,17 +35,19 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title flow-text ng-binding">Informe - {{ $informe->id }}</span>
-                    <a data-todate="{{ $informe->to_date }}"
-                       data-fromdate="{{ $informe->from_date }}"
-                       data-user="{{ $informe->user_id }}"
-                       data-location="{{ $informe->location_id }}"
-                       data-informe="{{ $informe->id }}"
-                       id="edit-informe"
-                       data-delay="50" data-tooltip="Editar informe"
-                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right"
-                       href="#modalEdit">
-                        <i class="material-icons">mode_edit</i>
-                    </a>
+                    @if(Auth::user()->role_id < 4 AND $informe->active==true AND $informe->user_id == Auth::user()->id)
+                        <a data-todate="{{ $informe->to_date }}"
+                           data-fromdate="{{ $informe->from_date }}"
+                           data-user="{{ $informe->user_id }}"
+                           data-location="{{ $informe->location_id }}"
+                           data-informe="{{ $informe->id }}"
+                           id="edit-informe"
+                           data-delay="50" data-tooltip="Editar informe"
+                           class="btn-floating btn-large waves-effect waves-light tooltipped teal right"
+                           href="#modalEdit">
+                            <i class="material-icons">mode_edit</i>
+                        </a>
+                    @endif
 
                     <div class="row">
                         <div class="col s12 m2 l2">
@@ -113,12 +115,12 @@
                                     <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
                                     <p><strong>Estado:</strong> {{ $report->state }}</p>
                                 </div>
+                                @if($informe->active)
                                 <div class="card-action">
-                                    @if($informe->active)
-                                        <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                        <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
-                                    @endif
+                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                    <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
                                 </div>
+                                @endif
                                 <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
 

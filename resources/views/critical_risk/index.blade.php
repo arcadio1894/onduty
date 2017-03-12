@@ -2,13 +2,53 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="col s12" >
+        <div class="card">
+            <div class="card-content">
+                @if (Auth::user()->role_id < 3)
+                    <a data-delay="50"
+                       data-tooltip="Nuevo riesgo crítico"
+                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
+                        <i class="material-icons">add</i></a>
+                @endif
+                <span class="card-title">Listado de Riesgos Críticos</span>
+                <p>Se han registrado {{ $risks->count() }} riesgos críticos.</p>
+                <table class="responsive-table">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Nombre</th>
+                            @if (Auth::user()->role_id <3)
+                                <th data-field="">Acciones</th>
+                            @endif
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach ($risks as $risk)
+                            <tr>
+                                <td>{{ $risk->name }}</td>
+                                @if (Auth::user()->role_id < 3)
+                                    <td>
+                                        <a class="waves-effect waves-light btn" data-edit="{{ $risk->id }}" href="#modal2" data-name="{{$risk->name}}"  ><i class="material-icons">mode_edit</i></a>
+                                        <a class="waves-effect waves-light btn" data-delete="{{ $risk->id }}" href="#modal3" data-name="{{$risk->name}}" ><i class="material-icons">delete</i></a>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+
+    {{--<div class="row">
         <br>
         @if (Auth::user()->role_id < 3)
             <a class="waves-effect waves-light btn modal-trigger" id="newRisk" href="#modal1">Nueva Riesgo Crítico</a>
         @endif
         <br><br>
-        Se han registrado {{ $risks->count() }} riesgos críticos.
+
         <br>
         <table class="responsive-table">
             <thead>
@@ -35,7 +75,7 @@
 
             </tbody>
         </table>
-    </div>
+    </div>--}}
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">

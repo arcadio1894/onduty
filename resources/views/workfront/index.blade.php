@@ -14,7 +14,52 @@
 @endsection
 
 @section('content')
-    <div class="row">
+
+    <div class="col s12" >
+        <div class="card">
+            <div class="card-content">
+                @if (Auth::user()->role_id < 3)
+                    <a data-delay="50"
+                       data-tooltip="Nuevo frente de trabajo"
+                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
+                        <i class="material-icons">add</i></a>
+                @endif
+                <span class="card-title">Listado de Frentes de trabajo</span>
+                <p>Frentes de trabajo de la localización {{ $location->name }}</p>
+                <table class="responsive-table">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Frente de Trabajo</th>
+                            <th data-field="name">Descripción</th>
+                            <th data-field="name">Localización</th>
+                            @if (Auth::user()->role_id < 3)
+                                <th data-field="">Acciones</th>
+                            @endif
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach ($workFronts as $workfront)
+                            <tr>
+                                <td>{{ $workfront->name }}</td>
+                                <td>{{ $workfront->description }}</td>
+                                <td>{{ $workfront->location->name }}</td>
+                                @if (Auth::user()->role_id < 3)
+                                    <td>
+                                        <a class="waves-effect waves-light btn" data-edit="{{ $workfront->id }}" data-location="{{ $location->id }}" href="#modal2" data-name="{{$workfront->name}}" data-description="{{$workfront->description}}" ><i class="material-icons">mode_edit</i></a>
+                                        <a class="waves-effect waves-light btn" data-delete="{{ $workfront->id }}" href="#modal3" data-name="{{$workfront->name}}" ><i class="material-icons">delete</i></a>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+
+    {{--<div class="row">
         @if (Auth::user()->role_id < 3)
             <a class="waves-effect waves-light btn modal-trigger" id="newPlant" href="#modal1">Nuevo frente de trabajo</a>
         @endif
@@ -50,7 +95,8 @@
 
             </tbody>
         </table>
-    </div>
+    </div>--}}
+
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
         <form class="col s12" id="form-register" action="{{ url('/workFront/register') }}">
