@@ -72,6 +72,10 @@ Route::post('/report/edit', 'ReportController@edit');
 Route::post('/report/delete', 'ReportController@delete');
 Route::get('/edit/informe/report/{informe_id}/{report_id}', 'ReportController@showEdit');
 
+Route::get('/observations/informe/{id}', 'ObservationController@index');
+Route::post('/observation/register', 'ObservationController@store');
+Route::post('/observation/edit', 'ObservationController@edit');
+Route::post('/observation/delete', 'ObservationController@delete');
 
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');

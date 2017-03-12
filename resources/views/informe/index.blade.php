@@ -42,6 +42,7 @@
                     <td>{{ $informe->to_date }}</td>
                     <td>
                         <a class="waves-effect waves-light btn" href="{{ url('reports/informe/'. $informe->id) }}"><i class="material-icons">visibility</i> Reportes</a>
+                        <a class="waves-effect waves-light btn" href="{{ url('observations/informe/'. $informe->id) }}"><i class="material-icons">visibility</i> Observaciones</a>
                         @if (Auth::user()->role_id < 3)
                             <a class="waves-effect waves-light btn" data-delete="{{ $informe->id }}" href="#modal3" ><i class="material-icons">delete</i></a>
                         @endif
