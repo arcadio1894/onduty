@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->location->name }}</td>
+                            <td>{{ $user->location ? $user->location->name : '' }}</td>
                             <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
                             <td>{{ $user->role->name }}</td>
                             <td>
