@@ -24,8 +24,7 @@ class InformeController extends Controller
 
     public function store( Request $request )
     {
-        //dd($request->all());
-        // TODO: Solo el que puede creas es el super administrador o administrador o responsable
+        // Solo el que puede creas es el super administrador o administrador o responsable
 
         $rules = array(
             'location' => 'required',
@@ -53,8 +52,7 @@ class InformeController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
-
+        if (!$validator->fails()) {
             // Obtener el ultimo informe en la misma location de este que se esta creando
             $last_informe = Informe::where('location_id', $request->get('location'))->orderBy('created_at', 'desc')->first();
             $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();

@@ -1,11 +1,10 @@
-var $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar;
+var $formRegister, $formEdit, $formDelete, $modalEliminar;
 
 $ (function () {
     $formRegister = $('#form-register');
     $formEdit = $('#form-editar');
     $formDelete = $('#form-delete');
-    
-    $modalEditar = $('#modal2');
+
     $modalEliminar = $('#modal3');
 
     $('#save-informe').on('click', function () {
@@ -29,7 +28,7 @@ $ (function () {
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
+                console.log("Error inesperado");
                 // Render the errors with js ...
             }
         })
@@ -64,8 +63,7 @@ $ (function () {
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
-                // Render the errors with js ...
+                console.log("Error inesperado");
             }
         })
 
