@@ -51,6 +51,7 @@ $ (function () {
     $formRegister.on('submit', function () {
         event.preventDefault();
         url = $formRegister.attr('action');
+        $('#save-report').prop('disabled', true);
         $.ajax({
             url: url,
             method: 'POST',
@@ -58,6 +59,7 @@ $ (function () {
             processData: false,
             contentType: false,
             success: function (data) {
+                //$('#save-report').prop('disabled', false);
                 console.log(data);
                 if (data != "") {
                     for (var property in data) {
@@ -69,11 +71,13 @@ $ (function () {
                         location.reload();
                     }, 2000);
                 }
+                $('#save-report').prop('disabled', false);
             },
             error: function (data) {
                 console.log("CZFDFDSF");
                 // Render the errors with js ...
             }
+
         })
     });
 });

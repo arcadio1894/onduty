@@ -57,67 +57,79 @@ class InformeController extends Controller
 
             // Obtener el ultimo informe en la misma location de este que se esta creando
             $last_informe = Informe::where('location_id', $request->get('location'))->orderBy('created_at', 'desc')->first();
-            $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();
+            if ($last_informe){
+                $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();
 
-            // Deshabilitamos al ultimo informe tenga o no reportes abiertos
-            $last_informe->active = false;
-            $last_informe->save();
+                // Deshabilitamos al ultimo informe tenga o no reportes abiertos
+                $last_informe->active = false;
+                $last_informe->save();
 
-            $informe = Informe::create([
-                'location_id' => $request->get('location'),
-                'user_id' => $request->get('user'),
-                'from_date' => $request->get('fromdate'),
-                'to_date' => $request->get('todate'),
-                'active' => true
-            ]);
+                $informe = Informe::create([
+                    'location_id' => $request->get('location'),
+                    'user_id' => $request->get('user'),
+                    'from_date' => $request->get('fromdate'),
+                    'to_date' => $request->get('todate'),
+                    'active' => true
+                ]);
 
-            // Heredamos los reportes abiertos del ultimo informe si existen
-            if($inherited_reports)
-            {
-                foreach ( $inherited_reports as $inherited_report )
+                // Heredamos los reportes abiertos del ultimo informe si existen
+                if($inherited_reports)
                 {
-                    $report = Report::create([
-                        'informe_id' => $informe->id,
-                        'user_id' => $inherited_report->user_id,
-                        'work_front_id' => $inherited_report->work_front_id,
-                        'area_id' => $inherited_report->area_id,
-                        'responsible_id' => $inherited_report->responsible_id,
-                        'aspect' => $inherited_report->aspect,
-                        'critical_risks_id' => $inherited_report->critical_risks_id,
-                        'potential' => $inherited_report->potential,
-                        'state' => $inherited_report->state,
-                        'planned_date' => $inherited_report->planned_date,
-                        'deadline' => $inherited_report->deadline,
-                        'inspections' => $inherited_report->inspections,
-                        'description' => $inherited_report->description,
-                        'actions' => $inherited_report->actions,
-                        'observations' => $inherited_report->observations,
-                        'image'=>$inherited_report->image,
-                        'image_action'=>$inherited_report->image_action
+                    foreach ( $inherited_reports as $inherited_report )
+                    {
+                        $report = Report::create([
+                            'informe_id' => $informe->id,
+                            'user_id' => $inherited_report->user_id,
+                            'work_front_id' => $inherited_report->work_front_id,
+                            'area_id' => $inherited_report->area_id,
+                            'responsible_id' => $inherited_report->responsible_id,
+                            'aspect' => $inherited_report->aspect,
+                            'critical_risks_id' => $inherited_report->critical_risks_id,
+                            'potential' => $inherited_report->potential,
+                            'state' => $inherited_report->state,
+                            'planned_date' => $inherited_report->planned_date,
+                            'deadline' => $inherited_report->deadline,
+                            'inspections' => $inherited_report->inspections,
+                            'description' => $inherited_report->description,
+                            'actions' => $inherited_report->actions,
+                            'observations' => $inherited_report->observations,
+                            'image'=>$inherited_report->image,
+                            'image_action'=>$inherited_report->image_action
 
-                    ]);
+                        ]);
 
-                    // Vemos si existe la imagen
-                    if( file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image) ) {
-                        // Copiar la imagen
-                        $oldPath = public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image;
-                        $newPathWithName = public_path() . '/images/report/'.$report->id.'.'.$inherited_report->image;
-                        File::copy($oldPath , $newPathWithName);
+                        // Vemos si existe la imagen
+                        if( file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image) ) {
+                            // Copiar la imagen
+                            $oldPath = public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image;
+                            $newPathWithName = public_path() . '/images/report/'.$report->id.'.'.$inherited_report->image;
+                            File::copy($oldPath , $newPathWithName);
+                        }
+
+                        // Vemos si existe la imagen de action
+                        if( file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action) ) {
+                            // Copiar la imagen
+                            $oldPath = public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action;
+                            $newPathWithName = public_path() . '/images/action/'.$report->id.'.'.$inherited_report->image_action;
+                            File::copy($oldPath , $newPathWithName);
+                        }
+
+                        $report->save();
                     }
-
-                    // Vemos si existe la imagen de action
-                    if( file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action) ) {
-                        // Copiar la imagen
-                        $oldPath = public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action;
-                        $newPathWithName = public_path() . '/images/action/'.$report->id.'.'.$inherited_report->image_action;
-                        File::copy($oldPath , $newPathWithName);
-                    }
-
-                    $report->save();
                 }
+
+                $informe->save();
+            } else {
+                $informe = Informe::create([
+                    'location_id' => $request->get('location'),
+                    'user_id' => $request->get('user'),
+                    'from_date' => $request->get('fromdate'),
+                    'to_date' => $request->get('todate'),
+                    'active' => true
+                ]);
+                $informe->save();
             }
 
-            $informe->save();
         }
 
         return response()->json($validator->messages(), 200);

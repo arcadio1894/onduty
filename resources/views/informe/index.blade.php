@@ -140,7 +140,7 @@
         </div>
         <div class="modal-footer">
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-            <a href="#" class="waves-effect waves-green btn-flat" id="save-informe">Guardar</a>
+            <button type="submit" class="waves-effect waves-green btn-flat" id="save-informe">Guardar</button>
         </div>
         </form>
     </div>

@@ -8,15 +8,17 @@ $ (function () {
     $modalEditar = $('#modal2');
     $modalEliminar = $('#modal3');
 
-    $('#save-informe').on('click', function () {
+    $formRegister.on('submit', function () {
         event.preventDefault();
         avatarUrl = $formRegister.attr('action');
+        $('#save-informe').prop('disabled', true);
         $.ajax({
             url: avatarUrl,
             method: 'POST',
             data: $formRegister.serialize(),
             success: function (data) {
                 console.log(data);
+                $('#save-informe').prop('disabled', false);
                 if (data != "") {
                     for (var property in data) {
                         Materialize.toast(data[property], 4000);
@@ -27,12 +29,14 @@ $ (function () {
                         location.reload();
                     }, 2000);
                 }
+
             },
             error: function (data) {
                 console.log("CZFDFDSF");
                 // Render the errors with js ...
             }
-        })
+        });
+
     });
 
     $('[data-delete]').on('click', function () {
