@@ -1,4 +1,4 @@
-var $selectLocationD, $selectDropdowmLocation, $selectLocationDropdowm, $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
+var $selectLocationD, $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
 
 $ (function () {
     $formRegister = $('#form-register');
@@ -71,10 +71,9 @@ $ (function () {
     $selectLocationD.material_select();
     $.getJSON('locations/users',function(response)
     {
-        console.log(response);
+        // console.log(response);
         $.each(response,function(key,value)
         {
-            console.log("got you");
             $selectLocationD.append($("<option></option>").attr("value", value.id).text(value.name));
         });
 
@@ -82,10 +81,9 @@ $ (function () {
 
     $.getJSON('roles/users',function(response)
     {
-        console.log(response);
+        // console.log(response);
         $.each(response,function(key,value)
         {
-            console.log("got you");
             $selectDropdown.append($("<option></option>").attr("value", value.id).text(value.name));
         });
 
@@ -93,11 +91,10 @@ $ (function () {
 
     $.getJSON('positions/users',function(response)
     {
-        console.log(response);
+        // console.log(response);
         $selectPositionDropdowm.append($("<option></option>").attr("value", "").text("Escoja una opcion"));
         $.each(response,function(key,value)
         {
-            console.log("got you");
             $selectPositionDropdowm.append($("<option></option>").attr("value", value.id).text(value.name));
         });
 

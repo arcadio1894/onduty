@@ -24,8 +24,7 @@ class InformeController extends Controller
 
     public function store( Request $request )
     {
-        //dd($request->all());
-        // TODO: Solo el que puede creas es el super administrador o administrador o responsable
+        // Solo el que puede creas es el super administrador o administrador o responsable
 
         $rules = array(
             'location' => 'required',
@@ -53,11 +52,10 @@ class InformeController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
-
+        if (!$validator->fails()) {
             // Obtener el ultimo informe en la misma location de este que se esta creando
             $last_informe = Informe::where('location_id', $request->get('location'))->orderBy('created_at', 'desc')->first();
-            if ($last_informe){
+            if ($last_informe) {
                 $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();
 
                 // Deshabilitamos al ultimo informe tenga o no reportes abiertos
@@ -73,10 +71,8 @@ class InformeController extends Controller
                 ]);
 
                 // Heredamos los reportes abiertos del ultimo informe si existen
-                if($inherited_reports)
-                {
-                    foreach ( $inherited_reports as $inherited_report )
-                    {
+                if ($inherited_reports) {
+                    foreach ($inherited_reports as $inherited_report) {
                         $report = Report::create([
                             'informe_id' => $informe->id,
                             'user_id' => $inherited_report->user_id,
@@ -93,25 +89,24 @@ class InformeController extends Controller
                             'description' => $inherited_report->description,
                             'actions' => $inherited_report->actions,
                             'observations' => $inherited_report->observations,
-                            'image'=>$inherited_report->image,
-                            'image_action'=>$inherited_report->image_action
-
+                            'image' => $inherited_report->image,
+                            'image_action' => $inherited_report->image_action
                         ]);
 
                         // Vemos si existe la imagen
-                        if( file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image) ) {
+                        if (file_exists(public_path() . '/images/report/' . $inherited_report->id . '.' . $inherited_report->image)) {
                             // Copiar la imagen
-                            $oldPath = public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image;
-                            $newPathWithName = public_path() . '/images/report/'.$report->id.'.'.$inherited_report->image;
-                            File::copy($oldPath , $newPathWithName);
+                            $oldPath = public_path() . '/images/report/' . $inherited_report->id . '.' . $inherited_report->image;
+                            $newPathWithName = public_path() . '/images/report/' . $report->id . '.' . $inherited_report->image;
+                            File::copy($oldPath, $newPathWithName);
                         }
 
                         // Vemos si existe la imagen de action
-                        if( file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action) ) {
+                        if (file_exists(public_path() . '/images/action/' . $inherited_report->id . '.' . $inherited_report->image_action)) {
                             // Copiar la imagen
-                            $oldPath = public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action;
-                            $newPathWithName = public_path() . '/images/action/'.$report->id.'.'.$inherited_report->image_action;
-                            File::copy($oldPath , $newPathWithName);
+                            $oldPath = public_path() . '/images/action/' . $inherited_report->id . '.' . $inherited_report->image_action;
+                            $newPathWithName = public_path() . '/images/action/' . $report->id . '.' . $inherited_report->image_action;
+                            File::copy($oldPath, $newPathWithName);
                         }
 
                         $report->save();
@@ -119,7 +114,7 @@ class InformeController extends Controller
                 }
 
                 $informe->save();
-            } else {
+            }else{
                 $informe = Informe::create([
                     'location_id' => $request->get('location'),
                     'user_id' => $request->get('user'),
@@ -127,9 +122,9 @@ class InformeController extends Controller
                     'to_date' => $request->get('todate'),
                     'active' => true
                 ]);
+                
                 $informe->save();
             }
-
         }
 
         return response()->json($validator->messages(), 200);
@@ -138,8 +133,7 @@ class InformeController extends Controller
 
     public function edit( Request $request )
     {
-        //dd($request->all());
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'location-select' => 'required',
             'user-select' => 'required',
@@ -166,7 +160,7 @@ class InformeController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (!$validator->fails()) {
             $informe = Informe::find( $request->get('id') );
             $informe->location_id = $request->get('location-select');
             $informe->user_id = $request->get('user-select');
@@ -181,7 +175,7 @@ class InformeController extends Controller
 
     public function delete( Request $request )
     {
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'id' => 'exists:informes'
         );
