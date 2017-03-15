@@ -70,9 +70,9 @@ class InformeController extends Controller
             ]);
 
             // Heredamos los reportes abiertos del ultimo informe si existen
-            if($inherited_reports)
+            if ($inherited_reports)
             {
-                foreach ( $inherited_reports as $inherited_report )
+                foreach ($inherited_reports as $inherited_report)
                 {
                     $report = Report::create([
                         'informe_id' => $informe->id,
@@ -92,11 +92,10 @@ class InformeController extends Controller
                         'observations' => $inherited_report->observations,
                         'image'=>$inherited_report->image,
                         'image_action'=>$inherited_report->image_action
-
                     ]);
 
                     // Vemos si existe la imagen
-                    if( file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image) ) {
+                    if (file_exists( public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image)) {
                         // Copiar la imagen
                         $oldPath = public_path() . '/images/report/' . $inherited_report->id.'.'.$inherited_report->image;
                         $newPathWithName = public_path() . '/images/report/'.$report->id.'.'.$inherited_report->image;
@@ -104,7 +103,7 @@ class InformeController extends Controller
                     }
 
                     // Vemos si existe la imagen de action
-                    if( file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action) ) {
+                    if (file_exists( public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action)) {
                         // Copiar la imagen
                         $oldPath = public_path() . '/images/action/' . $inherited_report->id.'.'.$inherited_report->image_action;
                         $newPathWithName = public_path() . '/images/action/'.$report->id.'.'.$inherited_report->image_action;
@@ -124,8 +123,7 @@ class InformeController extends Controller
 
     public function edit( Request $request )
     {
-        //dd($request->all());
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'location-select' => 'required',
             'user-select' => 'required',
@@ -152,7 +150,7 @@ class InformeController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (!$validator->fails()) {
             $informe = Informe::find( $request->get('id') );
             $informe->location_id = $request->get('location-select');
             $informe->user_id = $request->get('user-select');
@@ -167,7 +165,7 @@ class InformeController extends Controller
 
     public function delete( Request $request )
     {
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'id' => 'exists:informes'
         );

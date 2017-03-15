@@ -12,9 +12,9 @@
 
     <!-- Styles -->
     <style>
-        .image{
+        .image {
             width: 144px;
-
+            margin: 1em;
         }
         ul.side-nav.fixed li.logo a:hover, ul.side-nav.fixed li.logo a.active {
             background-color: #ffffff;
@@ -40,111 +40,68 @@
 </head>
 <body>
     <header>
-        {{--<div class="navbar-fixed">
-            <nav class="top-nav light-blue">
-                <div class="container">
-
-                    <a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only">
-                        <i class="material-icons">menu</i>
-                    </a>
-                    <div class="nav-wrapper">
-                        <a href="{{ url('/') }}" class="brand-logo">{{ config('app.name', 'Laravel') }}</a>
-                        <ul class="right hide-on-med-and-down">
-                            @if (Auth::guest())
-                                <li><a href="{{ route('login') }}">Ingresar</a></li>
-                                --}}{{--<li><a href="{{ route('register') }}">Register</a></li>--}}{{--
-                            @else
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-button" data-activates='dropdown1' role="button"
-                                       aria-expanded="false">
-                                        {{ Auth::user()->name }} <span class="caret"></span>
-                                    </a>
-
-                                    <ul id="dropdown1" class="dropdown-content" role="menu" style="background: #ee6e73">
-                                        <li>
-                                            <a href="{{ route('logout') }}"
-                                               class="white-text"
-                                               onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                                Cerrar sesión
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                  style="display: none;">
-                                                {{ csrf_field() }}
-                                            </form>
-                                        </li>
-                                        --}}{{--<li>--}}{{--
-                                        --}}{{--<a href="#">Editar perfil</a>--}}{{--
-                                        --}}{{--</li>--}}{{--
-                                    </ul>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-
-                </div>
-            </nav>
-        </div>--}}
         @yield('breadcrumbs')
-
 
         @if (Auth::check())
 
             <ul id="nav-mobile" class="side-nav fixed" style="transform: translateX(0%);">
-            <li class="logo">
+                <li class="logo">
+                    <a href="{{ url('/') }}">
+                        <img class="image" src="{{ asset('images/logo/logo.png') }}" alt="Logo Conciviles">
+                    </a>
+                </li>
+                <li class="no-padding center-align">
+                    <form action="{{ url('/user/image') }}" id="avatarForm">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                        <input type="file" style="display: none" id="avatarInput" name="photo">
+                    </form>
 
-                <a href="{{ url('/') }}"><img class="image" src="{{ asset('images/logo/logo.png') }}" alt=""></a>
-
-                <br>
-                <form action="{{ url('/user/image') }}" id="avatarForm">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <input type="file" style="display: none" id="avatarInput" name="photo">
-                </form>
-                @if (Auth::user()->image)
-                    <img src=" {{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="">
-                @else
-                    <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="">
-                @endif
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li class="bold"><a class="collapsible-header waves-effect waves-teal">Usuarios</a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="{{ url('/users') }}">Usuarios</a></li>
-                                <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
-                                <li><a href="{{ url('/positions') }}">Cargos</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    @if (Auth::user()->role_id < 3)
-                        <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Entidades</a>
+                    @if (Auth::user()->image)
+                        <img src=" {{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="Avatar del usuario">
+                    @else
+                        <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="Avatar por defecto">
+                    @endif
+                </li>
+                <li class="no-padding">
+                    <ul class="collapsible collapsible-accordion">
+                        <li class="bold"><a class="collapsible-header waves-effect waves-teal">Usuarios</a>
                             <div class="collapsible-body">
                                 <ul>
-                                    <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
-                                    <li><a href="{{ url('/areas') }}">Áreas</a></li>
-                                    <li><a href="{{ url('/critical-risks') }}">Riesgos críticos</a></li>
-
+                                    <li><a href="{{ url('/users') }}">Usuarios</a></li>
+                                    <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
+                                    <li><a href="{{ url('/positions') }}">Cargos</a></li>
                                 </ul>
                             </div>
                         </li>
-                    @endif
-                    <li class="bold"><a class="collapsible-header waves-effect waves-teal" href="{{ url('/informes') }}">Informes</a></li>
-                    <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                                Salir
-                        </a>
+                        @if (Auth::user()->role_id < 3)
+                            <li class="bold"><a class="collapsible-header  waves-effect waves-teal">Entidades</a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li><a href="{{ url('/locations') }}">Localizaciones</a></li>
+                                        <li><a href="{{ url('/areas') }}">Áreas</a></li>
+                                        <li><a href="{{ url('/critical-risks') }}">Riesgos críticos</a></li>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
-                    </li>
-                </ul>
+                                    </ul>
+                                </div>
+                            </li>
+                        @endif
+                        <li class="bold"><a class="collapsible-header waves-effect waves-teal" href="{{ url('/informes') }}">Informes</a></li>
+                        <li>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                    Salir
+                            </a>
 
-            </li>
-        </ul>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
+
+            <a href="#" data-activates="nav-mobile" class="button-collapse hide-on-large-only"><i class="material-icons">menu</i></a>
         @endif
     </header>
 
@@ -164,17 +121,6 @@
 
     <script>
         $(".button-collapse").sideNav();
-        // Initialize collapse button
-        $('.dropdown-button').dropdown({
-            inDuration: 500,
-            outDuration: 225,
-            constrainWidth: false, // Does not change width of dropdown to that of the activator
-            hover: true, // Activate on hover
-            gutter: 0, // Spacing from edge
-            belowOrigin: true, // Displays dropdown below the button
-            alignment: 'left', // Displays dropdown with edge aligned to the left of button
-            stopPropagation: false // Stops event propagation
-        });
     </script>
     <script src="{{ asset('js/user/profile.js') }}"></script>
 
