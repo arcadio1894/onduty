@@ -67,15 +67,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Reporte eliminado correctamente", 4000);
+                    Materialize.toast("Reporte eliminado correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -127,15 +127,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Informe modificado correctamente", 4000);
+                    Materialize.toast("Informe modificado correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
 

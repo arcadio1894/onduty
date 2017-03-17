@@ -21,15 +21,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Cargo registrado correctamente", 4000);
+                    Materialize.toast("Cargo registrado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -61,15 +61,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Cargo modificado correctamente", 4000);
+                    Materialize.toast("Cargo modificado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -96,15 +96,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Cargo eliminado correctamente", 4000);
+                    Materialize.toast("Cargo eliminado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1700);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });

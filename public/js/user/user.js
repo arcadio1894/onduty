@@ -42,15 +42,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Usuario registrado correctamente", 4000);
+                    Materialize.toast("Usuario registrado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1600);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -156,15 +156,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Usuaro modificado correctamente", 4000);
+                    Materialize.toast("Usuaro modificado correctamente", 2500);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1700);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
 
@@ -192,15 +192,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Usuario eliminado correctamente", 4000);
+                    Materialize.toast("Usuario eliminado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1700);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });

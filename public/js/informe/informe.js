@@ -25,10 +25,10 @@ $ (function () {
                     }
                     $('#save-informe').prop('disabled', false);
                 } else {
-                    Materialize.toast("Informe registrado correctamente", 4000);
+                    Materialize.toast("Informe registrado correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
 
             },
@@ -62,14 +62,14 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Informe eliminado correctamente", 4000);
+                    Materialize.toast("Informe eliminado correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
-            error: function (data) {
-                console.log("Error inesperado");
+            error: function (error) {
+                console.log(error);
             }
         })
 

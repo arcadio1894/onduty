@@ -23,15 +23,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Observación registrada correctamente", 4000);
+                    Materialize.toast("Observación registrada correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1700);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });
@@ -78,15 +78,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Observación moodificada correctamente", 4000);
+                    Materialize.toast("Observación moodificada correctamente", 2200);
                     setTimeout(function () {
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });
@@ -112,15 +112,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Observación eliminada correctamente", 4000);
+                    Materialize.toast("Observación eliminada correctamente", 2200);
                     setTimeout(function () {
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });

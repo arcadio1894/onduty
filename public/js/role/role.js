@@ -21,15 +21,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Rol registrado correctamente", 4000);
+                    Materialize.toast("Rol registrado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -59,15 +59,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Rol modificado correctamente", 4000);
+                    Materialize.toast("Rol modificado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1700);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });
@@ -94,15 +94,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Rol eliminado correctamente", 4000);
+                    Materialize.toast("Rol eliminado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         })
     });

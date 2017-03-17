@@ -71,16 +71,16 @@ $ (function () {
                     }
                     $('#save-report').prop('disabled', false);
                 } else {
-                    Materialize.toast("Reporte registrado correctamente", 4000);
+                    Materialize.toast("Reporte registrado correctamente", 2000);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
 
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
 
         })

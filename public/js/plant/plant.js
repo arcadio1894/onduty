@@ -19,10 +19,10 @@ $ (function () {
                 if(data.error)
                     Materialize.toast(data.message, 3000);
                 else{
-                    Materialize.toast(data.message, 3000);
+                    Materialize.toast(data.message, 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             })
             .fail(function () {
@@ -55,10 +55,10 @@ $ (function () {
                 if(data.error)
                     Materialize.toast(data.message, 3000);
                 else{
-                    Materialize.toast(data.message, 3000);
+                    Materialize.toast(data.message, 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             })
             .fail(function () {
@@ -87,10 +87,10 @@ $ (function () {
                 if(data.error)
                     Materialize.toast(data.message, 3000);
                 else{
-                    Materialize.toast(data.message, 3000);
+                    Materialize.toast(data.message, 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             })
             .fail(function () {

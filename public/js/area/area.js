@@ -22,15 +22,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Área registrada correctamente", 4000);
+                    Materialize.toast("Área registrada correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });
@@ -63,15 +63,15 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Área moodificada correctamente", 4000);
+                    Materialize.toast("Área moodificada correctamente", 2200);
                     setTimeout(function () {
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });
@@ -98,19 +98,16 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Área eliminada correctamente", 4000);
+                    Materialize.toast("Área eliminada correctamente", 2200);
                     setTimeout(function () {
                         location.reload();
-                    }, 2000);
+                    }, 1800);
                 }
             },
             error: function (data) {
-                console.log("CZFDFDSF");
                 // Render the errors with js ...
+                console.log(data);
             }
         });
     });
 });
-
-
-
