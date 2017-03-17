@@ -16,7 +16,7 @@
     <div class="col s12" >
         <div class="card">
             <div class="card-content">
-                @if (Auth::user()->role_id < 3)
+                @if (Auth::user()->role_id <= 3)
                     <a data-delay="50"
                        data-tooltip="Nuevo informe"
                        class="btn-floating btn-large waves-effect waves-light teal right modal-trigger tooltip" id="newInforme" href="#modal1">

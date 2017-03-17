@@ -181,13 +181,11 @@ class ReportController extends Controller
             $report->save();
         }
 
-        // Faltan validaciones de los que crean
         return response()->json($validator->messages(), 200);
     }
 
     public function edit( Request $request )
     {
-        //dd($request->all());
         $rules = array(
             'workfront' => 'required',
             'area' => 'required',
@@ -201,6 +199,7 @@ class ReportController extends Controller
             'image' => 'image',
             'image-action' => 'image',
         );
+
         $messages = array(
             'workfront.required'=>'Es necesario escoger el frente de trabajo del reporte',
             'area.required'=>'Es necesario escoger el área del reporte',
@@ -215,6 +214,7 @@ class ReportController extends Controller
             'image.image' => 'Solo se admiten archivos tipo imagen',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
         );
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
@@ -257,31 +257,31 @@ class ReportController extends Controller
             $report->observations = $request->get('observation');
 
 
-            if ( $request->file('image') != null OR $request->file('image') != "")
+            if ($request->file('image') != null OR $request->file('image') != "")
             {
                 $path = public_path().'/images/report';
                 File::delete($path.'/'.$request->get('reporte').'.'.$report->image);
                 $extension = $request->file('image')->getClientOriginalExtension();
                 $fileName = $request->get('reporte') . '.' . $extension;
                 Image::make($request->file('image'))
-                    ->fit(144, 144)
-                    ->save($path.'/'.$request->get('reporte').'.'.$extension);
+                    ->fit(255, 255)
+                    ->save($path . '/' . $fileName);
                 $report->image = $extension;
             }
 
-            if ( $request->file('image-action') != null OR $request->file('image-action') != "")
+            if ($request->file('image-action') != null OR $request->file('image-action') != "")
             {
                 $path = public_path().'/images/action';
                 File::delete($path.'/'.$request->get('reporte').'.'.$report->image);
                 $extension = $request->file('image-action')->getClientOriginalExtension();
                 $fileName = $request->get('reporte') . '.' . $extension;
                 Image::make($request->file('image-action')->getRealPath())
-                    ->fit(144, 144)
-                    ->save($path.'/'.$request->get('reporte').'.'.$extension);
+                    ->fit(255, 255)
+                    ->save($path . '/' . $fileName);
                 $report->image_action = $extension;
             }
 
-            // TODO: Faltan validaciones de los que crean
+            // Faltan validaciones de los que crean
 
             $report->save();
         }

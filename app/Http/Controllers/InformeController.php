@@ -18,13 +18,13 @@ class InformeController extends Controller
         $informes = Informe::with('location')->with('user')->get();
         $locations = Location::all();
         $users = User::where('id', '<>', 1)->get();
-        //dd($informes);
+
         return view('informe.index')->with(compact('informes', 'locations', 'users'));
     }
 
     public function store( Request $request )
     {
-        // Solo el que puede creas es el super administrador o administrador o responsable
+        // Solo puede crear el super administrador, administrador o responsable
 
         $rules = array(
             'location' => 'required',
@@ -131,9 +131,8 @@ class InformeController extends Controller
 
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
-        // Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'location-select' => 'required',
             'user-select' => 'required',
