@@ -52,6 +52,8 @@ $ (function () {
         event.preventDefault();
         url = $formRegister.attr('action');
         $('#save-report').prop('disabled', true);
+        $('#line-loader').show();
+        //$('#circle-loader').show();
         $.ajax({
             url: url,
             method: 'POST',
@@ -61,17 +63,20 @@ $ (function () {
             success: function (data) {
                 //$('#save-report').prop('disabled', false);
                 console.log(data);
+                $('#line-loader').hide();
+                //$('#circle-loader').hide();
                 if (data != "") {
                     for (var property in data) {
                         Materialize.toast(data[property], 4000);
                     }
+                    $('#save-report').prop('disabled', false);
                 } else {
                     Materialize.toast("Reporte registrado correctamente", 4000);
                     setTimeout(function(){
                         location.reload();
                     }, 2000);
                 }
-                $('#save-report').prop('disabled', false);
+
             },
             error: function (data) {
                 console.log("CZFDFDSF");

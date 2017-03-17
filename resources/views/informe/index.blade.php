@@ -96,6 +96,9 @@
 
         </div>
         <div class="modal-footer">
+            <div class="progress" id="line-loader" style="display: none;">
+                <div class="indeterminate"></div>
+            </div>
             <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
             <button type="submit" class="waves-effect waves-green btn-flat" id="save-informe">Guardar</button>
         </div>

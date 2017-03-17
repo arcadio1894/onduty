@@ -11,17 +11,19 @@ $ (function () {
         event.preventDefault();
         avatarUrl = $formRegister.attr('action');
         $('#save-informe').prop('disabled', true);
+        $('#line-loader').show();
         $.ajax({
             url: avatarUrl,
             method: 'POST',
             data: $formRegister.serialize(),
             success: function (data) {
                 console.log(data);
-                $('#save-informe').prop('disabled', false);
+                $('#line-loader').hide();
                 if (data != "") {
                     for (var property in data) {
                         Materialize.toast(data[property], 4000);
                     }
+                    $('#save-informe').prop('disabled', false);
                 } else {
                     Materialize.toast("Informe registrado correctamente", 4000);
                     setTimeout(function(){
