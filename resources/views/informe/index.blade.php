@@ -23,6 +23,7 @@
                         <i class="material-icons">add</i></a>
                 @endif
                 <span class="card-title">Listado de Informes</span>
+                <p><small>Mostrando informes desde el más reciente al más antiguo.</small></p>
                 <table class="responsive-table">
                         <thead>
                         <tr>
@@ -41,8 +42,8 @@
                             <tr>
                                 <td>{{ $informe->location->name }}</td>
                                 <td>{{ $informe->user->name }}</td>
-                                <td>{{ $informe->from_date }}</td>
-                                <td>{{ $informe->to_date }}</td>
+                                <td>{{ $informe->from_date->format('d/m/Y') }}</td>
+                                <td>{{ $informe->to_date->format('d/m/Y') }}</td>
                                 <td>
                                     <a class="waves-effect waves-light btn tooltip" data-tooltip="Reportes" href="{{ url('reports/informe/'. $informe->id) }}">
                                         <i class="material-icons">list</i>

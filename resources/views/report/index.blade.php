@@ -60,11 +60,11 @@
                         </div>
                         <div class="col s12 m2 l2">
                             <label>Fecha de visita de</label>
-                            <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
+                            <p class="margin-0 ng-binding">{{ $informe->from_date->format('d/m/Y') }}</p>
                         </div>
                         <div class="col s12 m2 l2">
                             <label>Fecha de visita hasta</label>
-                            <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
+                            <p class="margin-0 ng-binding">{{ $informe->to_date->format('d/m/Y') }}</p>
                         </div>
                     </div>
                 </div>
@@ -208,15 +208,16 @@
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
             $('select').material_select();
-        });
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year
-            format: 'yyyy-mm-dd'
-        });
 
-        $('#report-container').masonry({
-            itemSelector: '.col'
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#report-container').masonry({
+                itemSelector: '.col'
+            });
         });
     </script>
 
