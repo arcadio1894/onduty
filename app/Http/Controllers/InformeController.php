@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\Informe;
 use App\Location;
 use App\Report;
@@ -15,7 +16,7 @@ class InformeController extends Controller
 {
     public function index()
     {
-        $informes = Informe::with('location')->with('user')->get();
+        $informes = Informe::with('location')->with('user')->orderBy('id')->get();
         $locations = Location::all();
         $users = User::where('id', '<>', 1)->get();
 
@@ -27,15 +28,11 @@ class InformeController extends Controller
         // Solo puede crear el super administrador, administrador o responsable
 
         $rules = array(
-            'location' => 'required',
-            'user' => 'required',
             'fromdate' => 'required',
             'todate' => 'required',
         );
 
         $messages = array(
-            'location.required'=>'Es necesario ingresar la localización',
-            'user.required'=>'Es necesario ingresar el usuario',
             'fromdate.required' => 'Es necesario ingresar la la fecha de inicio de la visita',
             'todate.required' => 'Es necesario ingresar la fecha de fin de la visita',
         );
@@ -54,7 +51,7 @@ class InformeController extends Controller
 
         if (!$validator->fails()) {
             // Obtener el ultimo informe en la misma location de este que se esta creando
-            $last_informe = Informe::where('location_id', $request->get('location'))->orderBy('created_at', 'desc')->first();
+            $last_informe = Informe::where('location_id', Auth::user()->location_id)->orderBy('created_at', 'desc')->first();
             if ($last_informe) {
                 $inherited_reports = Report::where('informe_id', $last_informe->id)->where('state', 'Abierto')->get();
 
@@ -63,8 +60,8 @@ class InformeController extends Controller
                 $last_informe->save();
 
                 $informe = Informe::create([
-                    'location_id' => $request->get('location'),
-                    'user_id' => $request->get('user'),
+                    'location_id' => Auth::user()->location_id,
+                    'user_id' => Auth::user()->id,
                     'from_date' => $request->get('fromdate'),
                     'to_date' => $request->get('todate'),
                     'active' => true
@@ -116,8 +113,8 @@ class InformeController extends Controller
                 $informe->save();
             }else{
                 $informe = Informe::create([
-                    'location_id' => $request->get('location'),
-                    'user_id' => $request->get('user'),
+                    'location_id' => Auth::user()->location_id,
+                    'user_id' => Auth::user()->id,
                     'from_date' => $request->get('fromdate'),
                     'to_date' => $request->get('todate'),
                     'active' => true
@@ -134,15 +131,11 @@ class InformeController extends Controller
     public function edit(Request $request)
     {
         $rules = array(
-            'location-select' => 'required',
-            'user-select' => 'required',
             'fromdate' => 'required',
             'todate' => 'required',
         );
 
         $messages = array(
-            'location-select.required'=>'Es necesario ingresar la localización',
-            'user-select.required'=>'Es necesario ingresar el usuario',
             'fromdate.required' => 'Es necesario ingresar la la fecha de inicio de la visita',
             'todate.required' => 'Es necesario ingresar la fecha de fin de la visita',
         );
@@ -161,8 +154,8 @@ class InformeController extends Controller
 
         if (!$validator->fails()) {
             $informe = Informe::find( $request->get('id') );
-            $informe->location_id = $request->get('location-select');
-            $informe->user_id = $request->get('user-select');
+            $informe->location_id = Auth::user()->location_id;
+            $informe->user_id = Auth::user()->id;
             $informe->from_date = $request->get('fromdate');
             $informe->to_date = $request->get('todate');
             $informe->save();

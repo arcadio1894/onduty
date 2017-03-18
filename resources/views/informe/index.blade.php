@@ -73,17 +73,6 @@
             <h4>Registrar informe</h4>
                 <input type="hidden" name="user" value="{{ auth()->user()->id }}">
                 <div class="row">
-                    <div class="input-field col s12">
-                        <select id="location" name="location">
-                            <option value="" disabled selected>Escoja una localización</option>
-                            @foreach( $locations as $location )
-                                <option value="{{ $location->id }}">{{ $location->name }}</option>
-                            @endforeach
-                        </select>
-                        <label for="location">Localizaciones</label>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="input-field col s6">
                         <input type="date" class="datepicker" id="fromdate" name="fromdate" required>
                         <label for="fromdate" data-error="Please choose a date " data-success="right">Fecha de incio de visita</label>

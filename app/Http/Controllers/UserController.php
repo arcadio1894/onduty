@@ -175,7 +175,7 @@ class UserController extends Controller
     public function delete( Request $request )
     {
         $rules = [
-            'id' => 'exists:areas'
+            'id' => 'exists:users'
         ];
 
         $messages = [

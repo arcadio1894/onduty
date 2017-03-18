@@ -80,13 +80,23 @@
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
 
-                    @if (Auth::user()->role_id < 4 AND $informe->active==true)
-                        <a href="{{ url('register/report/' . $informe->id) }}"
-                           data-delay="50"
-                           data-tooltip="Nuevo reporte"
-                           class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
+                    @if( Auth::user()->role_id < 4 AND $informe->active==true )
+                        @if( Auth::user()->role_id == 3 AND $informe->user_id == Auth::user()->id )
+                            <a href="{{ url('register/report/' . $informe->id) }}"
+                               data-delay="50"
+                               data-tooltip="Nuevo reporte"
+                               class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
+                                <i class="material-icons">add</i>
+                            </a>
+                        @endif
+                        @if( Auth::user()->role_id < 3 )
+                            <a href="{{ url('register/report/' . $informe->id) }}"
+                            data-delay="50"
+                            data-tooltip="Nuevo reporte"
+                            class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
                             <i class="material-icons">add</i>
-                        </a>
+                            </a>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -117,8 +127,17 @@
                                 </div>
                                 @if($informe->active)
                                 <div class="card-action">
-                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                    <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                    @if( Auth::user()->role_id < 4 AND $informe->active==true )
+                                        @if( Auth::user()->role_id == 3 AND $informe->user_id == Auth::user()->id )
+                                            <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                            <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                        @endif
+                                        @if( Auth::user()->role_id < 3 )
+                                            <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                            <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                        @endif
+                                    @endif
+
                                 </div>
                                 @endif
                                 <div class="card-reveal">
@@ -174,20 +193,6 @@
             <div class="modal-content">
                 <h4>Editar informe</h4>
 
-                <div class="row">
-                    <div class="input-field col s6">
-                        <select id="location-select" name="location-select">
-                            <option value="" disabled selected>Escoja una localización</option>
-                        </select>
-                        <label for="location-select">Localizaciones </label>
-                    </div>
-                    <div class="input-field col s6">
-                        <select id="user-select" name="user-select">
-                            <option value="" disabled selected>Escoja un onduty</option>
-                        </select>
-                        <label for="user-select">Onduty </label>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="input-field col s6">
                         <input type="date" class="datepicker" id="fromdate" name="fromdate" required>

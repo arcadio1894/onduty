@@ -95,20 +95,12 @@ $ (function () {
     $('#edit-informe').on('click', function () {
         // console.log("Entre");
         var id = $(this).data('informe');
-        var location_id = $(this).data('location');
-        var user_id = $(this).data('user');
         var fromdate = $(this).data('fromdate');
         var todate = $(this).data('todate');
-
-        $selectLocation.val(location_id).change();
-        $selectUsers.val(user_id).change();
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="fromdate"]').val(fromdate);
         $formEdit.find('[name="todate"]').val(todate);
-
-        $selectLocation.material_select();
-        $selectUsers.material_select();
 
         $modalEditar.modal('open');
         Materialize.updateTextFields(); // use this after change the field values
