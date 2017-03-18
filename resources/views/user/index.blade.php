@@ -53,9 +53,9 @@
                                 <a class="waves-effect waves-light btn-floating" data-delete="{{ $user->id }}"
                                    href="#modal3" data-name="{{$user->name}}">
                                     @if ($user->trashed())
-                                        <i class="material-icons">delete</i>
-                                    @else
                                         <i class="material-icons">restore</i>
+                                    @else
+                                        <i class="material-icons">delete</i>
                                     @endif
                                 </a>
                             </span>
