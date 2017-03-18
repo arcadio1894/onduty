@@ -29,7 +29,7 @@ $ (function () {
         console.log(response);
         $.each(response,function(key,value)
         {
-            console.log("got you");
+            // console.log("got you");
             $selectUsers.append($("<option></option>").attr("value", value.id).text(value.name));
         });
 
@@ -40,7 +40,7 @@ $ (function () {
         console.log(response);
         $.each(response,function(key,value)
         {
-            console.log("Entro");
+            // console.log("Entro");
             $selectLocation.append($("<option></option>").attr("value", value.id).text(value.name));
         });
     });
@@ -93,7 +93,7 @@ $ (function () {
     });
 
     $('#edit-informe').on('click', function () {
-        console.log("Entre");
+        // console.log("Entre");
         var id = $(this).data('informe');
         var location_id = $(this).data('location');
         var user_id = $(this).data('user');

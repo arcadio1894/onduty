@@ -73,7 +73,7 @@ $ (function () {
                 } else {
                     Materialize.toast("Reporte registrado correctamente", 2000);
                     setTimeout(function(){
-                        location.reload();
+                        location.href = $('#linkBackToList').attr('href');
                     }, 1800);
                 }
 

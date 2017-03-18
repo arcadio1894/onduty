@@ -75,9 +75,9 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Informe editado correctamente", 2000);
+                    Materialize.toast("Reporte editado correctamente", 2000);
                     setTimeout(function(){
-                        location.reload();
+                        location.href = $('#linkBackToList').attr('href');
                     }, 1800);
                 }
             },

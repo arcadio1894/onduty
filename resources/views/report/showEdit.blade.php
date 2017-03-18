@@ -8,7 +8,7 @@
                 <div class="nav-wrapper">
                     <div class="col s12">
                         <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
-                        <a href="{{ url('/reports/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
+                        <a href="{{ url('/reports/informe/'.$informe->id) }}" class="breadcrumb" id="linkBackToList">Informe {{ $informe->id }}</a>
                         <a href="{{ url('/edit/informe/report/'.$informe->id.'/'.$report->id) }}" class="breadcrumb">Editar reporte</a>
                     </div>
                 </div>
