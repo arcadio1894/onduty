@@ -1,21 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">Listado de usuarios</span>
-            
-            @if (Auth::user()->role_id < 3)
-                <div class="fixed-action-btn">
-                <a data-delay="50" data-tooltip="Nuevo usuario" data-position="top"
-                   class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
-                    <i class="material-icons">add</i></a>
-                </div>
-            @endif
+
+    @if (Auth::user()->role_id < 3)
+        <div class="fixed-action-btn">
+            <a data-delay="50" data-tooltip="Nuevo usuario" data-position="top"
+               class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
+                <i class="material-icons">add</i></a>
+        </div>
+    @endif
+
+
 
             <div class="row">
+                <h2 class="header teal-text">Listado de usuarios</h2>
+
                 @foreach ($users as $user)
-                <div class="col s12 m4 l6">
+                <div class="col s12 l6">
                     <div class="card-panel grey lighten-5 z-depth-1">
                         <div class="row valign-wrapper">
                             <div class="col s2">
@@ -25,29 +26,24 @@
                                 <p>
                                     <strong>Nombre:</strong>
                                     {{ $user->name }}
-                                </p>
-                                <p>
+                                    <br>
                                     <strong>Email:</strong>
                                     {{ $user->email }}
-                                </p>
-                                <p>
+                                    <br>
                                     <strong>Localización:</strong>
                                     {{ $user->location ? $user->location->name : 'Sin asignar' }}
-                                </p>
-                                <p>
+                                    <br>
                                     <strong>Estado:</strong>
                                     {{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}
-                                </p>
-                                <p>
+                                    <br>
                                     <strong>Rol:</strong>
                                     {{ $user->role->name }}
-                                </p>
-                                <p>
+                                    <br>
                                     <strong>Cargo:</strong>
                                     {{ $user->position->name }}
                                 </p>
                                 @if (Auth::user()->role_id < 3)
-                                    <p class="right">
+                                    <span class="right">
                                         <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
                                            href="#modal2" data-roleid="{{ $user->role->id }}"
                                            data-positionid="{{ $user->position_id }}"
@@ -60,7 +56,7 @@
                                            href="#modal3" data-name="{{$user->name}}">
                                             <i class="material-icons">delete</i>
                                         </a>
-                                    </p>
+                                    </span>
                                 @endif
                             </div>
                         </div>
@@ -68,8 +64,7 @@
                 </div>
                 @endforeach
             </div>
-        </div>
-    </div>
+
 
     <!-- Modal: New user -->
     <div id="modal1" class="modal">
