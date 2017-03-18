@@ -135,6 +135,19 @@
                                     @endif
                                 </div>
                                 @endif
+                                <div class="card-reveal">
+                                    <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
+                                    @if (!$report->image_action)
+                                        <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
+                                    @else
+                                        <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                    @endif
+                                    <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
+                                    <p><strong>Potencial:</strong> {{ $report->potential }}</p>
+                                    <p><strong># inspecciones:</strong> {{ $report->inspections }}</p>
+                                    <p><strong>Riesgo crítico:</strong> {{ $report->critical_risks->name }}</p>
+                                    <p><strong>Observación:</strong> {{ $report->observations }}</p>
+                                </div>
                             </div>
                         </div>
                     @endforeach
