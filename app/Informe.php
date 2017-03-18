@@ -13,6 +13,11 @@ class Informe extends Model
         'location_id', 'user_id', 'from_date', 'to_date', 'active'
     ];
 
+    protected $dates = [
+        'deleted_at',
+        'from_date', 'to_date'
+    ];
+
     public function location()
     {
         return $this->belongsTo('App\Location');
@@ -23,5 +28,4 @@ class Informe extends Model
         return $this->belongsTo('App\User');
     }
 
-    protected $dates = ['deleted_at'];
 }

@@ -17,6 +17,7 @@ class InformeController extends Controller
     public function index()
     {
         $informes = Informe::with('location')->with('user')->orderBy('id')->get();
+
         $locations = Location::all();
         $users = User::where('id', '<>', 1)->get();
 
