@@ -1,69 +1,80 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col s12" >
-        <div class="card">
-            <div class="card-content">
-                @if (Auth::user()->role_id < 3)
-                <a data-delay="50"
-                   data-tooltip="Nuevo usuario"
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Listado de usuarios</span>
+            
+            @if (Auth::user()->role_id < 3)
+                <div class="fixed-action-btn">
+                <a data-delay="50" data-tooltip="Nuevo usuario" data-position="top"
                    class="btn-floating btn-large waves-effect waves-light tooltipped teal right modal-trigger" id="newLocation" href="#modal1">
                     <i class="material-icons">add</i></a>
-                @endif
-                <span class="card-title">Listado de usuarios</span>
-                <table class="responsive-table">
-                    <thead>
-                    <tr>
-                        <th data-field="id">Nombre</th>
-                        <th data-field="name">Email</th>
-                        <th data-field="name">Localización</th>
-                        <th data-field="name">Estado</th>
-                        <th data-field="name">Rol</th>
-                        <th data-field="name">Cargo</th>
-                        @if (Auth::user()->role_id <3)
-                            <th data-field="">Acciones</th>
-                        @endif
-                    </tr>
-                    </thead>
+                </div>
+            @endif
 
-                    <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->location ? $user->location->name : '' }}</td>
-                            <td>{{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}</td>
-                            <td>{{ $user->role->name }}</td>
-                            <td>
-                                @if( $user->position_id == 1 )
-                                    {{ "" }}
-                                @else
+            <div class="row">
+                @foreach ($users as $user)
+                <div class="col s12 m4 l6">
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row valign-wrapper">
+                            <div class="col s2">
+                                <img src=" {{ asset('images/users/'.$user->id.'.'.$user->image) }}" class="circle responsive-img" alt="Avatar del usuario">
+                            </div>
+                            <div class="col s10 black-text">
+                                <p>
+                                    <strong>Nombre:</strong>
+                                    {{ $user->name }}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong>
+                                    {{ $user->email }}
+                                </p>
+                                <p>
+                                    <strong>Localización:</strong>
+                                    {{ $user->location ? $user->location->name : 'Sin asignar' }}
+                                </p>
+                                <p>
+                                    <strong>Estado:</strong>
+                                    {{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}
+                                </p>
+                                <p>
+                                    <strong>Rol:</strong>
+                                    {{ $user->role->name }}
+                                </p>
+                                <p>
+                                    <strong>Cargo:</strong>
                                     {{ $user->position->name }}
+                                </p>
+                                @if (Auth::user()->role_id < 3)
+                                    <p class="right">
+                                        <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
+                                           href="#modal2" data-roleid="{{ $user->role->id }}"
+                                           data-positionid="{{ $user->position_id }}"
+                                           data-locationid="{{ $user->location_id }}"
+                                           data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
+                                           data-password="{{$user->password}}">
+                                            <i class="material-icons">mode_edit</i>
+                                        </a>
+                                        <a class="waves-effect waves-light btn-floating" data-delete="{{ $user->id }}"
+                                           href="#modal3" data-name="{{$user->name}}">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </p>
                                 @endif
-                            </td>
-                            @if (Auth::user()->role_id < 3)
-                                <td>
-                                    <a class="waves-effect waves-light btn" data-edit="{{ $user->id }}" href="#modal2" data-roleid="{{ $user->role->id }}" data-positionid="{{ $user->position_id }}" data-locationid="{{ $user->location_id }}" data-role="{{ $user->role->name }}" data-name="{{$user->name}}" data-password="{{$user->password}}">
-                                        <i class="material-icons">mode_edit</i>
-                                    </a>
-                                    <a class="waves-effect waves-light btn" data-delete="{{ $user->id }}" href="#modal3" data-name="{{$user->name}}">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                </td>
-                            @endif
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
 
-    <!-- Modal Structure -->
+    <!-- Modal: New user -->
     <div id="modal1" class="modal">
-            <form class="col s12" id="form-register" method="POST" action="{{ url('/user/register') }}" enctype="multipart/form-data">
-                {{ csrf_field() }}
+        <form class="col s12" id="form-register" method="POST" action="{{ url('/user/register') }}" enctype="multipart/form-data">
+            {{ csrf_field() }}
             <div class="modal-content">
                 <h4>Registrar usuario</h4>
 
@@ -134,85 +145,84 @@
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
                 <button type="submit" href="#" class="waves-effect waves-green btn-flat" >Guardar</button>
             </div>
-            </form>
-        </div>
+        </form>
+    </div>
 
     <div id="modal2" class="modal">
-            <form class="col s12" id="form-editar" method="POST" action="{{ url('/user/editar') }}" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <div class="modal-content">
-                    <h4>Editar usuario</h4>
-                    <input type="hidden" name="id">
+        <form class="col s12" id="form-editar" method="POST" action="{{ url('/user/editar') }}" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="modal-content">
+                <h4>Editar usuario</h4>
+                <input type="hidden" name="id">
 
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="name" name="name" type="text" class="validate">
-                            <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <input id="password" name="password" type="password" autocomplete="new-password">
-                            <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
-                        </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="name" name="name" type="text" class="validate">
+                        <label for="name" data-error="Please write the user's name" data-success="right">Nombre del usuario</label>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <select id="role_select" name="role">
-
-                            </select>
-                            <label for="role_select">Roles de usuario</label>
-                        </div>
-                        <div class="input-field col s6" id="positionDropdown">
-                            <select id="position_select" name="position_select">
-
-                            </select>
-                            <label for="position_select">Cargo de usuario</label>
-                        </div>
+                    <div class="input-field col s6">
+                        <input id="password" name="password" type="password" autocomplete="new-password">
+                        <label for="password" data-error="Please write the user's password" data-success="right">Contraseña del usuario</label>
                     </div>
-
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <select id="location_select" name="location_select">
-
-                            </select>
-                            <label for="location_select">Localizaciones</label>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                    <button type="submit" href="#" class="waves-effect waves-green btn-flat" >Guardar</button>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select id="role_select" name="role">
+
+                        </select>
+                        <label for="role_select">Roles de usuario</label>
+                    </div>
+                    <div class="input-field col s6" id="positionDropdown">
+                        <select id="position_select" name="position_select">
+
+                        </select>
+                        <label for="position_select">Cargo de usuario</label>
+                    </div>
                 </div>
-            </form>
-        </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select id="location_select" name="location_select">
+
+                        </select>
+                        <label for="location_select">Localizaciones</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <button type="submit" href="#" class="waves-effect waves-green btn-flat" >Guardar</button>
+            </div>
+        </form>
+    </div>
 
     <div id="modal3" class="modal">
-            <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
-                {{ csrf_field() }}
-                <div class="modal-content">
-                    <h4>Eliminar usuario</h4>
-                    <input type="hidden" name="id">
-                    <div class="row">
-                        <p>¿Está seguro de eliminar éste usuario? </p>
-                        <p>Recuerde que si este usuario tiene acciones registradas no podrá eliminarlo.</p>
-                        <div class="input-field col s12">
-                            <input disabled id="disabled" type="text" name="name">
-                        </div>
+        <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
+            {{ csrf_field() }}
+            <div class="modal-content">
+                <h4>Eliminar usuario</h4>
+                <input type="hidden" name="id">
+                <div class="row">
+                    <p>¿Está seguro de eliminar éste usuario? </p>
+                    <p>Recuerde que si este usuario tiene acciones registradas no podrá eliminarlo.</p>
+                    <div class="input-field col s12">
+                        <input disabled id="disabled" type="text" name="name">
                     </div>
+                </div>
 
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                    <a href="#" class="waves-effect waves-green btn-flat" id="delete-user">Eliminar</a>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a href="#" class="waves-effect waves-green btn-flat" id="delete-user">Eliminar</a>
+            </div>
+        </form>
+    </div>
 @endsection
 
     @section('scripts')
         <script>
             $(document).ready(function(){
-                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
                 $('.modal').modal();
 
                 $('select').material_select();

@@ -56,7 +56,7 @@
                         <input type="file" style="display: none" id="avatarInput" name="photo">
                     </form>
 
-                    @if (Auth::user()->image)
+                    @if (auth()->user()->image)
                         <img src=" {{ asset('images/users/'.Auth::user()->id.'.'.Auth::user()->image) }}" id="avatarImage" class="image" alt="Avatar del usuario">
                     @else
                         <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="Avatar por defecto">
