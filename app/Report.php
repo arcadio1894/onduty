@@ -33,7 +33,7 @@ class Report extends Model
 
     public function responsible()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function critical_risks()
