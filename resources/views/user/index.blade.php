@@ -10,61 +10,62 @@
         </div>
     @endif
 
+    <div class="row">
+        <h2 class="header teal-text">Listado de usuarios</h2>
 
-
-            <div class="row">
-                <h2 class="header teal-text">Listado de usuarios</h2>
-
-                @foreach ($users as $user)
-                <div class="col s12 l6">
-                    <div class="card-panel grey lighten-5 z-depth-1">
-                        <div class="row valign-wrapper">
-                            <div class="col s2">
-                                <img src=" {{ asset('images/users/'.$user->id.'.'.$user->image) }}" class="circle responsive-img" alt="Avatar del usuario">
-                            </div>
-                            <div class="col s10 black-text">
-                                <p>
-                                    <strong>Nombre:</strong>
-                                    {{ $user->name }}
-                                    <br>
-                                    <strong>Email:</strong>
-                                    {{ $user->email }}
-                                    <br>
-                                    <strong>Localización:</strong>
-                                    {{ $user->location ? $user->location->name : 'Sin asignar' }}
-                                    <br>
-                                    <strong>Estado:</strong>
-                                    {{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}
-                                    <br>
-                                    <strong>Rol:</strong>
-                                    {{ $user->role->name }}
-                                    <br>
-                                    <strong>Cargo:</strong>
-                                    {{ $user->position->name }}
-                                </p>
-                                @if (Auth::user()->role_id < 3)
-                                    <span class="right">
-                                        <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
-                                           href="#modal2" data-roleid="{{ $user->role->id }}"
-                                           data-positionid="{{ $user->position_id }}"
-                                           data-locationid="{{ $user->location_id }}"
-                                           data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
-                                           data-password="{{$user->password}}">
-                                            <i class="material-icons">mode_edit</i>
-                                        </a>
-                                        <a class="waves-effect waves-light btn-floating" data-delete="{{ $user->id }}"
-                                           href="#modal3" data-name="{{$user->name}}">
-                                            <i class="material-icons">delete</i>
-                                        </a>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+        @foreach ($users as $user)
+        <div class="col s12 l6">
+            <div class="card-panel grey lighten-5 z-depth-1">
+                <div class="row valign-wrapper">
+                    <div class="col s2">
+                        <img src=" {{ asset('images/users/'.$user->id.'.'.$user->image) }}" class="circle responsive-img" alt="Avatar del usuario">
+                    </div>
+                    <div class="col s10 black-text">
+                        <p>
+                            <strong>Nombre:</strong>
+                            {{ $user->name }}
+                            <br>
+                            <strong>Email:</strong>
+                            {{ $user->email }}
+                            <br>
+                            <strong>Localización:</strong>
+                            {{ $user->location ? $user->location->name : 'Sin asignar' }}
+                            <br>
+                            <strong>Estado:</strong>
+                            {{ $user->confirmed == 1 ? 'Confirmado' : 'Pendiente' }}
+                            <br>
+                            <strong>Rol:</strong>
+                            {{ $user->role->name }}
+                            <br>
+                            <strong>Cargo:</strong>
+                            {{ $user->position->name }}
+                        </p>
+                        @if (Auth::user()->role_id < 3)
+                            <span class="right">
+                                <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
+                                   href="#modal2" data-roleid="{{ $user->role->id }}"
+                                   data-positionid="{{ $user->position_id }}"
+                                   data-locationid="{{ $user->location_id }}"
+                                   data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
+                                   data-password="{{$user->password}}">
+                                    <i class="material-icons">mode_edit</i>
+                                </a>
+                                <a class="waves-effect waves-light btn-floating" data-delete="{{ $user->id }}"
+                                   href="#modal3" data-name="{{$user->name}}">
+                                    @if ($user->trashed())
+                                        <i class="material-icons">delete</i>
+                                    @else
+                                        <i class="material-icons">restore</i>
+                                    @endif
+                                </a>
+                            </span>
+                        @endif
                     </div>
                 </div>
-                @endforeach
             </div>
-
+        </div>
+        @endforeach
+    </div>
 
     <!-- Modal: New user -->
     <div id="modal1" class="modal">
@@ -143,6 +144,7 @@
         </form>
     </div>
 
+    <!-- Modal: Edit user -->
     <div id="modal2" class="modal">
         <form class="col s12" id="form-editar" method="POST" action="{{ url('/user/editar') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -192,6 +194,7 @@
         </form>
     </div>
 
+    <!-- Modal: Delete user -->
     <div id="modal3" class="modal">
         <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
             {{ csrf_field() }}
@@ -200,12 +203,10 @@
                 <input type="hidden" name="id">
                 <div class="row">
                     <p>¿Está seguro de eliminar éste usuario? </p>
-                    <p>Recuerde que si este usuario tiene acciones registradas no podrá eliminarlo.</p>
                     <div class="input-field col s12">
                         <input disabled id="disabled" type="text" name="name">
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
@@ -215,13 +216,13 @@
     </div>
 @endsection
 
-    @section('scripts')
-        <script>
-            $(document).ready(function(){
-                $('.modal').modal();
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal();
 
-                $('select').material_select();
-            });
-        </script>
-        <script type="text/javascript" src="{{ asset('js/user/user.js') }}"></script>
-    @endsection
+            $('select').material_select();
+        });
+    </script>
+    <script type="text/javascript" src="{{ asset('js/user/user.js') }}"></script>
+@endsection

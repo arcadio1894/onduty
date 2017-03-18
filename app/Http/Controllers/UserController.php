@@ -16,11 +16,11 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->with('position')->get();
+        $users = User::withTrashed()->get();
         $roles = Role::where('id', '<>', 1)->get();
         $positions = Position::where('id', '<>', 1)->get();
         $locations = Location::all();
-        // dd($users);
+
         return view('user.index')->with(compact('users', 'roles', 'positions', 'locations'));
     }
 
@@ -179,24 +179,26 @@ class UserController extends Controller
         ];
 
         $messages = [
-            'id.exists'=>'No existe el usuario indicado',
+            'id.exists' => 'No existe el usuario indicado',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para eliminar un usuario');
+                $validator->errors()->add('role', 'No tiene permisos para activar/desactivar usuarios');
             }
         });
 
         if (! $validator->fails()) {
-            $user = User::find($request->get('id'));
-            $user->delete();
+            $user = User::withTrashed()->find($request->get('id'));
+            if ($user->trashed())
+                $user->restore();
+            else
+                $user->delete();
         }
 
         return response()->json($validator->messages(), 200);
-
     }
 
     public function getPositions()

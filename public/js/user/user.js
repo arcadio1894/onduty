@@ -180,7 +180,7 @@ $ (function () {
     });
 
     $('#delete-user').on('click', function () {
-        avatarUrl = $formDelete.attr('action');
+        var avatarUrl = $formDelete.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',
@@ -192,7 +192,7 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Usuario eliminado correctamente", 2200);
+                    Materialize.toast("Usuario desactivado correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
                     }, 1700);
