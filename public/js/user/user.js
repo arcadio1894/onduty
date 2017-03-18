@@ -192,7 +192,7 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Usuario desactivado correctamente", 2200);
+                    Materialize.toast("Se actualizó el estado del usuario correctamente", 2200);
                     setTimeout(function(){
                         location.reload();
                     }, 1700);

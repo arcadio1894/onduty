@@ -199,10 +199,10 @@
         <form class="col s12" id="form-delete" action="{{ url('/user/delete') }}">
             {{ csrf_field() }}
             <div class="modal-content">
-                <h4>Eliminar usuario</h4>
+                <h4>Desactivar/activar usuario</h4>
                 <input type="hidden" name="id">
                 <div class="row">
-                    <p>¿Está seguro de eliminar éste usuario? </p>
+                    <p>¿Está seguro de activar o desactivar este usuario? </p>
                     <div class="input-field col s12">
                         <input disabled id="disabled" type="text" name="name">
                     </div>
