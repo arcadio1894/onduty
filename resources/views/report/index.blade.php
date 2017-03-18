@@ -100,9 +100,9 @@
                             <div class="card">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     @if(!$report->image)
-                                        <img class="activator image"  src="{{ asset('images/report/default.png') }}" alt="">
+                                        <img class="activator"  src="{{ asset('images/report/default.png') }}" alt="">
                                     @else
-                                        <img class="activator image"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                                        <img class="activator"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
                                     @endif
                                 </div>
                                 <div class="card-content">

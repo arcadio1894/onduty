@@ -157,7 +157,7 @@ class ReportController extends Controller
                 $path_image = public_path('images/report/' . $file_name_image);
 
                 Image::make($request->file('image'))
-                    ->fit(144, 144)
+                    ->fit(285, 285)
                     ->save($path_image);
 
                 $report->image = $extension_image;
@@ -171,7 +171,7 @@ class ReportController extends Controller
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
 
                 Image::make($request->file('image-action'))
-                    ->fit(144, 144)
+                    ->fit(285, 285)
                     ->save($path_image_action);
 
                 $report->image_action = $extension_image_action;
@@ -264,7 +264,7 @@ class ReportController extends Controller
                 $extension = $request->file('image')->getClientOriginalExtension();
                 $fileName = $request->get('reporte') . '.' . $extension;
                 Image::make($request->file('image'))
-                    ->fit(255, 255)
+                    ->fit(285, 285)
                     ->save($path . '/' . $fileName);
                 $report->image = $extension;
             }
@@ -276,7 +276,7 @@ class ReportController extends Controller
                 $extension = $request->file('image-action')->getClientOriginalExtension();
                 $fileName = $request->get('reporte') . '.' . $extension;
                 Image::make($request->file('image-action')->getRealPath())
-                    ->fit(255, 255)
+                    ->fit(285, 285)
                     ->save($path . '/' . $fileName);
                 $report->image_action = $extension;
             }
