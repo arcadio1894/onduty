@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('/css/informe/index.css') }}">
+@endsection
+
 @section('breadcrumbs')
     <div class="row">
         <nav class="light-blue">
@@ -13,60 +17,59 @@
 @endsection
 
 @section('content')
-    <div class="col s12" >
-        <div class="card">
-            <div class="card-content">
-                @if (Auth::user()->role_id <= 3)
-                    <a data-delay="50"
-                       data-tooltip="Nuevo informe"
-                       class="btn-floating btn-large waves-effect waves-light teal right modal-trigger tooltip" id="newInforme" href="#modal1">
-                        <i class="material-icons">add</i></a>
-                @endif
-                <span class="card-title">Listado de Informes</span>
-                <p><small>Mostrando informes desde el más reciente al más antiguo.</small></p>
-                <table class="responsive-table">
-                        <thead>
+    <div class="card">
+        <div class="card-content">
+            @if (Auth::user()->role_id <= 3)
+                <a data-delay="50"
+                   data-tooltip="Nuevo informe"
+                   class="btn-floating btn-large waves-effect waves-light teal right modal-trigger tooltip" id="newInforme" href="#modal1">
+                    <i class="material-icons">add</i></a>
+            @endif
+            <span class="card-title">Listado de Informes</span>
+            <p><small>Mostrando informes desde el más reciente al más antiguo.</small></p>
+            <div class="table-responsive-vertical">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Localización</th>
+                        <th>Onduty</th>
+                        <th>Fecha desde</th>
+                        <th>Fecha hasta</th>
+                        @if (Auth::user()->role_id <3)
+                            <th>Acciones</th>
+                        @endif
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($informes as $informe)
                         <tr>
-                            <th data-field="id">Localización</th>
-                            <th data-field="name">Onduty</th>
-                            <th data-field="id">Fecha desde</th>
-                            <th data-field="name">Fecha hasta</th>
-                            @if (Auth::user()->role_id <3)
-                                <th data-field="">Acciones</th>
-                            @endif
+                            <td data-title="Localización">{{ $informe->location->name }}</td>
+                            <td data-title="Onduty">{{ $informe->user->name }}</td>
+                            <td data-title="Desde">{{ $informe->from_date->format('d/m/Y') }}</td>
+                            <td data-title="Hasta">{{ $informe->to_date->format('d/m/Y') }}</td>
+                            <td>
+                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Reportes" href="{{ url('reports/informe/'. $informe->id) }}">
+                                    <i class="material-icons">list</i>
+                                </a>
+                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Observaciones" href="{{ url('observations/informe/'. $informe->id) }}">
+                                    <i class="material-icons">visibility</i>
+                                </a>
+                                @if (Auth::user()->role_id < 3)
+                                    <a class="waves-effect waves-light btn tooltip" data-tooltip="Eliminar" data-delete="{{ $informe->id }}" href="#modal3">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                @endif
+                            </td>
                         </tr>
-                        </thead>
+                    @endforeach
 
-                        <tbody>
-                        @foreach ($informes as $informe)
-                            <tr>
-                                <td>{{ $informe->location->name }}</td>
-                                <td>{{ $informe->user->name }}</td>
-                                <td>{{ $informe->from_date->format('d/m/Y') }}</td>
-                                <td>{{ $informe->to_date->format('d/m/Y') }}</td>
-                                <td>
-                                    <a class="waves-effect waves-light btn tooltip" data-tooltip="Reportes" href="{{ url('reports/informe/'. $informe->id) }}">
-                                        <i class="material-icons">list</i>
-                                    </a>
-                                    <a class="waves-effect waves-light btn tooltip" data-tooltip="Observaciones" href="{{ url('observations/informe/'. $informe->id) }}">
-                                        <i class="material-icons">visibility</i>
-                                    </a>
-                                    @if (Auth::user()->role_id < 3)
-                                        <a class="waves-effect waves-light btn tooltip" data-tooltip="Eliminar" data-delete="{{ $informe->id }}" href="#modal3">
-                                            <i class="material-icons">delete</i>
-                                        </a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal Structure -->
+    <!-- Modal: New -->
     <div id="modal1" class="modal">
         <form class="col s12" id="form-register" action="{{ url('/informe/register') }}">
             {{ csrf_field() }}
@@ -95,6 +98,7 @@
         </form>
     </div>
 
+    <!-- Modal: Confirm delete -->
     <div id="modal3" class="modal">
         <form class="col s12" id="form-delete" action="{{ url('/informe/delete') }}">
             {{ csrf_field() }}
