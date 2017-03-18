@@ -17,13 +17,9 @@
 
 @section('styles')
     <style>
-        .card .image {
-            width: 280px;
-            height: 280px;
-        }
         .card .image-reveal {
-            width: 235px;
-            height: 235px;
+            max-width: 82%;
+            text-align: center;
         }
     </style>
 @endsection
@@ -93,57 +89,53 @@
         </div>
 
         <div class="col s12">
-            <div class="row">
-                <div class="cards">
-                    @foreach ($reports as $report)
-                        <div class="col s12 m6 l4" >
-                            <div class="card">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    @if(!$report->image)
-                                        <img class="activator"  src="{{ asset('images/report/default.png') }}" alt="">
-                                    @else
-                                        <img class="activator"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
-                                    @endif
-                                </div>
-                                <div class="card-content">
-                                    <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
-                                    <p><strong>Fecha de registro:</strong> {{ $report->created_at }}</p>
-                                    <p><strong>Frente:</strong> {{ $report->work_front->name }}</p>
-                                    <p><strong>Área:</strong> {{ $report->area->name }}</p>
-                                    <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>
-                                    <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
-                                    <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
-                                    <p><strong>Estado:</strong> {{ $report->state }}</p>
-                                </div>
-                                @if($informe->active)
-                                <div class="card-action">
-                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                    <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
-                                </div>
+            <div class="row" id="report-container">
+                @foreach ($reports as $report)
+                    <div class="col s12 m6 l4">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                @if(!$report->image)
+                                    <img class="activator" src="{{ asset('images/report/default.png') }}" alt="">
+                                @else
+                                    <img class="activator" src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
                                 @endif
-                                <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
+                                <p><strong>Fecha de registro:</strong> {{ $report->created_at }}</p>
+                                <p><strong>Frente:</strong> {{ $report->work_front->name }}</p>
+                                <p><strong>Área:</strong> {{ $report->area->name }}</p>
+                                <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>
+                                <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
+                                <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
+                                <p><strong>Estado:</strong> {{ $report->state }}</p>
+                            </div>
+                            @if($informe->active)
+                            <div class="card-action">
+                                <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                            </div>
+                            @endif
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
 
-                                    @if (!$report->image_action)
-                                        <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
-                                    @else
-                                        <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
-                                    @endif
+                                @if (!$report->image_action)
+                                    <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
+                                @else
+                                    <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                @endif
 
-                                    <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
-                                    <p><strong>Potencial:</strong> {{ $report->potential }}</p>
-                                    <p><strong># inspecciones:</strong> {{ $report->inspections }}</p>
-                                    <p><strong>Riesgo crítico:</strong> {{ $report->critical_risks->name }}</p>
-                                    <p><strong>Observación:</strong> {{ $report->observations }}</p>
-                                </div>
+                                <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
+                                <p><strong>Potencial:</strong> {{ $report->potential }}</p>
+                                <p><strong># inspecciones:</strong> {{ $report->inspections }}</p>
+                                <p><strong>Riesgo crítico:</strong> {{ $report->critical_risks->name }}</p>
+                                <p><strong>Observación:</strong> {{ $report->observations }}</p>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-
-
     </div>
 
     <!-- Modal Structure -->
@@ -209,7 +201,8 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/masonry.min.js') }}"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
     <script>
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -222,10 +215,9 @@
             format: 'yyyy-mm-dd'
         });
 
-        $('.cards').masonry({
+        $('#report-container').masonry({
             itemSelector: '.col'
         });
-
     </script>
 
     <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
