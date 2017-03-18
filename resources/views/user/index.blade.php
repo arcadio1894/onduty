@@ -210,7 +210,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a href="#" class="waves-effect waves-green btn-flat" id="delete-user">Eliminar</a>
+                <a href="#" class="waves-effect waves-green btn-flat" id="delete-user">Cambiar estado</a>
             </div>
         </form>
     </div>
