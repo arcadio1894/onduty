@@ -86,10 +86,10 @@ class UserController extends Controller
                 $user->position_id = $request->get('position');
             }
 
-            /*Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
+            Mail::send('emails.confirm', $request->all(), function ($m) use ($request) {
                 $m->subject('Correo de confirmación');
                 $m->to($request->get('email'));
-            });*/
+            });
 
             $user->save();
         }
