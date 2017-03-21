@@ -70,6 +70,7 @@
                                     <li><a href="{{ url('/users') }}">Usuarios</a></li>
                                     <li><a href="{{ url('/roles') }}">Roles de usuario</a></li>
                                     <li><a href="{{ url('/positions') }}">Cargos</a></li>
+                                    <li><a href="{{ url('/departments') }}">Departamentos</a></li>
                                 </ul>
                             </div>
                         </li>

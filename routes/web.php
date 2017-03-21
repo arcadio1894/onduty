@@ -77,5 +77,10 @@ Route::post('/observation/register', 'ObservationController@store');
 Route::post('/observation/edit', 'ObservationController@edit');
 Route::post('/observation/delete', 'ObservationController@delete');
 
+Route::get('/departments', 'DepartmentController@index');
+Route::post('/department/register', 'DepartmentController@store');
+Route::post('/department/editar', 'DepartmentController@edit');
+Route::post('/department/delete', 'DepartmentController@delete');
+
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');
