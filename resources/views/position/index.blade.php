@@ -17,6 +17,7 @@
                         <tr>
                             <th data-field="id">Nombre</th>
                             <th data-field="name">Descripción</th>
+                            <th data-field="id">Departamento</th>
                             @if (Auth::user()->role_id <3)
                                 <th data-field="">Acciones</th>
                             @endif
@@ -28,9 +29,14 @@
                         <tr>
                             <td>{{ $position->name }}</td>
                             <td>{{ $position->description }}</td>
+                            @if($position->department_id == null)
+                                <td>Por asignar</td>
+                            @else
+                                <td>{{ $position->department->name }}</td>
+                            @endif
                             @if (Auth::user()->role_id < 3)
                                 <td>
-                                    <a class="waves-effect waves-light btn" data-edit="{{ $position->id }}" href="#modal2" data-name="{{$position->name}}" data-description="{{$position->description}}" ><i class="material-icons">mode_edit</i></a>
+                                    <a class="waves-effect waves-light btn" data-edit="{{ $position->id }}" href="#modal2" data-name="{{$position->name}}" data-description="{{$position->description}}" data-department="{{ $position->department_id }}" ><i class="material-icons">mode_edit</i></a>
                                     <a class="waves-effect waves-light btn" data-delete="{{ $position->id }}" href="#modal3" data-name="{{$position->name}}" ><i class="material-icons">delete</i></a>
                                 </td>
                             @endif
@@ -79,6 +85,7 @@
     </div>--}}
 
     <!-- Modal Structure -->
+
     <div id="modal1" class="modal">
         <form class="col s12" id="form-register" action="{{ url('/position/register') }}">
             {{ csrf_field() }}
@@ -86,7 +93,16 @@
             <h4>Registrar cargo</h4>
 
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s6">
+                        <select id="department" name="department">
+                            <option value="" disabled selected>Escoja un departamento</option>
+                            @foreach( $departments as $department )
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="department">Departamentos</label>
+                    </div>
+                    <div class="input-field col s6">
                         <input id="name" name="name" type="text" class="validate">
                         <label for="name" data-error="Please write the position's name" data-success="right">Nombre del cargo</label>
                     </div>
@@ -113,7 +129,16 @@
                 <h4>Editar cargo</h4>
                 <input type="hidden" name="id">
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s6">
+                        <select id="department-selected" name="department-selected">
+                            <option value="" disabled selected>Escoja un departamento</option>
+                            @foreach( $departments as $department )
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="department-selected">Departamentos</label>
+                    </div>
+                    <div class="input-field col s6">
                         <input id="name" name="name" type="text" class="validate">
                         <label for="name" data-error="Please write the position's name" data-success="right">Nombre del cargo</label>
                     </div>
@@ -161,6 +186,7 @@
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
+            $('select').material_select();
         });
     </script>
     <script type="text/javascript" src="{{ asset('js/position/position.js') }}"></script>

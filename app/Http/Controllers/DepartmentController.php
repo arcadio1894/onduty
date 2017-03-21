@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Department;
+use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -89,9 +90,13 @@ class DepartmentController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messsages);
 
-        $validator->after(function ($validator) {
+        $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
                 $validator->errors()->add('role', 'No tiene permisos para eliminar un departamento');
+            }
+            $departments = Position::where('department_id', $request->get('id'))->first();
+            if ($departments != null) {
+                $validator->errors()->add('department', 'No puede eliminar este departamento por tiene cargos asignados');
             }
         });
 

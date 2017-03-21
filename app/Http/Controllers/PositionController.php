@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +12,10 @@ class PositionController extends Controller
 {
     public function index()
     {
-        $positions = Position::orderBy('name')->get();
+        $positions = Position::orderBy('name')->with('department')->get();
+        $departments = Department::all();
         //dd($speakers);
-        return view('position.index')->with(compact('positions'));
+        return view('position.index')->with(compact('positions', 'departments'));
     }
 
     public function store( Request $request )
@@ -21,11 +23,13 @@ class PositionController extends Controller
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'name' => 'required|min:2|unique:positions',
+            'department' => 'required',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del cargo',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-            'name.unique'=>'Existe un cargo con el mismo nombre.'
+            'name.unique'=>'Existe un cargo con el mismo nombre.',
+            'department.required'=>'Es necesario escoger un departamento'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
@@ -38,7 +42,8 @@ class PositionController extends Controller
         if(!$validator->fails()) {
             $area = Position::create([
                 'name' => $request->get('name'),
-                'description' => $request->get('description')
+                'description' => $request->get('description'),
+                'department_id' => $request->get('department')
             ]);
             $area->save();
         }
@@ -51,11 +56,13 @@ class PositionController extends Controller
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'name' => 'required|min:2|unique:positions',
+            'department-selected' => 'required',
         );
         $messsages = array(
             'name.required'=>'Es necesario ingresar el nombre del cargo',
             'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-            'name.unique'=>'Existe un cargo con el mismo nombre.'
+            'name.unique'=>'Existe un cargo con el mismo nombre.',
+            'department-selected.required'=>'Es necesario escoger un departamento'
         );
         $validator = Validator::make($request->all(), $rules, $messsages);
 
@@ -69,6 +76,7 @@ class PositionController extends Controller
             $area = Position::find( $request->get('id') );
             $area->name = $request->get('name');
             $area->description = $request->get('description');
+            $area->department_id = $request->get('department-selected');
             $area->save();
         }
 

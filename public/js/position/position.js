@@ -39,11 +39,14 @@ $ (function () {
         var location = $(this).data('location');
         var name = $(this).data('name');
         var description = $(this).data('description');
+        var department = $(this).data('department');
+
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
         $formEdit.find('[name="description"]').val(description);
-
+        $formEdit.find('[name="department-selected"]').val(department).change();
+        $('select').material_select();
         $modalEditar.modal('open');
         Materialize.updateTextFields(); // use this after change the field values
     });
