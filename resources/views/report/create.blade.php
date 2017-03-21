@@ -110,7 +110,7 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="informe" value="{{ $informe->id }}">
                         <div class="row">
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <select id="workfront" name="workfront">
                                     <option value="" disabled selected>Selecciona un frente</option>
                                     @foreach ($workfronts as $workfront)
@@ -119,7 +119,7 @@
                                 </select>
                                 <label for="workfront">Frentes de trabajo </label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <select id="area" name="area">
                                     <option value="" disabled selected>Selecciona una área</option>
                                     @foreach ($areas as $area)
@@ -128,26 +128,35 @@
                                 </select>
                                 <label for="area">Áreas</label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <select id="responsible" name="responsible">
                                     <option value="" disabled selected>Selecciona un responsable</option>
                                     @foreach( $users as $user )
-                                        <option data-email="{{ $user->email }}" data-position="{{ $user->position->name }}" value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <option data-email="{{ $user->email }}" data-position="{{ $user->position->name }}" data-idposition="{{ $user->position->id }}" value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="responsible">Responsables</label>
                             </div>
-                            <div class="input-field col s3">
+
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s4">
                                 <input type="text" readonly class="" id="responsible-position" name="responsible-position" value="">
                                 <label for="responsible-position">Cargo del responsable</label>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <input type="text" readonly class="" id="responsible-email" name="responsible-email" value="">
                                 <label for="responsible-email">Email del responsable</label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
+                                <input type="text" readonly class="" id="responsible-department" name="responsible-department" value="">
+                                <label for="responsible-department">Departamento del responsable</label>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s4">
                                 <select id="aspect" name="aspect">
                                     <option value="" disabled selected>Selecciona un aspecto</option>
                                     <option value="Por mejorar">Por mejorar</option>
@@ -155,7 +164,7 @@
                                 </select>
                                 <label for="aspect">Aspectos</label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <select id="risk" name="risk">
                                     <option value="" disabled selected>Selecciona un riesgo crítico</option>
                                     @foreach( $risks as $risk )
@@ -164,7 +173,7 @@
                                 </select>
                                 <label for="risk">Riesgos críticos </label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s4">
                                 <select id="potencial" name="potencial">
                                     <option value="" disabled selected>Selecciona un potencial</option>
                                     <option value="Alto">Alto</option>

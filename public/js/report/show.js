@@ -6,8 +6,27 @@ $ (function () {
         var valor = $(this).val();
         var position = $("#responsible option[value="+ valor +"]").data("position");
         var email = $("#responsible option[value="+ valor +"]").data("email");
+        var idPosition = $("#responsible option[value="+ valor +"]").data("idposition");
+
+
+        var department="";
+
+        $.getJSON('../../department/user/'+idPosition, function(response)
+        {
+            if (response.name != null){
+                department = response.name;
+                $('#responsible-department').val(department);
+                Materialize.updateTextFields();
+            } else {
+                $('#responsible-department').val("Pendiente de asignar");
+                Materialize.updateTextFields();
+            }
+
+        });
+
         $('#responsible-position').val(position);
         $('#responsible-email').val(email);
+        $('#responsible-department').val(department);
         Materialize.updateTextFields();
     });
 

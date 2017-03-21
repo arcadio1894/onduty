@@ -81,6 +81,7 @@ Route::get('/departments', 'DepartmentController@index');
 Route::post('/department/register', 'DepartmentController@store');
 Route::post('/department/editar', 'DepartmentController@edit');
 Route::post('/department/delete', 'DepartmentController@delete');
+Route::get('/department/user/{idPosition}', 'DepartmentController@getDepartment');
 
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');

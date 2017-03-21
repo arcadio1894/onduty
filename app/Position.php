@@ -20,7 +20,7 @@ class Position extends Model
 
     public function department()
     {
-        return $this->belongsTo('App\Department', 'department_id');
+        return $this->belongsTo('App\Department');
     }
 
     protected $dates = ['deleted_at'];

@@ -111,4 +111,10 @@ class DepartmentController extends Controller
 
     }
 
+    public function getDepartment( $idPosition ){
+        $position = Position::find($idPosition);
+        $department = Department::find($position->department_id);
+        return response()->json($department);
+    }
+
 }

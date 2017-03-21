@@ -13,5 +13,10 @@ class Department extends Model
         'name', 'description'
     ];
 
+    public function position()
+    {
+        return $this->hasMany('App\Position', 'department_id');
+    }
+
     protected $dates = ['deleted_at'];
 }

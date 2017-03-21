@@ -38,10 +38,12 @@ class ReportController extends Controller
     public function create($id)
     {
         $informe = Informe::with('location')->with('user')->find($id);
-        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
+        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->with('position')->get();
         $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
         $areas = Area::all();
         $risks = CriticalRisk::all();
+
+        //dd( $users);
 
         return view('report.create')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
     }
