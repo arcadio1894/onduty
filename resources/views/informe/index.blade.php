@@ -54,6 +54,9 @@
                                 <a class="waves-effect waves-light btn tooltip" data-tooltip="Observaciones" href="{{ url('observations/informe/'. $informe->id) }}">
                                     <i class="material-icons">visibility</i>
                                 </a>
+                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Gráficas" href="{{ url('graphics/informe/'. $informe->id) }}">
+                                    <i class="material-icons">equalizer</i>
+                                </a>
                                 @if (Auth::user()->role_id < 3)
                                     <a class="waves-effect waves-light btn tooltip" data-tooltip="Eliminar" data-delete="{{ $informe->id }}" href="#modal3">
                                         <i class="material-icons">delete</i>

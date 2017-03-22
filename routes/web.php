@@ -62,6 +62,13 @@ Route::get('/informes', 'InformeController@index');
 Route::post('/informe/register', 'InformeController@store');
 Route::post('/informe/edit', 'InformeController@edit');
 Route::post('/informe/delete', 'InformeController@delete');
+Route::get('/graphics/informe/{id}', 'InformeController@graphics');
+
+Route::get('/work-fronts/graph/{informe_id}', 'InformeController@getWorkFrontsGraph');
+Route::get('/critical-risks/graph/{informe_id}', 'InformeController@getCriticalRisksGraph');
+Route::get('/areas/graph/{informe_id}', 'InformeController@getAreasGraph');
+Route::get('/responsible/graph/{informe_id}', 'InformeController@getResponsibleGraph');
+Route::get('/work-fronts-opens/graph/{informe_id}', 'InformeController@getWorkFrontOpensGraph');
 
 Route::get('/reports/informe/{id}', 'ReportController@index');
 Route::get('/register/report/{id}', 'ReportController@create');

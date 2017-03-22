@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Area;
+use App\CriticalRisk;
 use App\Informe;
 use App\Location;
 use App\Report;
 use App\User;
+use App\WorkFront;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -200,4 +202,95 @@ class InformeController extends Controller
         return response()->json($validator->messages(), 200);
 
     }
+    
+    public function graphics( $id ){
+        $informe = Informe::with('location')->with('user')->find($id);
+
+        // Gráfico de reportes segun aspecto
+        $porMejorar = Report::where('aspect', 'Por Mejorar')->where('informe_id', $id)->get()->count();
+        $positivo = Report::where('aspect', 'Positivo')->where('informe_id', $id)->get()->count();
+
+        $opens = Report::where('state', 'Abierto')->where('informe_id', $id)->get()->count();
+        $closed = Report::where('state', 'Cerrado')->where('informe_id', $id)->get()->count();
+
+        //dd(json_encode($data));
+
+        return view('informe.graphics')->with(compact('opens', 'closed','informe', 'porMejorar', 'positivo'));
+    }
+    
+    public function getWorkFrontsGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+        $work_fronts = WorkFront::where('location_id', $informe->location_id)->get(['id','name']);
+        $array = $work_fronts->toArray();
+        foreach ($work_fronts as $k => $front){
+            $cant = Report::where('informe_id', $informe_id)->where('work_front_id', $front['id'])->get()->count();
+            $array[$k]['y'] = $cant;
+        }
+        
+        return json_encode($array);
+    }
+
+    public function getCriticalRisksGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+
+        $risks = CriticalRisk::get(['id','name']);
+        $array = $risks->toArray();
+        foreach ($risks as $k => $risk){
+            $cant = Report::where('informe_id', $informe_id)->where('critical_risks_id', $risk['id'])->get()->count();
+            $array[$k]['y'] = $cant;
+        }
+
+        //dd($array);
+
+        return json_encode($array);
+    }
+
+    public function getAreasGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+
+        $areas = Area::get(['id','name']);
+        $array = $areas->toArray();
+        foreach ($areas as $k => $area){
+            $cant = Report::where('informe_id', $informe_id)->where('area_id', $area['id'])->get()->count();
+            $array[$k]['y'] = $cant;
+        }
+
+        //dd($array);
+
+        return json_encode($array);
+    }
+
+    public function getResponsibleGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+
+        $users = User::where('location_id', $informe->location_id)->get(['id','name']);
+
+        $array = $users->toArray();
+        foreach ($users as $k => $user){
+            $cant = Report::where('informe_id', $informe_id)->where('responsible_id', $user['id'])->get()->count();
+            $array[$k]['y'] = $cant;
+        }
+
+        //dd($array);
+
+        return json_encode($array);
+    }
+
+    public function getWorkFrontOpensGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+        $work_fronts = WorkFront::where('location_id', $informe->location_id)->get(['id','name']);
+        $array = $work_fronts->toArray();
+        foreach ($work_fronts as $k => $front){
+            $cant = Report::where('state', 'Abierto')->where('informe_id', $informe_id)->where('work_front_id', $front['id'])->get()->count();
+            $array[$k]['y'] = $cant;
+        }
+
+        return json_encode($array);
+    }
+    
 }
