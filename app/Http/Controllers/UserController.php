@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use App\Location;
 use App\Position;
 use App\Role;
@@ -18,10 +19,10 @@ class UserController extends Controller
     {
         $users = User::withTrashed()->get();
         $roles = Role::where('id', '<>', 1)->get();
-        $positions = Position::where('id', '<>', 1)->get();
+        $departments = Department::all();
         $locations = Location::all();
 
-        return view('user.index')->with(compact('users', 'roles', 'positions', 'locations'));
+        return view('user.index')->with(compact('users', 'roles', 'departments', 'locations'));
     }
 
     public function store( Request $request )
@@ -211,6 +212,18 @@ class UserController extends Controller
     {
         $locations = Location::all();
         return response()->json($locations);
+    }
+    
+    public function getPositionsDepartment($id_department){
+        //dd($id_department);
+        $positions = Position::where('id', '<>', 1)->where('department_id', $id_department)->get();
+        return response()->json($positions);
+    }
+
+    public function getDepartments()
+    {
+        $departments = Department::all();
+        return response()->json($departments);
     }
 
 }

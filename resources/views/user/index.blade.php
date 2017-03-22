@@ -45,6 +45,7 @@
                                 <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
                                    href="#modal2" data-roleid="{{ $user->role->id }}"
                                    data-positionid="{{ $user->position_id }}"
+                                   data-departmentid="{{ $user->position->department_id }}"
                                    data-locationid="{{ $user->location_id }}"
                                    data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
                                    data-password="{{$user->password}}">
@@ -101,15 +102,25 @@
                 </div>
 
                 <div class="row">
+                    <div class="input-field col s6" id="departments">
+                        <select id="department" name="department">
+                            <option value="" disabled selected>Escoja un departamento</option>
+                            @foreach( $departments as $department )
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="department">Departamento </label>
+                    </div>
                     <div class="input-field col s6" id="positions">
                         <select id="position" name="position">
                             <option value="" disabled selected>Escoja un cargo</option>
-                            @foreach( $positions as $position )
-                                <option value="{{ $position->id }}">{{ $position->name }}</option>
-                            @endforeach
                         </select>
                         <label for="position">Cargos </label>
                     </div>
+
+                </div>
+
+                <div class="row">
                     <div class="input-field col s6" id="">
                         <select id="location-id" name="location-id">
                             <option value="" disabled selected>Escoja una localización</option>
@@ -119,10 +130,6 @@
                         </select>
                         <label for="location-id">Localizaciones </label>
                     </div>
-
-                </div>
-
-                <div class="row">
                     <div class="input-field col s6">
                         <div class="file-field input-field">
                             <div class="btn">
@@ -169,21 +176,28 @@
                         </select>
                         <label for="role_select">Roles de usuario</label>
                     </div>
-                    <div class="input-field col s6" id="positionDropdown">
-                        <select id="position_select" name="position_select">
-
-                        </select>
-                        <label for="position_select">Cargo de usuario</label>
-                    </div>
-                </div>
-
-                <div class="row">
                     <div class="input-field col s6">
                         <select id="location_select" name="location_select">
 
                         </select>
                         <label for="location_select">Localizaciones</label>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6" id="departmentDropdown">
+                        <select id="department_select" name="department_select">
+
+                        </select>
+                        <label for="department_select">Departamento del usuario</label>
+                    </div>
+                    <div class="input-field col s6" id="positionDropdown">
+                        <select id="position_select" name="position_select">
+
+                        </select>
+                        <label for="position_select">Cargo del usuario</label>
+                    </div>
+
                 </div>
 
             </div>

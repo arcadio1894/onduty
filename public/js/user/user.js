@@ -1,4 +1,4 @@
-var $selectLocationD, $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
+var $selectDepartmentDropdowm, $select_positions, $selectDepartments, $selectLocationD, $selectPositionDropdowm, $formRegister, $formEdit, $formDelete, $modalEditar, $modalEliminar, $selectPosition, $divPositionD, $avatarInput, $selectDropdown, $selectRol;
 
 $ (function () {
     $formRegister = $('#form-register');
@@ -14,8 +14,33 @@ $ (function () {
 
     $selectPosition = $('#positions');
 
+    $select_positions = $('#position');
+    
+    $selectDepartments = $('#department');
+
     var role = $selectRol.val();
 
+    $selectDepartments.on('change', function () {
+        var id_department = $selectDepartments.val();
+        console.log(id_department);
+        if (id_department != "")
+        {
+            $select_positions
+                .empty()
+                .append('<option value="" disabled selected >Escoja un cargo</option>')
+            ;
+            $.getJSON('position/department/' + id_department , function(response)
+            {
+                //console.log(response);
+                $.each(response,function(key,value)
+                {
+                    $select_positions.append($("<option></option>").attr("value", value.id).text(value.name));
+                });
+                $select_positions.material_select();
+                Materialize.updateTextFields();
+            });
+        }
+    });
     $selectRol.on('change', function () {
         var role = $selectRol.val();
         if (role == 4)
@@ -69,6 +94,8 @@ $ (function () {
 
     $selectLocationD = $('#location_select');
     $selectLocationD.material_select();
+
+    $selectDepartmentDropdowm = $('#department_select');
     $.getJSON('locations/users',function(response)
     {
         // console.log(response);
@@ -89,7 +116,9 @@ $ (function () {
 
     });
 
-    $.getJSON('positions/users',function(response)
+
+
+    /*$.getJSON('positions/users',function(response)
     {
         // console.log(response);
         $selectPositionDropdowm.append($("<option></option>").attr("value", "").text("Escoja una opcion"));
@@ -98,17 +127,61 @@ $ (function () {
             $selectPositionDropdowm.append($("<option></option>").attr("value", value.id).text(value.name));
         });
 
-    });
+    });*/
 
     $('[data-edit]').on('click', function () {
         var id = $(this).data('edit');
         var name = $(this).data('name');
         var password = $(this).data('password');
         var role_id = $(this).data('roleid');
+        var department_id = $(this).data('departmentid');
         var position_id = $(this).data('positionid');
         var location_id = $(this).data('locationid');
         var role = $(this).data('role');
-        console.log('location_id'+location_id);
+        console.log('department_id   '+department_id);
+
+        $.getJSON('department/user',function(response)
+        {
+            // console.log(response);
+            $selectDepartmentDropdowm
+                .empty()
+                .append('<option value="" disabled selected >Escoja un departamento</option>')
+            ;
+            $.each(response,function(key,value)
+            {
+                $selectDepartmentDropdowm.append($("<option></option>").attr("value", value.id).text(value.name));
+            });
+
+            $selectDepartmentDropdowm.val(department_id).change();
+            $selectDepartmentDropdowm.material_select();
+            Materialize.updateTextFields();
+        });
+
+
+
+        $selectDepartmentDropdowm.on('change', function () {
+            var new_department = $selectDepartmentDropdowm.val();
+            if (department_id != "")
+            {
+
+                $.getJSON('position/department/' + new_department , function(response)
+                {
+
+                    $selectPositionDropdowm
+                        .empty()
+                        .append('<option value="" disabled selected >Escoja un cargo</option>')
+                    ;
+                    $.each(response,function(key,value)
+                    {
+                        $selectPositionDropdowm.append($("<option></option>").attr("value", value.id).text(value.name));
+                    });
+                    $selectPositionDropdowm.val(position_id).change();
+                    $selectPositionDropdowm.material_select();
+                    Materialize.updateTextFields();
+                });
+            }
+        });
+
 
         $formEdit.find('[name="id"]').val(id);
         $formEdit.find('[name="name"]').val(name);
