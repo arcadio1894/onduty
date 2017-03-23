@@ -42,15 +42,17 @@
                         </p>
                         @if (Auth::user()->role_id < 3)
                             <span class="right">
-                                <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
-                                   href="#modal2" data-roleid="{{ $user->role->id }}"
-                                   data-positionid="{{ $user->position_id }}"
-                                   data-departmentid="{{ $user->position->department_id }}"
-                                   data-locationid="{{ $user->location_id }}"
-                                   data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
-                                   data-password="{{$user->password}}">
-                                    <i class="material-icons">mode_edit</i>
-                                </a>
+                                @if(!$user->trashed())
+                                    <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
+                                       href="#modal2" data-roleid="{{ $user->role->id }}"
+                                       data-positionid="{{ $user->position_id }}"
+                                       data-departmentid="{{ $user->position->department_id }}"
+                                       data-locationid="{{ $user->location_id }}"
+                                       data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
+                                       data-password="{{$user->password}}">
+                                        <i class="material-icons">mode_edit</i>
+                                    </a>
+                                @endif
                                 <a class="waves-effect waves-light btn-floating" data-delete="{{ $user->id }}"
                                    href="#modal3" data-name="{{$user->name}}">
                                     @if ($user->trashed())
