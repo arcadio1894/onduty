@@ -15,7 +15,7 @@ class ObservationController extends Controller
     {
         $informe = Informe::with('location')->with('user')->find($id);
         $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
-        $observations = Observation::all();
+        $observations = Observation::where('informe_id', $id )->get();
 
         return view('observation.index')->with(compact('informe', 'users', 'observations'));
     }
@@ -51,6 +51,7 @@ class ObservationController extends Controller
         if(!$validator->fails()) {
             $area = Observation::create([
                 'turn' => $request->get('turn'),
+                'informe_id' => $request->get('informe_id'),
                 'supervisor_id' => $request->get('supervisor'),
                 'hse_id' => $request->get('hse'),
                 'man' => $request->get('man'),

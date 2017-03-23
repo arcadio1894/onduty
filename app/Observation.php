@@ -11,7 +11,7 @@ class Observation extends Model
 
     protected $fillable = [
         'turn', 'supervisor_id', 'hse_id', 'man', 'woman',
-        'turn_hours', 'observation'
+        'turn_hours', 'observation', 'informe_id'
     ];
 
     public function supervisor()

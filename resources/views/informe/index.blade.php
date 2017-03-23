@@ -57,6 +57,9 @@
                                 <a class="waves-effect waves-light btn tooltip" data-tooltip="Gráficas" href="{{ url('graphics/informe/'. $informe->id) }}">
                                     <i class="material-icons">equalizer</i>
                                 </a>
+                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Exportar a Excel" href="{{ url('excel/informe/'. $informe->id) }}">
+                                    <i class="material-icons">play_for_work</i>
+                                </a>
                                 @if (Auth::user()->role_id < 3)
                                     <a class="waves-effect waves-light btn tooltip" data-tooltip="Eliminar" data-delete="{{ $informe->id }}" href="#modal3">
                                         <i class="material-icons">delete</i>

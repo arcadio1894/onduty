@@ -94,3 +94,6 @@ Route::get('/department/user/{idPosition}', 'DepartmentController@getDepartment'
 
 // Confirmation email
 Route::get('/register/verify/{code}', 'UserController@verify');
+
+// Reports in excel
+Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');

@@ -75,7 +75,12 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
-
+                    <a href="{{ url('excel/informe/' . $informe->id) }}"
+                       data-delay="50"
+                       data-tooltip="Exportar excel"
+                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
+                        <i class="material-icons">play_for_work</i>
+                    </a>
                     @if( Auth::user()->role_id < 4 AND $informe->active==true )
                         @if( Auth::user()->role_id == 3 AND $informe->user_id == Auth::user()->id )
                             <a href="{{ url('register/report/' . $informe->id) }}"
@@ -93,7 +98,9 @@
                             <i class="material-icons">add</i>
                             </a>
                         @endif
+
                     @endif
+
                 </div>
             </div>
         </div>
