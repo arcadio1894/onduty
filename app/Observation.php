@@ -16,12 +16,12 @@ class Observation extends Model
 
     public function supervisor()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function hse()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withTrashed();
     }
 
     public function getTotalPeopleAttribute()
