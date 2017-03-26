@@ -320,6 +320,40 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col s12 m6 l6" >
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <div id="container8"></div>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">SEGÚN RESPONSABLES<i class="material-icons right">more_vert</i></span>
+
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                                <table id="">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id">Responsable</th>
+                                        <th data-field="name">Cantidad</th>
+                                    </tr>
+                                    </thead>
+
+                                    <template id="template-responsible-open">
+                                        <tr>
+                                            <td data-text></td>
+                                            <td data-number></td>
+                                        </tr>
+                                    </template>
+
+                                    <tbody id="table-responsible-open">
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -373,7 +407,11 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
                         },
                         showInLegend: true
                     }
@@ -412,7 +450,11 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
                         },
                         showInLegend: true
                     }

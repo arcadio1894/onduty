@@ -225,9 +225,13 @@ class InformeController extends Controller
         $array = $work_fronts->toArray();
         foreach ($work_fronts as $k => $front){
             $cant = Report::where('informe_id', $informe_id)->where('work_front_id', $front['id'])->get()->count();
-            $array[$k]['y'] = $cant;
+            if ($cant == 0){
+                unset($array[$k]);
+            } else {
+                $array[$k]['y'] = $cant;
+            }
         }
-        
+        $array = array_values($array);
         return json_encode($array);
     }
 
@@ -237,13 +241,17 @@ class InformeController extends Controller
 
         $risks = CriticalRisk::get(['id','name']);
         $array = $risks->toArray();
+        //dd($array);
         foreach ($risks as $k => $risk){
             $cant = Report::where('informe_id', $informe_id)->where('critical_risks_id', $risk['id'])->get()->count();
-            $array[$k]['y'] = $cant;
+            if ($cant == 0){
+                unset($array[$k]);
+            } else {
+                $array[$k]['y'] = $cant;
+            }
         }
-
+        $array = array_values($array);
         //dd($array);
-
         return json_encode($array);
     }
 
@@ -252,31 +260,39 @@ class InformeController extends Controller
         $informe = Informe::with('location')->with('user')->find($informe_id);
 
         $areas = Area::get(['id','name']);
-        $array = $areas->toArray();
-        foreach ($areas as $k => $area){
-            $cant = Report::where('informe_id', $informe_id)->where('area_id', $area['id'])->get()->count();
-            $array[$k]['y'] = $cant;
+        $array2 = $areas->toArray();
+        //dd($array2);
+        foreach ($array2 as $k => $a){
+            $cant = Report::where('informe_id', $informe->id)->where('area_id', $a['id'])->get()->count();
+            if ($cant == 0){
+                //array_splice($array2, $k, 1);
+                unset($array2[$k]);
+            } else {
+                $array2[$k]['y'] = $cant;
+            }
         }
+        $array2 = array_values($array2);
+        //dd($array2);
 
-        //dd($array);
-
-        return json_encode($array);
+        return $array2;
     }
 
     public function getResponsibleGraph($informe_id){
         // Gráfico de reportes segun frentes de trabajo
         $informe = Informe::with('location')->with('user')->find($informe_id);
 
-        $users = User::where('location_id', $informe->location_id)->get(['id','name']);
+        $users = User::withTrashed()->where('location_id', $informe->location_id)->get(['id','name']);
 
         $array = $users->toArray();
         foreach ($users as $k => $user){
             $cant = Report::where('informe_id', $informe_id)->where('responsible_id', $user['id'])->get()->count();
-            $array[$k]['y'] = $cant;
+            if ($cant == 0){
+                unset($array[$k]);
+            } else {
+                $array[$k]['y'] = $cant;
+            }
         }
-
-        //dd($array);
-
+        $array = array_values($array);
         return json_encode($array);
     }
 
@@ -287,9 +303,32 @@ class InformeController extends Controller
         $array = $work_fronts->toArray();
         foreach ($work_fronts as $k => $front){
             $cant = Report::where('state', 'Abierto')->where('informe_id', $informe_id)->where('work_front_id', $front['id'])->get()->count();
-            $array[$k]['y'] = $cant;
+            if ($cant == 0){
+                unset($array[$k]);
+            } else {
+                $array[$k]['y'] = $cant;
+            }
         }
+        $array = array_values($array);
+        return json_encode($array);
+    }
 
+    public function getOpenResponsibleGraph($informe_id){
+        // Gráfico de reportes segun frentes de trabajo
+        $informe = Informe::with('location')->with('user')->find($informe_id);
+
+        $users = User::withTrashed()->where('location_id', $informe->location_id)->get(['id','name']);
+
+        $array = $users->toArray();
+        foreach ($users as $k => $user){
+            $cant = Report::where('state', 'Abierto')->where('informe_id', $informe_id)->where('responsible_id', $user['id'])->get()->count();
+            if ($cant == 0){
+                unset($array[$k]);
+            } else {
+                $array[$k]['y'] = $cant;
+            }
+        }
+        $array = array_values($array);
         return json_encode($array);
     }
     

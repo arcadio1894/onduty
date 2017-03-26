@@ -57,11 +57,21 @@ $ (function () {
         $('#table-work-open').append(clone);
     }
 
+    function renderTemplateResponsibleOpen(text, number) {
+
+        var clone = activateTemplate('#template-responsible-open');
+
+        clone.querySelector("[data-text]").innerHTML = text;
+        clone.querySelector("[data-number]").innerHTML = number;
+
+        $('#table-responsible-open').append(clone);
+    }
+
     var informe_id = $('#informe-id').val();
     
     $.getJSON('../../work-fronts/graph/'+informe_id,function(response)
     {
-        console.log(response[0].y);
+        //.log(response[0].y);
         data2 = response;
         Highcharts.chart('container2', {
             chart: {
@@ -81,7 +91,11 @@ $ (function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     },
                     showInLegend: true
                 }
@@ -98,7 +112,7 @@ $ (function () {
                 for ( var j=0; j<response.length; ++j) {
                     suma += response[j].y;
                 }
-                console.log("suma"+suma);
+                //console.log("suma"+suma);
                 renderTemplateWorkFront("TOTAL", suma)
             } else {
                 renderTemplateWorkFront(response[i].name, response[i].y)
@@ -109,6 +123,7 @@ $ (function () {
 
     $.getJSON('../../critical-risks/graph/'+informe_id,function(response)
     {
+        console.log(response);
         Highcharts.chart('container3', {
             chart: {
                 plotBackgroundColor: null,
@@ -127,7 +142,11 @@ $ (function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     },
                     showInLegend: true
                 }
@@ -144,7 +163,7 @@ $ (function () {
                 for ( var j=0; j<response.length; ++j) {
                     suma += response[j].y;
                 }
-                console.log("suma"+suma);
+                //console.log("suma"+suma);
                 renderTemplateCriticalRisk("TOTAL", suma)
             } else {
                 renderTemplateCriticalRisk(response[i].name, response[i].y)
@@ -155,6 +174,8 @@ $ (function () {
 
     $.getJSON('../../areas/graph/'+informe_id,function(response)
     {
+        console.log(response);
+
         Highcharts.chart('container4', {
             chart: {
                 plotBackgroundColor: null,
@@ -173,7 +194,11 @@ $ (function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     },
                     showInLegend: true
                 }
@@ -184,16 +209,18 @@ $ (function () {
                 data: response
             }]
         });
+
         for ( var i=0; i<=response.length; ++i) {
+            console.log("Entre al for");
             if(i == response.length){
                 var suma=0;
                 for ( var j=0; j<response.length; ++j) {
                     suma += response[j].y;
                 }
-                console.log("suma"+suma);
-                renderTemplateArea("TOTAL", suma)
+
+                renderTemplateArea("TOTAL", suma);
             } else {
-                renderTemplateArea(response[i].name, response[i].y)
+                renderTemplateArea(response[i].name, response[i].y);
             }
 
         }
@@ -219,7 +246,11 @@ $ (function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     },
                     showInLegend: true
                 }
@@ -236,7 +267,7 @@ $ (function () {
                 for ( var j=0; j<response.length; ++j) {
                     suma += response[j].y;
                 }
-                console.log("suma"+suma);
+                //console.log("suma"+suma);
                 renderTemplateResponsible("TOTAL", suma)
             } else {
                 renderTemplateResponsible(response[i].name, response[i].y)
@@ -247,7 +278,7 @@ $ (function () {
 
     $.getJSON('../../work-fronts-opens/graph/'+informe_id,function(response)
     {
-        console.log(response[0].y);
+        //console.log(response[0].y);
         data2 = response;
         Highcharts.chart('container7', {
             chart: {
@@ -267,7 +298,62 @@ $ (function () {
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Porcentaje',
+                colorByPoint: true,
+                data: response
+            }]
+        });
+        for ( var i=0; i<=response.length; ++i) {
+            //console.log(response.length);
+            if(i == response.length){
+                var suma=0;
+                for ( var j=0; j<response.length; ++j) {
+                    suma += response[j].y;
+                }
+                //console.log("suma"+suma);
+                renderTemplateWorkFrontOpen("TOTAL", suma)
+            } else {
+                renderTemplateWorkFrontOpen(response[i].name, response[i].y)
+            }
+
+        }
+    });
+
+    $.getJSON('../../responsible-opens/graph/'+informe_id,function(response)
+    {
+        Highcharts.chart('container8', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Reportes abiertos según responsables'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
                     },
                     showInLegend: true
                 }
@@ -284,16 +370,14 @@ $ (function () {
                 for ( var j=0; j<response.length; ++j) {
                     suma += response[j].y;
                 }
-                console.log("suma"+suma);
-                renderTemplateWorkFrontOpen("TOTAL", suma)
+                //console.log("suma"+suma);
+                renderTemplateResponsibleOpen("TOTAL", suma)
             } else {
-                renderTemplateWorkFrontOpen(response[i].name, response[i].y)
+                renderTemplateResponsibleOpen(response[i].name, response[i].y)
             }
 
         }
     });
-
-    
 
 
 });

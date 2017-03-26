@@ -71,6 +71,7 @@ Route::get('/critical-risks/graph/{informe_id}', 'InformeController@getCriticalR
 Route::get('/areas/graph/{informe_id}', 'InformeController@getAreasGraph');
 Route::get('/responsible/graph/{informe_id}', 'InformeController@getResponsibleGraph');
 Route::get('/work-fronts-opens/graph/{informe_id}', 'InformeController@getWorkFrontOpensGraph');
+Route::get('/responsible-opens/graph/{informe_id}', 'InformeController@getOpenResponsibleGraph');
 
 Route::get('/reports/informe/{id}', 'ReportController@index');
 Route::get('/register/report/{id}', 'ReportController@create');
