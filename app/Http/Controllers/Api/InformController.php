@@ -17,6 +17,7 @@ class InformController extends Controller
 
         // and the informs in that location
         $informs = Informe::where('location_id', $location_id)->get([
+            'id',
             'user_id', 'from_date', 'to_date',
             'created_at'
         ]);
