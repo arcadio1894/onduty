@@ -23,6 +23,7 @@ class InformController extends Controller
 
         foreach ($informs as $inform) {
             $inform->user_name = $inform->user->name;
+            unset($inform->user); // but not include all the information
         }
 
         return $informs;
