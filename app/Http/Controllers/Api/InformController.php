@@ -21,6 +21,10 @@ class InformController extends Controller
             'created_at'
         ]);
 
+        foreach ($informs as $inform) {
+            $inform->user_name = $inform->user->name;
+        }
+
         return $informs;
     }
 }
