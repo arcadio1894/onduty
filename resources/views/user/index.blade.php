@@ -18,7 +18,11 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
                     <div class="col s2">
-                        <img src=" {{ asset('images/users/'.$user->id.'.'.$user->image) }}" class="circle responsive-img" alt="Avatar del usuario">
+                        @if ($user->image)
+                            <img src=" {{ asset('images/users/'.$user->id.'.'.$user->image) }}" class="circle responsive-img" alt="Avatar del usuario">
+                        @else
+                            <img src=" {{ asset('images/users/default.jpg') }}" class="circle responsive-img" alt="Avatar por defecto">
+                        @endif
                     </div>
                     <div class="col s10 black-text">
                         <p>
@@ -107,7 +111,7 @@
                     <div class="input-field col s6" id="departments">
                         <select id="department" name="department">
                             <option value="" disabled selected>Escoja un departamento</option>
-                            @foreach( $departments as $department )
+                            @foreach ($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </select>
