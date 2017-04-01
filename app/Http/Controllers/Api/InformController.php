@@ -22,10 +22,13 @@ class InformController extends Controller
         ]);
 
         foreach ($informs as $inform) {
-            $inform->user_name = $inform->user->name;
-            $inform->from_date = $inform->from_date->format('d/m/Y');
-            $inform->to_date = $inform->to_date->format('d/m/Y');
+            $inform->user_name = $inform->user->name; // append the user name
             unset($inform->user); // but not include all the information
+
+            $inform->from_date_format = $inform->from_date->format('d/m/Y');
+            $inform->to_date_format = $inform->to_date->format('d/m/Y');
+            unset($inform->from_date);
+            unset($inform->to_date);
         }
 
         return $informs;
