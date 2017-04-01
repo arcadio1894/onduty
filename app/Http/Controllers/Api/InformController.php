@@ -23,6 +23,8 @@ class InformController extends Controller
 
         foreach ($informs as $inform) {
             $inform->user_name = $inform->user->name;
+            $inform->from_date = $inform->from_date->format('d/m/Y');
+            $inform->to_date = $inform->to_date->format('d/m/Y');
             unset($inform->user); // but not include all the information
         }
 
