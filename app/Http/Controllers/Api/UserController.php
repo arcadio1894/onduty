@@ -21,6 +21,11 @@ class UserController extends Controller
         $data['position'] = $position->name;
         $data['location'] = $user->location->name;
 
+        if ($user->image)
+            $data['image'] = asset('images/users/'.$user->id.'.'.$user->image);
+        else
+            $data['image'] = asset('images/users/default.jpg');
+
         return $data;
     }
 }
