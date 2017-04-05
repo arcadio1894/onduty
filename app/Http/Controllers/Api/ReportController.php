@@ -35,7 +35,17 @@ class ReportController extends Controller
             else
                 $report->image = asset('images/report/default.png');
 
-            $report->work_front = $report->work_front->name;
+            $report->work_front_name = $report->work_front->name;
+            unset($report->work_front);
+
+            $report->area_name = $report->area->name;
+            unset($report->area);
+
+            $report->responsible_name = $report->responsible->name;
+            unset($report->responsible);
+
+            $report->critical_risks_name = $report->critical_risks->name;
+            unset($report->critical_risks);
         }
         return $reports;
     }
