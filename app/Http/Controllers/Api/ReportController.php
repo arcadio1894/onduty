@@ -10,6 +10,7 @@ class ReportController extends Controller
 {
     public function byInform(Request $request)
     {
-        return Report::where('informe_id', $request->input('inform_id'));
+        $reports = Report::where('informe_id', $request->input('inform_id'))->get();
+        return $reports;
     }
 }
