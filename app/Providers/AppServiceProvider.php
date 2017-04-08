@@ -18,13 +18,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Validator::extend('imageable', function ($attribute, $value, $params, $validator) {
-            try {
-                ImageManagerStatic::make($value);
-                return true;
-            } catch (\Exception $e) {
-                return false;
-            }
+        Validator::extend('isBase64', function ($attribute, $value, $params, $validator) {
+            return base64_decode($value);
         });
     }
 
