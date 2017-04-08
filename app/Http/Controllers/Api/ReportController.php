@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Report;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class ReportController extends Controller
 {
@@ -50,5 +53,137 @@ class ReportController extends Controller
             unset($report->critical_risks);
         }
         return $reports;
+    }
+
+    public function store( Request $request )
+    {
+        $rules = [
+            'user_id' => 'required|exists:users,id',
+            'work_front' => 'required',
+            'area' => 'required',
+            'responsible' => 'required',
+            'aspect' => 'required',
+            'critical_risk' => 'required',
+            'potential' => 'required',
+            'state' => 'required',
+            'planned_date' => 'required',
+            'inspections' => 'required|numeric|min:1',
+            'image' => 'image',
+            'image_action' => 'image'
+        ];
+
+        $messages = [
+            'work_front.required' => 'Es necesario escoger el frente de trabajo del reporte',
+            'area.required' => 'Es necesario escoger el área del reporte',
+            'responsible.required' => 'Es necesario escoger el responsable del reporte',
+            'aspect.required' => 'Es necesario escoger el aspecto del reporte',
+            'critical_risk.required' => 'Es necesario escoger el riesgo crítico del reporte',
+            'potential.required' => 'Es necesario escoger el potencial del reporte',
+            'state.required' => 'Es necesario escoger el estado del reporte',
+            'planned_date.required' => 'Es necesario escoger la fecha planeada del reporte',
+            'inspections.required' => 'Es necesario escribir una cantidad de inspecciones',
+            'inspections.numeric' => 'Es necesario escribir una cantidad de inspecciones numérica',
+            'inspections.min' => 'Es necesario escribir una cantidad de inspecciones adecuada',
+            'image.image' => 'Solo se admiten archivos tipo imagen',
+            'image_action.image' => 'Solo se admiten archivos tipo imagen'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        $validator->after(function ($validator) use ($request) {
+            $user_id = $request->input('user_id');
+            $user = User::find($user_id);
+
+            if ($user) {
+                if ($user->role_id > 3) {
+                    $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
+                }
+            }
+
+            if ($request->get('deadline') ) {
+                if ($request->get('deadline') < $request->get('planned_date')) {
+                    $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
+                }
+            }
+
+            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
+                $validator->errors()->add('actions', 'Debe escribir como mínimo 5 caracteres en las acciones');
+            }
+
+            if ($request->get('description') AND strlen($request->get('description'))<5) {
+                $validator->errors()->add('description', 'Debe escribir como mínimo 5 caracteres en la descripción');
+            }
+        });
+
+        if ($validator->fails()) {
+            $data['success'] = false;
+        } else {
+            $data['success'] = true;
+
+            $user_id = $request->input('user_id');
+
+            $report = Report::create([
+                'informe_id' => $request->get('informe'),
+                'user_id' => $user_id,
+                'work_front_id' => $request->get('work_front'),
+                'area_id' => $request->get('area'),
+                'responsible_id' => $request->get('responsible'),
+                'aspect' => $request->get('aspect'),
+                'critical_risks_id' => $request->get('critical_risk'),
+                'potential' => $request->get('potential'),
+                'state' => $request->get('state'),
+                'planned_date' => $request->get('planned_date'),
+                'deadline' => $request->get('deadline'),
+                'inspections' => $request->get('inspections'),
+                'description' => $request->get('description'),
+                'actions' => $request->get('actions'),
+                'observations' => $request->get('observation') ?: ''
+            ]);
+
+            if ($request->file('image'))
+            {
+                $extension_image = $request->file('image')->getClientOriginalExtension();
+                $file_name_image = $report->id . '.' . $extension_image;
+
+                $path_image = public_path('images/report/' . $file_name_image);
+
+                Image::make($request->file('image'))
+                    ->fit(285, 285)
+                    ->save($path_image);
+
+                $report->image = $extension_image;
+                $report->save();
+            }
+
+            if ($request->file('image_action'))
+            {
+                $extension_image_action = $request->file('image_action')->getClientOriginalExtension();
+                $file_name_image_action = $report->id . '.' . $extension_image_action;
+
+                $path_image_action = public_path('images/action/' . $file_name_image_action);
+
+                Image::make($request->file('image_action'))
+                    ->fit(285, 285)
+                    ->save($path_image_action);
+
+                $report->image_action = $extension_image_action;
+                $report->save();
+            }
+
+            $report->save();
+        }
+
+        $errorFields = $validator->messages()->toArray();
+        $errors = [];
+
+        foreach ($errorFields as $field => $errorField) {
+
+            foreach ($errorField as $errorMessage) {
+                $errors[] = $errorMessage;
+            }
+        }
+
+        $data['errors'] = $errors;
+        return $data;
     }
 }
