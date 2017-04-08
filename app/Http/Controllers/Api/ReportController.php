@@ -145,7 +145,7 @@ class ReportController extends Controller
             {
                 $imageBase64 = base64_decode($request->input('image'));
 
-                $extension_image = $imageBase64->getClientOriginalExtension();
+                $extension_image = 'jpg';
                 $file_name_image = $report->id . '.' . $extension_image;
 
                 $path_image = public_path('images/report/' . $file_name_image);
@@ -162,7 +162,7 @@ class ReportController extends Controller
             {
                 $imageActionBase64 = base64_decode($request->input('image_action'));
 
-                $extension_image_action = $imageActionBase64->getClientOriginalExtension();
+                $extension_image_action = 'jpg';
                 $file_name_image_action = $report->id . '.' . $extension_image_action;
 
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
