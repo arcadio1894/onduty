@@ -16,13 +16,12 @@ class InformController extends Controller
         $location_id = $user->location_id;
 
         // and the informs in that location
-        $informs = Informe::where('location_id', $location_id)->get([
+        $informs = Informe::where('location_id', $location_id)
+            ->orderBy('id', 'desc')->get([
             'id',
             'user_id', 'from_date', 'to_date',
             'created_at'
         ]);
-
-        $lastInformId = $informs->last()->id;
 
         foreach ($informs as $inform) {
             $inform->user_name = $inform->user->name; // append the user name
@@ -33,9 +32,12 @@ class InformController extends Controller
             unset($inform->from_date);
             unset($inform->to_date);
 
-            $inform->isEditable = ($inform->id == $lastInformId);
+            $inform->isEditable = false;
         }
 
+        // make the last registered inform editable
+        $informs->first()->isEditable = true;
+        
         return $informs;
     }
 }
