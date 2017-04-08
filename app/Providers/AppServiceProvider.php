@@ -19,7 +19,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Validator::extend('isBase64', function ($attribute, $value, $params, $validator) {
-            return base64_decode($value);
+            $decodedValue = base64_decode($value);
+
+            if ($decodedValue === '')
+                $decodedValue = true;
+
+            return $decodedValue;
         });
     }
 

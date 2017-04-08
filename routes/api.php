@@ -16,3 +16,5 @@ Route::get('/critical-risks', 'Api\CriticalRiskController@all');
 
 // New report
 Route::post('/reports', 'Api\ReportController@store');
+// Edit report
+Route::post('/reports/{id}', 'Api\ReportController@update');
