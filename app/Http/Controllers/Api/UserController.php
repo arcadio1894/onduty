@@ -28,4 +28,21 @@ class UserController extends Controller
 
         return $data;
     }
+
+    public function byUserLocation(Request $request)
+    {
+        // get the location where the user belongs
+        $user = User::find($request->input('user_id'));
+        $location_id = $user->location_id;
+
+        // and the possible responsible uses for that location
+        $users = User::where('id', '<>', 1)
+            ->where('location_id', $location_id)
+            ->get([
+            'id',
+            'name'
+        ]);
+
+        return $users;
+    }
 }

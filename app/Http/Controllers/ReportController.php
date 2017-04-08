@@ -43,8 +43,6 @@ class ReportController extends Controller
         $areas = Area::all();
         $risks = CriticalRisk::all();
 
-        //dd( $users);
-
         return view('report.create')->with(compact('informe', 'workfronts', 'areas', 'users', 'risks'));
     }
 
@@ -79,7 +77,7 @@ class ReportController extends Controller
 
     public function store( Request $request )
     {
-        $rules = array(
+        $rules = [
             'workfront' => 'required',
             'area' => 'required',
             'responsible' => 'required',
@@ -91,8 +89,9 @@ class ReportController extends Controller
             'inspections' => 'required|numeric|min:1',
             'image' => 'image',
             'image-action' => 'image',
-        );
-        $messages = array(
+        ];
+
+        $messages = [
             'workfront.required'=>'Es necesario escoger el frente de trabajo del reporte',
             'area.required'=>'Es necesario escoger el área del reporte',
             'responsible.required'=>'Es necesario escoger el responsable del reporte',
@@ -106,7 +105,8 @@ class ReportController extends Controller
             'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
             'image.image' => 'Solo se admiten archivos tipo imagen',
             'image-action.image' => 'Solo se admiten archivos tipo imagen',
-        );
+        ];
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
