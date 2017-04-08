@@ -6,6 +6,7 @@ Route::get('/profile', 'Api\UserController@getProfile');
 // Informs and reports
 Route::get('/informs', 'Api\InformController@byUserLocation');
 Route::get('/reports', 'Api\ReportController@byInform');
+Route::get('/reports/{id}', 'Api\ReportController@byId');
 
 // Spinner options
 Route::get('/work-fronts', 'Api\WorkFrontController@byUserLocation');
