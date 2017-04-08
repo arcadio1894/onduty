@@ -22,6 +22,8 @@ class InformController extends Controller
             'created_at'
         ]);
 
+        $lastInformId = $informs->last()->id;
+
         foreach ($informs as $inform) {
             $inform->user_name = $inform->user->name; // append the user name
             unset($inform->user); // but not include all the information
@@ -30,6 +32,8 @@ class InformController extends Controller
             $inform->to_date_format = $inform->to_date->format('d/m/Y');
             unset($inform->from_date);
             unset($inform->to_date);
+
+            $inform->isEditable = ($inform->id == $lastInformId);
         }
 
         return $informs;

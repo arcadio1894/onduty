@@ -59,6 +59,7 @@ class ReportController extends Controller
     {
         $rules = [
             'user_id' => 'required|exists:users,id',
+            'inform_id' => 'required|exists:informes,id',
             'work_front' => 'required',
             'area' => 'required',
             'responsible' => 'required',
@@ -123,7 +124,7 @@ class ReportController extends Controller
             $user_id = $request->input('user_id');
 
             $report = Report::create([
-                'informe_id' => $request->get('informe'),
+                'informe_id' => $request->get('inform_id'),
                 'user_id' => $user_id,
                 'work_front_id' => $request->get('work_front'),
                 'area_id' => $request->get('area'),
