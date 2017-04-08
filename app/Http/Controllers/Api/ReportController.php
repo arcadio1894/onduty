@@ -69,8 +69,8 @@ class ReportController extends Controller
             'state' => 'required',
             'planned_date' => 'required',
             'inspections' => 'required|numeric|min:1',
-            'image' => 'image',
-            'image_action' => 'image'
+            'image' => 'imageable',
+            'image_action' => 'imageable'
         ];
 
         $messages = [
@@ -85,8 +85,8 @@ class ReportController extends Controller
             'inspections.required' => 'Es necesario escribir una cantidad de inspecciones',
             'inspections.numeric' => 'Es necesario escribir una cantidad de inspecciones numérica',
             'inspections.min' => 'Es necesario escribir una cantidad de inspecciones adecuada',
-            'image.image' => 'Solo se admiten archivos tipo imagen',
-            'image_action.image' => 'Solo se admiten archivos tipo imagen'
+            'image.imageable' => 'Imagen del reporte no válida',
+            'image_action.imageable' => 'Imagen de acción no válida'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);

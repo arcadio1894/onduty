@@ -37,7 +37,7 @@ class InformController extends Controller
 
         // make the last registered inform editable
         $informs->first()->isEditable = true;
-        
+
         return $informs;
     }
 }
