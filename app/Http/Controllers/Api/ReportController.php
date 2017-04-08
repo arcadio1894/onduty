@@ -143,12 +143,14 @@ class ReportController extends Controller
 
             if ($request->file('image'))
             {
-                $extension_image = $request->file('image')->getClientOriginalExtension();
+                $imageBase64 = base64_decode($request->file('image'));
+
+                $extension_image = $imageBase64->getClientOriginalExtension();
                 $file_name_image = $report->id . '.' . $extension_image;
 
                 $path_image = public_path('images/report/' . $file_name_image);
 
-                Image::make($request->file('image'))
+                Image::make($imageBase64)
                     ->fit(285, 285)
                     ->save($path_image);
 
@@ -158,12 +160,14 @@ class ReportController extends Controller
 
             if ($request->file('image_action'))
             {
-                $extension_image_action = $request->file('image_action')->getClientOriginalExtension();
+                $imageActionBase64 = base64_decode($request->file('image_action'));
+
+                $extension_image_action = $imageActionBase64->getClientOriginalExtension();
                 $file_name_image_action = $report->id . '.' . $extension_image_action;
 
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
 
-                Image::make($request->file('image_action'))
+                Image::make($imageActionBase64)
                     ->fit(285, 285)
                     ->save($path_image_action);
 
