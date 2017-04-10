@@ -302,7 +302,7 @@ class ReportController extends Controller
             $report->inspections = $request->get('inspections');
             $report->description = $request->get('description');
             $report->actions = $request->get('actions');
-            $report->observations = $request->get('observation') ?: '';
+            $report->observations = $request->get('observations') ?: '';
             $report->save();
 
             if ($request->input('image'))
