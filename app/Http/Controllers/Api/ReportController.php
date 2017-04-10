@@ -180,7 +180,7 @@ class ReportController extends Controller
                 'inspections' => $request->get('inspections'),
                 'description' => $request->get('description'),
                 'actions' => $request->get('actions'),
-                'observations' => $request->get('observation') ?: ''
+                'observations' => $request->get('observations') ?: ''
             ]);
 
             if ($request->input('image'))
