@@ -41,15 +41,17 @@ class UserController extends Controller
             ->get([
                 'id',
                 'name',
-                'email'
+                'email',
+                'position_id'
             ]);
 
         foreach ($users as $user) {
             $position = $user->position;
             $user->position_name = $position->name;
-            // $user->department_name = $position->department ? $position->department->name : '';
+            $user->department_name = $position->department ? $position->department->name : '';
 
             unset($user->position);
+            unset($user->position_id);
         }
 
         return $users;
