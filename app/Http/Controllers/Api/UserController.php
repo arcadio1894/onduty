@@ -47,7 +47,7 @@ class UserController extends Controller
         foreach ($users as $user) {
             $position = $user->position;
             $user->position_name = $position;
-            $user->department_name = $position->department->name;
+            $user->department_name = $position->department ? $position->department->name : '';
 
             unset($user->position);
         }
