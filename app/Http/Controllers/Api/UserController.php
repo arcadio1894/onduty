@@ -39,9 +39,18 @@ class UserController extends Controller
         $users = User::where('id', '<>', 1)
             ->where('location_id', $location_id)
             ->get([
-            'id',
-            'name'
-        ]);
+                'id',
+                'name',
+                'email'
+            ]);
+
+        foreach ($users as $user) {
+            $position = $user->position;
+            $user->position_name = $position;
+            $user->department_name = $position->department->name;
+
+            unset($user->position);
+        }
 
         return $users;
     }
