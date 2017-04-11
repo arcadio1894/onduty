@@ -56,6 +56,7 @@ class ReportController extends Controller
     public function byInform(Request $request)
     {
         $reports = Report::where('informe_id', $request->input('inform_id'))
+            ->orderBy('state', 'asc')
             ->orderBy('id', 'desc')
             ->get([
                 'id', // required to edit from the app
