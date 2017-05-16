@@ -79,7 +79,15 @@ class InformController extends Controller
         // check if it fails
         if ($validator->fails()) {
             $data['success'] = false;
-            $data['errors'] = $validator->messages();
+
+            $errorFields = $validator->messages()->toArray();
+            $errors = [];
+            foreach ($errorFields as $field => $errorField) {
+                foreach ($errorField as $errorMessage) {
+                    $errors[] = $errorMessage;
+                }
+            }
+            $data['errors'] = $errors;
 
             return $data;
         }

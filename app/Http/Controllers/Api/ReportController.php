@@ -223,9 +223,7 @@ class ReportController extends Controller
 
         $errorFields = $validator->messages()->toArray();
         $errors = [];
-
         foreach ($errorFields as $field => $errorField) {
-
             foreach ($errorField as $errorMessage) {
                 $errors[] = $errorMessage;
             }
