@@ -64,9 +64,11 @@ class InformController extends Controller
 
         // additional validations
         $validator->after(function ($validator) use ($request) {
-            $user_id = $request->input('user_id');
-            if (User::find($user_id)->role_id > 3) {
-                $validator->errors()->add('role', 'No tiene permisos para crear un informe');
+            if ($request->has('user_id')) {
+                $user_id = $request->input('user_id');
+                if (User::find($user_id)->role_id > 3) {
+                    $validator->errors()->add('role', 'No tiene permisos para crear un informe');
+                }
             }
 
             if ($request->get('from_date') > $request->get('to_date')) {
