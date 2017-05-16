@@ -128,7 +128,6 @@ class InformeController extends Controller
         }
 
         return response()->json($validator->messages(), 200);
-
     }
 
     public function edit(Request $request)
