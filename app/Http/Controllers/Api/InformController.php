@@ -35,11 +35,11 @@ class InformController extends Controller
             unset($inform->from_date);
             unset($inform->to_date);
 
-            $inform->isEditable = false;
+            $inform->is_editable = false;
         }
 
         // make the last registered inform editable
-        $informs->first()->isEditable = true;
+        $informs->first()->is_editable = true;
 
         return $informs;
     }
