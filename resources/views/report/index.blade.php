@@ -128,16 +128,13 @@
                                     <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
                                     <p><strong>Estado:</strong> {{ $report->state }}</p>
                                 </div>
-                                @if($informe->active)
+                                @if ($informe->active)
                                 <div class="card-action">
-                                    @if( Auth::user()->role_id < 4 AND $informe->active==true )
-                                        @if( Auth::user()->role_id == 3 AND $informe->user_id == Auth::user()->id )
+                                    @if (auth()->user()->role_id < 4) {{-- Not available for visitors --}}
+                                        @if ( auth()->user()->role_id < 3 ||
+                                                (auth()->user()->role_id == 3 AND $informe->user_id == auth()->user()->id) )
                                             <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                            <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
-                                        @endif
-                                        @if( Auth::user()->role_id < 3 )
-                                            <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                            <a data-delete="{{ $report->id }}" href="#modal1" >Eliminar</a>
+                                            <a data-delete="{{ $report->id }}" href="#modal1">Eliminar</a>
                                         @endif
                                     @endif
                                 </div>
@@ -162,7 +159,7 @@
             </div>
         </div>
 
-    <!-- Modal Structure -->
+    {{-- Modal to confirm delete action --}}
     <div id="modal1" class="modal">
         <form class="col s12" id="form-delete" action="{{ url('/report/delete') }}">
             {{ csrf_field() }}
@@ -174,7 +171,6 @@
                 <div class="row">
                     <p>¿Está seguro de eliminar este reporte?</p>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>

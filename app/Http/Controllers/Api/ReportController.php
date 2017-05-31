@@ -304,8 +304,7 @@ class ReportController extends Controller
             $report->observations = $request->get('observations') ?: '';
             $report->save();
 
-            if ($request->input('image'))
-            {
+            if ($request->input('image')) {
                 $imageBase64 = base64_decode($request->input('image'));
 
                 $extension_image = 'jpg';
@@ -321,8 +320,7 @@ class ReportController extends Controller
                 $report->save();
             }
 
-            if ($request->input('image_action'))
-            {
+            if ($request->input('image_action')) {
                 $imageActionBase64 = base64_decode($request->input('image_action'));
 
                 $extension_image_action = 'jpg';
