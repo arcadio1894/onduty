@@ -132,7 +132,9 @@
                                 <div class="card-action">
                                     @if (auth()->user()->role_id < 4) {{-- Not available for visitors --}}
                                         @if ( auth()->user()->role_id < 3 ||
-                                                (auth()->user()->role_id == 3 AND $informe->user_id == auth()->user()->id) )
+                                                $informe->user_id == auth()->user()->id ||
+                                                $report->user_id == auth()->user()->id ||
+                                                $report->responsible_id == auth()->user()->id )
                                             <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
                                             <a data-delete="{{ $report->id }}" href="#modal1">Eliminar</a>
                                         @endif
