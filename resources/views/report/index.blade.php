@@ -128,19 +128,19 @@
                                     <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
                                     <p><strong>Estado:</strong> {{ $report->state }}</p>
                                 </div>
-                                @if ($informe->active)
-                                <div class="card-action">
-                                    @if (auth()->user()->role_id < 4) {{-- Not available for visitors --}}
-                                        @if ( auth()->user()->role_id < 3 ||
-                                                $informe->user_id == auth()->user()->id ||
-                                                $report->user_id == auth()->user()->id ||
-                                                $report->responsible_id == auth()->user()->id )
+
+                                @if ($informe->active && auth()->user()->role_id < 4) {{-- Not available for visitors --}}
+                                    @if ( auth()->user()->role_id < 3 ||
+                                            $informe->user_id == auth()->user()->id ||
+                                            $report->user_id == auth()->user()->id ||
+                                            $report->responsible_id == auth()->user()->id )
+                                        <div class="card-action">
                                             <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
                                             <a data-delete="{{ $report->id }}" href="#modal1">Eliminar</a>
-                                        @endif
+                                        </div>
                                     @endif
-                                </div>
                                 @endif
+
                                 <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
                                     @if (!$report->image_action)
