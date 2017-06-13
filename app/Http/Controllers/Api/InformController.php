@@ -44,7 +44,7 @@ class InformController extends Controller
         return $informs;
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
         // IT IS AN EXACT COPY OF THE LOGIC USED IN INFORMECONTROLLER
 
@@ -53,11 +53,11 @@ class InformController extends Controller
         $rules = [
             'user_id' => 'required|exists:users,id',
             'from_date' => 'required',
-            'to_date' => 'required',
+            'to_date' => 'required'
         ];
         $messages = [
             'from_date.required' => 'Es necesario ingresar la la fecha de inicio de la visita',
-            'to_date.required' => 'Es necesario ingresar la fecha de fin de la visita',
+            'to_date.required' => 'Es necesario ingresar la fecha de fin de la visita'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);

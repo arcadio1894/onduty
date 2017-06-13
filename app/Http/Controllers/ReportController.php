@@ -75,7 +75,7 @@ class ReportController extends Controller
         return response()->json($users);
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
         $rules = [
             'workfront' => 'required',
@@ -113,7 +113,7 @@ class ReportController extends Controller
             if (Auth::user()->role_id > 3) {
                 $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
             }
-            if ( $request->get('deadline') ) {
+            if ($request->get('deadline')) {
                 if ($request->get('deadline') < $request->get('planned-date')) {
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
@@ -186,7 +186,7 @@ class ReportController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
         $rules = array(
             'workfront' => 'required',
@@ -223,7 +223,7 @@ class ReportController extends Controller
             if (Auth::user()->role_id > 3) {
                 $validator->errors()->add('role', 'No tiene permisos para editar un reporte');
             }
-            if ( $request->get('deadline') ) {
+            if ($request->get('deadline')) {
                 if ($request->get('deadline') < $request->get('planned-date')) {
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
