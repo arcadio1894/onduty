@@ -42,7 +42,7 @@
                             {{ $user->role->name }}
                             <br>
                             <strong>Cargo:</strong>
-                            {{ $user->position->name }}
+                            {{ $user->position ? $user->position->name : 'Cargo sin asignar' }}
                         </p>
                         @if (Auth::user()->role_id < 3)
                             <span class="right">
