@@ -49,11 +49,13 @@
                                 @if(!$user->trashed())
                                     <a class="waves-effect waves-light btn-floating" data-edit="{{ $user->id }}"
                                        href="#modal2" data-roleid="{{ $user->role->id }}"
+                                       @if ($user->position)
                                        data-positionid="{{ $user->position_id }}"
                                        data-departmentid="{{ $user->position->department_id }}"
+                                       @endif
                                        data-locationid="{{ $user->location_id }}"
-                                       data-role="{{ $user->role->name }}" data-name="{{$user->name}}"
-                                       data-password="{{$user->password}}">
+                                       data-role="{{ $user->role->name }}" data-name="{{ $user->name }}"
+                                       data-password="{{ $user->password }}">
                                         <i class="material-icons">mode_edit</i>
                                     </a>
                                 @endif
