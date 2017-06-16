@@ -94,11 +94,11 @@ class DepartmentController extends Controller
 
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
-                $validator->errors()->add('role', 'No tiene permisos para eliminar un departamento');
+                $validator->errors()->add('role', 'No tiene permisos para eliminar un departamento.');
             }
             $departments = Position::where('department_id', $request->get('id'))->first();
             if ($departments != null) {
-                $validator->errors()->add('department', 'No puede eliminar este departamento por tiene cargos asignados');
+                $validator->errors()->add('department', 'No puede eliminar este departamento por tiene cargos asignados.');
             }
         });
 
@@ -113,7 +113,7 @@ class DepartmentController extends Controller
 
     }
 
-    public function getDepartment( $idPosition ){
+    public function getDepartment($idPosition) {
         $position = Position::find($idPosition);
         $department = Department::find($position->department_id);
         return response()->json($department);

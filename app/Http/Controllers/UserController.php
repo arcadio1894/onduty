@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::withTrashed()->get();
+        $users = User::withTrashed()->orderBy('name')->get();
         $roles = Role::where('id', '<>', 1)->get();
         $departments = Department::all();
         $locations = Location::all();

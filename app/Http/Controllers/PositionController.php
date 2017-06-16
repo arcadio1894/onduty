@@ -18,7 +18,7 @@ class PositionController extends Controller
         return view('position.index')->with(compact('positions', 'departments'));
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
@@ -51,7 +51,7 @@ class PositionController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
@@ -90,12 +90,12 @@ class PositionController extends Controller
 
     }
 
-    public function delete( Request $request )
+    public function delete(Request $request)
     {
         // TODO: Solo el que puede creas es el super administrador o administrador
-        $rules = array(
+        $rules = [
             'id' => 'exists:positions'
-        );
+        ];
 
         $messsages = array(
             'id.exists'=>'No existe el cargo especificado',
@@ -115,8 +115,6 @@ class PositionController extends Controller
         }
 
         // TODO: Validaciones en el futuro
-
         return response()->json($validator->messages(), 200);
-
     }
 }
