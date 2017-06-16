@@ -24,8 +24,8 @@ class UserController extends Controller
     {
         $users = User::withTrashed()->orderBy('name')->get();
         $roles = Role::where('id', '<>', 1)->get();
-        $departments = Department::all();
-        $locations = Location::all();
+        $departments = Department::orderBy('name')->get();
+        $locations = Location::orderBy('name')->get();
 
         return view('user.index')->with(compact('users', 'roles', 'departments', 'locations'));
     }
