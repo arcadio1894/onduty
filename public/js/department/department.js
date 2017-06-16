@@ -64,7 +64,7 @@ $ (function () {
                         Materialize.toast(data[property], 4000);
                     }
                 } else {
-                    Materialize.toast("Departamento moodificado correctamente", 2200);
+                    Materialize.toast("Departamento modificado correctamente", 2200);
                     setTimeout(function () {
                         location.reload();
                     }, 1800);
