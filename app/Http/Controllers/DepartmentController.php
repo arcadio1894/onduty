@@ -17,7 +17,7 @@ class DepartmentController extends Controller
         return view('department.index')->with(compact('departments'));
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
         // TODO: Solo el que puede crear es el super administrador o administrador
         $rules = array(
@@ -48,18 +48,20 @@ class DepartmentController extends Controller
 
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
-        // TODO: Solo el que puede creas es el super administrador o administrador
-        $rules = array(
-            'name' => 'required|min:2|unique:departments',
-        );
-        $messsages = array(
-            'name.required'=>'Es necesario ingresar el nombre del departamento',
-            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-            'name.unique'=>'Existe un departamento con el mismo nombre.'
-        );
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $id = $request->input('id');
+
+        // TODO: Solo puede crear el super administrador o administradores
+        $rules = [
+            'name' => "required|min:2|unique:departments,name,$id",
+        ];
+        $messages = [
+            'name.required' => 'Es necesario ingresar el nombre del departamento',
+            'name.min' => 'El nombre debe tener por lo menos 2 caracteres',
+            'name.unique' => 'Existe un departamento con el mismo nombre.'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
