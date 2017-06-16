@@ -220,8 +220,10 @@ class UserController extends Controller
     }
     
     public function getPositionsDepartment($id_department){
-        //dd($id_department);
-        $positions = Position::where('id', '<>', 1)->where('department_id', $id_department)->get();
+        $positions = Position::where('id', '<>', 1)
+            ->where('department_id', $id_department)
+            ->orderBy('name') // asc
+            ->get();
         return response()->json($positions);
     }
 
