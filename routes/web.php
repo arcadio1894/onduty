@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'GuestController@index');
 
 Auth::routes();
 
@@ -94,7 +92,7 @@ Route::post('/department/delete', 'DepartmentController@delete');
 Route::get('/department/user/{idPosition}', 'DepartmentController@getDepartment');
 
 // Confirmation email
-Route::get('/register/verify/{code}', 'UserController@verify');
+Route::get('/register/verify/{code}', 'GuestController@verify');
 
 // Reports in excel
 Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');

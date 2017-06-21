@@ -103,20 +103,6 @@ class UserController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function verify($code)
-    {
-        $user = User::where('confirmation_code', $code)->first();
-        if (! $user)
-            return redirect('/');
-
-        dd($user);
-        $user->confirmed = true;
-        $user->confirmation_code = null;
-        $user->save();
-
-        return redirect('/login');
-    }
-
     public function edit( Request $request )
     {
         $rules = [
