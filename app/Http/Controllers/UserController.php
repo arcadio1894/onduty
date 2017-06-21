@@ -41,13 +41,13 @@ class UserController extends Controller
             'email' => 'required'
         ];
         $messages = [
-            'name.required'=>'Es necesario ingresar el nombre del área',
-            'name.min'=>'El nombre debe tener por lo menos 2 caracteres',
-            'password.required'=>'Es necesario indicar el password',
-            'password.min'=>'El password debe tener por lo menos 6 caracteres',
-            'role.required'=>'Es necesario ingresar el role del usuario',
-            'location-id.required'=>'Es necesario escoger una localización para el usuario',
-            'email.required'=>'Es necesario ingresar un email para el usuario'
+            'name.required' => 'Es necesario ingresar el nombre del área',
+            'name.min' => 'El nombre debe tener por lo menos 2 caracteres',
+            'password.required' => 'Es necesario indicar el password',
+            'password.min' => 'El password debe tener por lo menos 6 caracteres',
+            'role.required' => 'Es necesario ingresar el rol del usuario',
+            'location-id.required' => 'Es necesario escoger una localización para el usuario',
+            'email.required' => 'Es necesario ingresar un email para el usuario'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -109,6 +109,7 @@ class UserController extends Controller
         if (! $user)
             return redirect('/');
 
+        dd($user);
         $user->confirmed = true;
         $user->confirmation_code = null;
         $user->save();
