@@ -280,7 +280,6 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('js/masonry.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -292,12 +291,7 @@
             selectYears: 15, // Creates a dropdown of 15 years to control year
             format: 'yyyy-mm-dd'
         });
-
-        $('.cards').masonry({
-            itemSelector: '.col'
-        });
-
     </script>
 
-    <script type="text/javascript" src="{{ asset('js/observation/index.js') }}"></script>
+    <script src="{{ asset('js/observation/index.js') }}"></script>
 @endsection
