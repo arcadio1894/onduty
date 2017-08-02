@@ -96,7 +96,7 @@
                     <div class="input-field col s6">
                         <select id="department" name="department">
                             <option value="" disabled selected>Escoja un departamento</option>
-                            @foreach( $departments as $department )
+                            @foreach ($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </select>
@@ -132,7 +132,7 @@
                     <div class="input-field col s6">
                         <select id="department-selected" name="department-selected">
                             <option value="" disabled selected>Escoja un departamento</option>
-                            @foreach( $departments as $department )
+                            @foreach ($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </select>
@@ -189,5 +189,5 @@
             $('select').material_select();
         });
     </script>
-    <script type="text/javascript" src="{{ asset('js/position/position.js') }}"></script>
+    <script src="{{ asset('js/position/position.js') }}"></script>
 @endsection

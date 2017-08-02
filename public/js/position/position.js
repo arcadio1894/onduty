@@ -9,7 +9,7 @@ $ (function () {
     $modalEliminar = $('#modal3');
 
     $('#save-area').on('click', function () {
-        avatarUrl = $formRegister.attr('action');
+        var avatarUrl = $formRegister.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',
@@ -52,7 +52,7 @@ $ (function () {
     });
 
     $('#edit-area').on('click', function () {
-        avatarUrl = $formEdit.attr('action');
+        var avatarUrl = $formEdit.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',
@@ -87,7 +87,7 @@ $ (function () {
     });
 
     $('#delete-area').on('click', function () {
-        avatarUrl = $formDelete.attr('action');
+        var avatarUrl = $formDelete.attr('action');
         $.ajax({
             url: avatarUrl,
             method: 'POST',

@@ -13,8 +13,8 @@ class PositionController extends Controller
     public function index()
     {
         $positions = Position::orderBy('name')->with('department')->get();
-        $departments = Department::all();
-        //dd($speakers);
+        $departments = Department::orderBy('name')->get(); // A -> Z order
+
         return view('position.index')->with(compact('positions', 'departments'));
     }
 
