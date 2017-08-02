@@ -11,18 +11,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ObservationController extends Controller
 {
-    public function index( $id )
+    public function index($id)
     {
-        $informe = Informe::with('location')->with('user')->find($id);
-        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
+        $inform = Informe::with('location')->with('user')->find($id);
+        $users = User::where('id', '<>', 1)->where('location_id', $inform->location_id)
+            ->orderBy('name')->get();
         $observations = Observation::where('informe_id', $id )->get();
 
-        return view('observation.index')->with(compact('informe', 'users', 'observations'));
+        return view('observation.index')->with(compact('inform', 'users', 'observations'));
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
-        //dd($request->all());
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'turn' => 'required',
@@ -66,9 +66,8 @@ class ObservationController extends Controller
 
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
-        //dd($request->all());
         // TODO: Solo el que puede creas es el super administrador o administrador
         $rules = array(
             'turn_edit' => 'required',
@@ -78,7 +77,7 @@ class ObservationController extends Controller
             'woman_edit' => 'required',
             'turn_hours_edit' => 'required',
         );
-        $messsages = array(
+        $messages = array(
             'turn_edit.required'=>'Es necesario escoger un turno',
             'supervisor_edit.required'=>'Es necesario escoger un supervisor',
             'hse_edit.required'=>'Es necesario escoger un HSE en turno',
@@ -86,7 +85,7 @@ class ObservationController extends Controller
             'woman_edit.required'=>'Es necesario ingresar la cantidad de mujeres',
             'turn_hours_edit.required'=>'Es necesario ingresar la cantidad de horas en el turno',
         );
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
@@ -109,7 +108,7 @@ class ObservationController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function delete( Request $request )
+    public function delete(Request $request)
     {
         //dd($request->all());
         // TODO: Solo el que puede creas es el super administrador o administrador
@@ -117,11 +116,11 @@ class ObservationController extends Controller
             'id' => 'exists:observations'
         );
 
-        $messsages = array(
+        $messages = array(
             'id.exists'=>'No existe la observación especificada',
         );
 
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
@@ -139,4 +138,5 @@ class ObservationController extends Controller
         return response()->json($validator->messages(), 200);
 
     }
+
 }
