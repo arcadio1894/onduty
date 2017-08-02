@@ -86,18 +86,16 @@
                         </a>
                         <ul>
                             <li>
-                                <a class="btn-floating green" href="{{ url('excel/informe/' . $informe->id) }}" data-tooltip="Exportar excel">
-                                    <i class="material-icons">attach_file</i>
+                                <a class="btn-floating green tooltiped" href="{{ url('excel/informe/' . $informe->id) }}"
+                                   data-tooltip="Exportar excel" data-position="top">
+                                    <i class="material-icons">file_download</i>
                                 </a>
                             </li>
-                            <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-                            <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-
                             @if ($informe->active)
                                 @if (auth()->user()->role_id < 3 OR auth()->user()->role_id == 3 AND $informe->user_id == auth()->user()->id)
                                     <li>
                                         <a href="{{ url('register/report/' . $informe->id) }}"
-                                           data-tooltip="Nuevo reporte"
+                                           data-tooltip="Nuevo reporte" data-position="top"
                                            class="btn-floating waves-effect waves-light tooltipped teal">
                                             <i class="material-icons">add</i>
                                         </a>
