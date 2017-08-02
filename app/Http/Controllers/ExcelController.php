@@ -109,6 +109,7 @@ class ExcelController extends Controller
                     ->with('area')
                     ->with('responsible')
                     ->with('critical_risks')
+                    ->orderBy('status')
                     ->get();
 
                 $sheet->row($lastIndexRow+1, ['']);
