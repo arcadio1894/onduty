@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
     <style>
         .image {
             width: 144px;
             margin: 1em;
+        }
+        #p-display-name {
+            line-height: 1em;
+            margin: 0;
         }
         ul.side-nav.fixed li.logo a:hover, ul.side-nav.fixed li.logo a.active {
             background-color: #ffffff;
@@ -25,13 +26,10 @@
     </style>
     @yield('styles')
 
-    <!-- Compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-
     <link rel="stylesheet" href="{{ asset('css/ghpages-materialize.css') }}">
     
-    <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -61,6 +59,9 @@
                     @else
                         <img src=" {{ asset('images/users/default.jpg') }}" id="avatarImage" class="image" alt="Avatar por defecto">
                     @endif
+                    <p id="p-display-name">
+                        {{ auth()->user()->name }}
+                    </p>
                 </li>
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
