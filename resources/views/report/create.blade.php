@@ -61,51 +61,7 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Registrar reporte</span>
-                    {{--<div class="progress" id="line-loader" style="display: none">
-                        <div class="indeterminate"></div>
-                    </div>
-                    <div style="display: none" class="center" id="circle-loader"><div  class="preloader-wrapper active">
-                            <div class="spinner-layer spinner-blue">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
 
-                            <div class="spinner-layer spinner-red">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-
-                            <div class="spinner-layer spinner-yellow">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-
-                            <div class="spinner-layer spinner-green">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div><div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div></div>
---}}
                     <form action="{{ url('report/register') }}" enctype="multipart/form-data" id="form-register" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="informe" value="{{ $informe->id }}">

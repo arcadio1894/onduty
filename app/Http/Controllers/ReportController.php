@@ -50,10 +50,10 @@ class ReportController extends Controller
     public function showEdit($informe_id, $report_id)
     {
         $informe = Informe::with('location')->with('user')->find($informe_id);
-        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->get();
-        $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
-        $areas = Area::all();
-        $risks = CriticalRisk::all();
+        $users = User::where('id', '<>', 1)->where('location_id', $informe->location_id)->orderBy('name')->get();
+        $workfronts = WorkFront::where('location_id', $informe->location_id)->orderBy('name')->get();
+        $areas = Area::orderBy('name')->get();
+        $risks = CriticalRisk::orderBy('name')->get();
         $report = Report::with('user')
             ->with('work_front')
             ->with('area')
