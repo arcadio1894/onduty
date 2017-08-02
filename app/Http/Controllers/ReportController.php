@@ -9,6 +9,7 @@ use App\Location;
 use App\Report;
 use App\User;
 use App\WorkFront;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -119,13 +120,13 @@ class ReportController extends Controller
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
             }
-            if ( $request->get('actions') AND strlen($request->get('actions'))<5) {
+            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
                 $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
             }
-            if ( $request->get('description') AND strlen($request->get('description'))<5) {
+            if ($request->get('description') AND strlen($request->get('description'))<5) {
                 $validator->errors()->add('description', 'Debe escribir minimo 5 caracteres en la descripción');
             }
-            if ( $request->get('observation') AND strlen($request->get('observation'))<5) {
+            if ($request->get('observation') AND strlen($request->get('observation'))<5) {
                 $validator->errors()->add('observation', 'Debe escribir minimo 5 caracteres en la observación');
             }
 
@@ -151,6 +152,13 @@ class ReportController extends Controller
                 'actions' => $request->get('actions'),
                 'observations' => $request->get('observation') ?: ''
             ]);
+
+            if ($report->state=='Cerrado' && !$report->deadline) {
+                $report->deadline = Carbon::now();
+            }
+            if ($report->state=='Abierto' && $report->deadline) {
+                $report->deadline = null;
+            }
 
             if ($request->file('image'))
             {
@@ -229,16 +237,15 @@ class ReportController extends Controller
                     $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
                 }
             }
-            if ( $request->get('actions') AND strlen($request->get('actions'))<5) {
+            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
                 $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
             }
-            if ( $request->get('description') AND strlen($request->get('description'))<5) {
+            if ($request->get('description') AND strlen($request->get('description'))<5) {
                 $validator->errors()->add('description', 'Debe escribir minimo 5 caracteres en la descripción');
             }
-            if ( $request->get('observation') AND strlen($request->get('observation'))<5) {
+            if ($request->get('observation') AND strlen($request->get('observation'))<5) {
                 $validator->errors()->add('observation', 'Debe escribir minimo 5 caracteres en la observación');
             }
-
         });
 
         if(!$validator->fails()) {
@@ -258,6 +265,13 @@ class ReportController extends Controller
             $report->description = $request->get('description');
             $report->actions = $request->get('actions');
             $report->observations = $request->get('observation');
+
+            if ($report->state=='Cerrado' && !$report->deadline) {
+                $report->deadline = Carbon::now();
+            }
+            if ($report->state=='Abierto' && $report->deadline) {
+                $report->deadline = null;
+            }
 
 
             if ($request->file('image') != null OR $request->file('image') != "")
@@ -284,8 +298,7 @@ class ReportController extends Controller
                 $report->image_action = $extension;
             }
 
-            // Faltan validaciones de los que crean
-
+            // Missing validaciones de los que crean (?)
             $report->save();
         }
 
@@ -293,7 +306,7 @@ class ReportController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function delete( Request $request )
+    public function delete(Request $request)
     {
         //dd($request->all());
         // TODO: Solo el que puede creas es el super administrador o administrador
