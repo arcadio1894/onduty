@@ -86,7 +86,7 @@
                         </a>
                         <ul>
                             <li>
-                                <a class="btn-floating green tooltiped" href="{{ url('excel/informe/' . $informe->id) }}"
+                                <a class="btn-floating green tooltipped" href="{{ url('excel/informe/' . $informe->id) }}"
                                    data-tooltip="Exportar excel" data-position="top">
                                     <i class="material-icons">file_download</i>
                                 </a>
