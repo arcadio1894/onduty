@@ -7,7 +7,7 @@
                 <div class="nav-wrapper">
                     <div class="col s12">
                         <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
-                        <a href="{{ url('/observations/informe/'.$informe->id) }}" class="breadcrumb">Informe {{ $informe->id }}</a>
+                        <a href="{{ url('/observations/informe/'.$inform->id) }}" class="breadcrumb">Informe {{ $inform->id }}</a>
                     </div>
                 </div>
             </nav>
@@ -34,28 +34,28 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title flow-text ng-binding">Informe - {{ $informe->id }}</span>
+                    <span class="card-title flow-text ng-binding">Informe - {{ $inform->id }}</span>
 
                     <div class="row">
                         <div class="col s12 m2 l2">
                             <label>Localización</label>
-                            <p class="margin-0 ng-binding">{{ $informe->location->name }}</p>
+                            <p class="margin-0 ng-binding">{{ $inform->location->name }}</p>
                         </div>
                         <div class="col s12 m3 l3">
                             <label>Onduty</label>
-                            <p class="margin-0 ng-binding">{{ $informe->user->name }}</p>
+                            <p class="margin-0 ng-binding">{{ $inform->user->name }}</p>
                         </div>
                         <div class="col s12 m2 l2">
                             <label>Fecha de registro</label>
-                            <p class="margin-0 ng-binding">{{ $informe->updated_at }}</p>
+                            <p class="margin-0 ng-binding">{{ $inform->updated_at }}</p>
                         </div>
                         <div class="col s12 m2 l2">
                             <label>Fecha de visita de</label>
-                            <p class="margin-0 ng-binding">{{ $informe->from_date }}</p>
+                            <p class="margin-0 ng-binding">{{ $inform->from_date }}</p>
                         </div>
                         <div class="col s12 m2 l2">
                             <label>Fecha de visita hasta</label>
-                            <p class="margin-0 ng-binding">{{ $informe->to_date }}</p>
+                            <p class="margin-0 ng-binding">{{ $inform->to_date }}</p>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
     <div id="modal2" class="modal">
         <form class="col s12" id="form-register" method="post" action="{{ url('/observation/register') }}">
             {{ csrf_field() }}
-            <input type="hidden" name="informe_id" value="{{ $informe->id }}">
+            <input type="hidden" name="informe_id" value="{{ $inform->id }}">
             <div class="modal-content">
                 <div class="row">
                     <div class="input-field col s4">
