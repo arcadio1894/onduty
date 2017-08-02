@@ -136,7 +136,7 @@
                                 <option value="{{ $location->id }}">{{ $location->name }}</option>
                             @endforeach
                         </select>
-                        <label for="location-id">Localizaciones </label>
+                        <label for="location-id">Localizaciones</label>
                     </div>
                     <div class="input-field col s6">
                         <div class="file-field input-field">
@@ -246,5 +246,5 @@
             $('select').material_select();
         });
     </script>
-    <script type="text/javascript" src="{{ asset('js/user/user.js') }}"></script>
+    <script src="{{ asset('js/user/user.js') }}"></script>
 @endsection

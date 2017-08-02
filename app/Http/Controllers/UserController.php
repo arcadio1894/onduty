@@ -202,7 +202,7 @@ class UserController extends Controller
 
     public function getLocations()
     {
-        $locations = Location::all();
+        $locations = Location::orderBy('name')->get(); // ascendant order by default
         return response()->json($locations);
     }
     
