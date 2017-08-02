@@ -216,7 +216,7 @@ class UserController extends Controller
 
     public function getDepartments()
     {
-        $departments = Department::all();
+        $departments = Department::orderBy('name')->get(); // asc order by default (A->Z)
         return response()->json($departments);
     }
 
