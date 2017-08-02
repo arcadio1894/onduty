@@ -28,4 +28,8 @@ class Informe extends Model
         return $this->belongsTo('App\User')->withTrashed();
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

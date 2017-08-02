@@ -75,6 +75,10 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
+
+                    <p>
+                        Este informe presenta un total de {{ $informe->reports->count() }} reporte(s).
+                        {{ $informe->reports->where('state', 'Abierto')->count() }} abierto(s) y {{ $informe->reports->where('state', 'Cerrado')->count() }} cerrado(s).</p>
                     <a href="{{ url('excel/informe/' . $informe->id) }}"
                        data-delay="50"
                        data-tooltip="Exportar excel"
