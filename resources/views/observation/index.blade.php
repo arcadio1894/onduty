@@ -139,8 +139,8 @@
                     <div class="input-field col s4">
                         <select id="turn" name="turn">
                             <option value="" disabled selected>Selecciona un turno</option>
-                            <option value="Mañana">Mañana</option>
-                            <option value="Tarde">Tarde</option>
+                            <option value="Diurno">Diurno</option>
+                            <option value="Nocturno">Nocturno</option>
                         </select>
                         <label for="turn">Turnos</label>
                     </div>
