@@ -18,7 +18,12 @@ use Intervention\Image\Facades\Image;
 
 class ReportController extends Controller
 {
-    public function index( $id )
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index($id)
     {
         $informe = Informe::with('location')->with('user')->find($id);
         $workfronts = WorkFront::where('location_id', $informe->location_id)->get();
