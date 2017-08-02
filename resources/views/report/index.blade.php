@@ -79,32 +79,40 @@
                     <p>
                         Este informe presenta un total de {{ $informe->reports->count() }} reporte(s).
                         {{ $informe->reports->where('state', 'Abierto')->count() }} abierto(s) y {{ $informe->reports->where('state', 'Cerrado')->count() }} cerrado(s).</p>
-                    <a href="{{ url('excel/informe/' . $informe->id) }}"
-                       data-delay="50"
-                       data-tooltip="Exportar excel"
-                       class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
-                        <i class="material-icons">play_for_work</i>
-                    </a>
-                    @if( Auth::user()->role_id < 4 AND $informe->active==true )
-                        @if( Auth::user()->role_id == 3 AND $informe->user_id == Auth::user()->id )
-                            <a href="{{ url('register/report/' . $informe->id) }}"
-                               data-delay="50"
-                               data-tooltip="Nuevo reporte"
-                               class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
-                                <i class="material-icons">add</i>
-                            </a>
-                        @endif
-                        @if( Auth::user()->role_id < 3 )
-                            <a href="{{ url('register/report/' . $informe->id) }}"
-                            data-delay="50"
-                            data-tooltip="Nuevo reporte"
-                            class="btn-floating btn-large waves-effect waves-light tooltipped teal right">
-                            <i class="material-icons">add</i>
-                            </a>
-                        @endif
 
-                    @endif
+                    <div class="fixed-action-btn horizontal">
+                        <a class="btn-floating btn-large red">
+                            <i class="large material-icons">menu</i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a class="btn-floating green" href="{{ url('excel/informe/' . $informe->id) }}" data-tooltip="Exportar excel">
+                                    <i class="material-icons">attach_file</i>
+                                </a>
+                            </li>
+                            <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                            <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
 
+                            @if ($informe->active)
+                                @if (auth()->user()->role_id < 3 OR auth()->user()->role_id == 3 AND $informe->user_id == auth()->user()->id)
+                                    <li>
+                                        <a href="{{ url('register/report/' . $informe->id) }}"
+                                           data-tooltip="Nuevo reporte"
+                                           class="btn-floating waves-effect waves-light tooltipped teal">
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endif
+                        </ul>
+                    </div>
+
+                    {{--<a href="{{ url('excel/informe/' . $informe->id) }}"--}}
+                       {{--data-delay="50"--}}
+                       {{--data-tooltip="Exportar excel"--}}
+                       {{--class="btn-floating btn-large waves-effect waves-light tooltipped teal right">--}}
+                        {{--<i class="material-icons">play_for_work</i>--}}
+                    {{--</a>--}}
                 </div>
             </div>
         </div>
