@@ -224,6 +224,8 @@
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
     <script>
+    	startMasonryWhenAllImagesHaveLoaded();
+
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
@@ -234,8 +236,6 @@
                 selectYears: 15, // Creates a dropdown of 15 years to control year
                 format: 'yyyy-mm-dd'
             });
-            
-            startMasonryWhenAllImagesHaveLoaded();
         });
 
         function startMasonryWhenAllImagesHaveLoaded() {
