@@ -239,7 +239,7 @@
         });
 
         function startMasonryWhenAllImagesHaveLoaded() {
-        	$(document).load(function () {
+        	$(window).on('load', function () {
         		$('.cards').masonry({ itemSelector: '.col' });
         	});
 	    }    
