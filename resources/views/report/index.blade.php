@@ -234,11 +234,25 @@
                 selectYears: 15, // Creates a dropdown of 15 years to control year
                 format: 'yyyy-mm-dd'
             });
-
-            $('.cards').masonry({
-                itemSelector: '.col'
-            });
+            
+            startMasonryWhenAllImagesHaveLoaded();
         });
+
+        function startMasonryWhenAllImagesHaveLoaded() {
+        	var imgs = document.images,
+			    len = imgs.length,
+			    counter = 0;
+
+			[].forEach.call(imgs, function(img) {
+			    img.addEventListener( 'load', incrementCounter, false );
+			});
+	    }
+
+    	function incrementCounter() {
+		    counter++;
+		    if (counter === len)
+		    	$('.cards').masonry({ itemSelector: '.col' });    
+		}    
     </script>
 
     <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
