@@ -226,7 +226,7 @@
     <script>
     	startMasonryWhenAllImagesHaveLoaded();
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
             $('select').material_select();
@@ -239,19 +239,9 @@
         });
 
         function startMasonryWhenAllImagesHaveLoaded() {
-        	var imgs = document.images,
-			    len = imgs.length,
-			    counter = 0;
-
-			[].forEach.call(imgs, function(img) {
-			    img.addEventListener( 'load', incrementCounter, false );
-			});
-
-	    	function incrementCounter() {
-			    counter++;
-			    if (counter === len)
-			    	$('.cards').masonry({ itemSelector: '.col' });    
-			}
+        	$(document).load(function () {
+        		$('.cards').masonry({ itemSelector: '.col' });
+        	});
 	    }    
     </script>
 
