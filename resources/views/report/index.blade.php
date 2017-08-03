@@ -246,13 +246,13 @@
 			[].forEach.call(imgs, function(img) {
 			    img.addEventListener( 'load', incrementCounter, false );
 			});
-	    }
 
-    	function incrementCounter() {
-		    counter++;
-		    if (counter === len)
-		    	$('.cards').masonry({ itemSelector: '.col' });    
-		}    
+	    	function incrementCounter() {
+			    counter++;
+			    if (counter === len)
+			    	$('.cards').masonry({ itemSelector: '.col' });    
+			}
+	    }    
     </script>
 
     <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
