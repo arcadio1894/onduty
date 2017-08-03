@@ -112,7 +112,7 @@ class ReportController extends Controller
             'inspections.numeric' => 'La cantidad de inspecciones debe ser un número válido',
             'inspections.min' => 'Ingrese una cantidad de inspecciones válida',
             'image.image' => 'Solo se admiten archivos de tipo imagen',
-            'image-action.image' => 'Solo se admiten archivos de tipo imagen',
+            'image-action.image' => 'Solo se admiten archivos de tipo imagen'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -220,31 +220,35 @@ class ReportController extends Controller
         );
 
         $messages = array(
-            'workfront.required'=>'Es necesario escoger el frente de trabajo del reporte',
-            'area.required'=>'Es necesario escoger el área del reporte',
-            'responsible.required'=>'Es necesario escoger el responsable del reporte',
-            'aspect.required'=>'Es necesario escoger el aspecto del reporte',
-            'risk.required'=>'Es necesario escoger el riesgo crítico del reporte',
-            'potencial.required'=>'Es necesario escoger el potencial del reporte',
-            'state.required'=>'Es necesario escoger el estado del reporte',
-            'planned-date.required'=>'Es necesario escoger la fecha planeada del reporte',
-            'inspections.required'=>'Es necesario escribir una cantidad de inspecciones',
-            'inspections.min'=>'Es necesario escribir una cantidad de inspecciones adecuada',
-            'image.image' => 'Solo se admiten archivos tipo imagen',
-            'image-action.image' => 'Solo se admiten archivos tipo imagen',
+            'workfront.required' => 'Es necesario seleccionar un frente de trabajo',
+            'area.required' => 'Es necesario seleccionar el área del reporte',
+            'responsible.required' => 'Es necesario escoger un responsable',
+            'aspect.required' => 'Es necesario definir el aspecto del reporte',
+            'risk.required' => 'Es necesario seleccionar cuál es el riesgo crítico',
+            'potencial.required' => 'Es necesario definir el potencial del reporte',
+            'state.required' => 'Es necesario definir el estado del reporte',
+            'planned-date.required' => 'Es necesario escoger la fecha planeada del reporte',
+            'inspections.required' => 'Es necesario indicar la cantidad de inspecciones',
+            'inspections.numeric' => 'La cantidad de inspecciones debe ser un número válido',
+            'inspections.min' => 'Ingrese una cantidad de inspecciones válida',
+            'image.image' => 'Solo se admiten archivos de tipo imagen',
+            'image-action.image' => 'Solo se admiten archivos de tipo imagen'
         );
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) use ($request) {
-            if (Auth::user()->role_id > 3) {
+            if (Auth::user()->role_id > 3)
                 $validator->errors()->add('role', 'No tiene permisos para editar un reporte');
+
+            if ($request->get('deadline') AND $request->get('deadline') < $request->get('planned-date')) {
+                $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
             }
-            if ($request->get('deadline')) {
-                if ($request->get('deadline') < $request->get('planned-date')) {
-                    $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
-                }
+
+            if ($request->get('state')=='Cerrado' && !$request->get('deadline')) {
+                $validator->errors()->add('deadline', 'Especifique la fecha de cierre');
             }
+
             if ($request->get('actions') AND strlen($request->get('actions'))<5) {
                 $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
             }
