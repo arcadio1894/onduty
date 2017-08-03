@@ -17,8 +17,15 @@ class LoginController extends Controller
 	    }
 
 	    $data['success'] = $auth;
-	    $data['user_id'] = auth()->user() ? auth()->user()->id : 0;
-		
+	    $user = auth()->user();
+	    if ($user) {
+	    	$data['user_id'] =  $user->id;
+	    	$data['is_admin'] =  $user->role_id <= 2; // 1: SuperAdmin | 2: Admin
+	    } else {
+			$data['user_id'] = 0;
+			$data['is_admin'] = false;
+	    }
+	    
 		return $data;
     }
 }
