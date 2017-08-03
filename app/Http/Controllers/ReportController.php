@@ -36,6 +36,7 @@ class ReportController extends Controller
             ->with('area')
             ->with('responsible')
             ->with('critical_risks')
+            ->orderBy('state') // ascendant order => A, C
             ->orderBy('id', 'desc')->get();
 
         return view('report.index')->with(compact('reports', 'informe', 'workfronts', 'areas', 'users', 'risks'));

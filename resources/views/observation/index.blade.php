@@ -147,7 +147,7 @@
                     <div class="input-field col s4">
                         <select id="supervisor" name="supervisor">
                             <option value="" disabled selected>Selecciona un supervisor</option>
-                            @foreach( $users as $user )
+                            @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
 
