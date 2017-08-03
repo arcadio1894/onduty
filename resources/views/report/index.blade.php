@@ -136,7 +136,9 @@
                                     <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>
                                     <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
                                     <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
-                                    <p><strong>Estado:</strong> {{ $report->state }}</p>
+                                    <p class="{{ $report->state=='Abierto' ? 'red' : 'green' }}-text">
+                                        <strong>Estado:</strong> {{ $report->state }}
+                                    </p>
                                 </div>
 
                                 @if ($informe->active && auth()->user()->role_id < 4) {{-- Not available for visitors --}}
@@ -233,7 +235,7 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $('#report-container').masonry({
+            $('.cards').masonry({
                 itemSelector: '.col'
             });
         });
