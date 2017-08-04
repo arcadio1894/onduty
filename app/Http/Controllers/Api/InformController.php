@@ -7,6 +7,7 @@ use App\Report;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
@@ -68,6 +69,12 @@ class InformController extends Controller
                 $user_id = $request->input('user_id');
                 if (User::find($user_id)->role_id > 3) {
                     $validator->errors()->add('role', 'No tiene permisos para crear un informe');
+                }
+
+                $hasCreatedInformToday = Informe::where('user_id', $user_id)
+                    ->whereDate('created_at', DB::raw('CURDATE()'))->exists();
+                if ($hasCreatedInformToday) {
+                    $validator->errors()->add('repeated', 'Ya has creado un informe hoy, ten más cuidado');
                 }
             }
 
