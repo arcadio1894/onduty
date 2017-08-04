@@ -138,16 +138,12 @@ class ReportController extends Controller
             $user_id = $request->input('user_id');
             $user = User::find($user_id);
 
-            if ($user) {
-                if ($user->role_id > 3) {
-                    $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
-                }
+            if ($user AND $user->role_id > 3) {
+                $validator->errors()->add('role', 'No tiene permisos para crear un reporte');
             }
 
-            if ($request->get('deadline') ) {
-                if ($request->get('deadline') < $request->get('planned_date')) {
-                    $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
-                }
+            if ($request->get('deadline') AND $request->get('deadline') < $request->get('planned_date')) {
+                $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
             }
 
             if ($request->get('actions') AND strlen($request->get('actions'))<5) {

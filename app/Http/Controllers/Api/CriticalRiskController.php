@@ -10,9 +10,8 @@ class CriticalRiskController extends Controller
 {
     public function all()
     {
-        $areas = CriticalRisk::all([
-            'id',
-            'name'
+        $areas = CriticalRisk::orderBy('name')->get([
+            'id', 'name'
         ]);
 
         return $areas;

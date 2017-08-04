@@ -37,7 +37,7 @@ class UserController extends Controller
 
         // and the possible responsible uses for that location
         $users = User::where('id', '<>', 1)
-            ->where('location_id', $location_id)
+            ->where('location_id', $location_id)->orderBy('name')
             ->get([
                 'id',
                 'name',

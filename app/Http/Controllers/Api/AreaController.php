@@ -10,11 +10,7 @@ class AreaController extends Controller
 {
     public function all()
     {
-        $areas = Area::all([
-            'id',
-            'name'
-        ]);
-
+        $areas = Area::orderBy('name')->get([ 'id', 'name' ]);
         return $areas;
     }
 }

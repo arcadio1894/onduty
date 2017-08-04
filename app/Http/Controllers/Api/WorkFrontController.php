@@ -16,10 +16,8 @@ class WorkFrontController extends Controller
         $location_id = $user->location_id;
 
         // and the work fronts in that location
-        $workFronts = WorkFront::where('location_id', $location_id)->get([
-            'id',
-            'name'
-        ]);
+        $workFronts = WorkFront::where('location_id', $location_id)
+            ->orderBy('name')->get([ 'id', 'name' ]);
 
         return $workFronts;
     }
