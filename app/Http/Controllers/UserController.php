@@ -23,14 +23,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::withTrashed()->orderBy('name')->get();
-        $roles = Role::where('id', '<>', 1)->get();
+        $roles = Role::get();
         $departments = Department::orderBy('name')->get();
         $locations = Location::orderBy('name')->get();
 
         return view('user.index')->with(compact('users', 'roles', 'departments', 'locations'));
     }
 
-    public function store( Request $request )
+    public function store(Request $request)
     {
         //dd($request->all());
         $rules = [
@@ -54,6 +54,10 @@ class UserController extends Controller
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
                 $validator->errors()->add('role', 'No tiene permisos para crear un usuario');
+            }
+
+            if ($request->get('role') && $request->get('role')==1 && Auth::user()->role_id>1) {
+                $validator->errors()->add('role', 'Debes ser súper administrador para registrar a otros con el mismo privilegio');
             }
 
             $email_user = User::where('email', $request->get('email'))->first();
@@ -103,7 +107,7 @@ class UserController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function edit( Request $request )
+    public function edit(Request $request)
     {
         $rules = [
             'name' => 'required|min:2',
@@ -122,6 +126,10 @@ class UserController extends Controller
         $validator->after(function ($validator) use ($request) {
             if (Auth::user()->role_id > 2) {
                 $validator->errors()->add('role', 'No tiene permisos para editar un usuario');
+            }
+
+            if ($request->get('role') && $request->get('role')==1 && Auth::user()->role_id>1) {
+                $validator->errors()->add('role', 'Debes ser súper administrador para asignar a otros el mismo privilegio');
             }
 
             $email_user = User::where('email', $request->get('email'))->first();
@@ -165,7 +173,7 @@ class UserController extends Controller
         return response()->json($validator->messages(), 200);
     }
 
-    public function delete( Request $request )
+    public function delete(Request $request)
     {
         $rules = [
             'id' => 'exists:users'

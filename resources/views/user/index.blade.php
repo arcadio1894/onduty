@@ -101,11 +101,11 @@
                     <div class="input-field col s6">
                         <select id="role" name="role">
                             <option value="" disabled selected>Escoja un rol</option>
-                            @foreach( $roles as $role )
+                            @foreach ($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
-                        <label for="role">Roles de usuario</label>
+                        <label for="role">Rol de usuario</label>
                     </div>
                 </div>
 
@@ -117,13 +117,13 @@
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
                         </select>
-                        <label for="department">Departamento </label>
+                        <label for="department">Departamento</label>
                     </div>
                     <div class="input-field col s6" id="positions">
                         <select id="position" name="position">
                             <option value="" disabled selected>Escoja un cargo</option>
                         </select>
-                        <label for="position">Cargos </label>
+                        <label for="position">Cargo</label>
                     </div>
 
                 </div>
