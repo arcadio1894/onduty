@@ -9,7 +9,8 @@
         <nav class="light-blue">
             <div class="nav-wrapper">
                 <div class="col s12">
-                    <a href="{{ url('/informes') }}" class="breadcrumb">Informe general</a>
+                    <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
+                    <a href="#" class="breadcrumb">Informe general</a>
                 </div>
             </div>
         </nav>
@@ -19,69 +20,90 @@
 @section('content')
     <div class="card">
         <div class="card-content">
-            <span class="card-title">Listado de Informes</span>
-            <p><small>Mostrando informes desde el más reciente al más antiguo.</small></p>
-            <div class="table-responsive-vertical">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Localización</th>
-                        <th>Onduty</th>
-                        <th>Fecha desde</th>
-                        <th>Fecha hasta</th>
-                        @if (Auth::user()->role_id <3)
-                            <th>Acciones</th>
-                        @endif
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($informes as $informe)
-                        <tr>
-                            <td data-title="Localización">{{ $informe->location->name }}</td>
-                            <td data-title="Onduty">{{ $informe->user->name }}</td>
-                            <td data-title="Desde">{{ $informe->from_date->format('d/m/Y') }}</td>
-                            <td data-title="Hasta">{{ $informe->to_date->format('d/m/Y') }}</td>
-                            <td>
-                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Reportes" href="{{ url('reports/informe/'. $informe->id) }}">
-                                    <i class="material-icons">list</i>
-                                </a>
-                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Observaciones" href="{{ url('observations/informe/'. $informe->id) }}">
-                                    <i class="material-icons">visibility</i>
-                                </a>
-                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Gráficas" href="{{ url('graphics/informe/'. $informe->id) }}">
-                                    <i class="material-icons">equalizer</i>
-                                </a>
-                                <a class="waves-effect waves-light btn tooltip" data-tooltip="Exportar a Excel" href="{{ url('excel/informe/'. $informe->id) }}">
-                                    <i class="material-icons">file_download</i>
-                                </a>
-                                @if (Auth::user()->role_id < 3)
-                                    <a class="waves-effect waves-light btn tooltip" data-tooltip="Eliminar" data-delete="{{ $informe->id }}" href="#modal3">
-                                        <i class="material-icons">delete</i>
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="fixed-action-btn horizontal">
-                <a class="btn-floating btn-large light-blue">
-                    <i class="large material-icons">menu</i>
-                </a>
-                <ul>
-                    <li>
-                        <a class="btn-floating waves-effect waves-light green tooltip" href="{{ url('/excel/informes/general') }}"
-                           data-tooltip="Informe general" data-position="top">
+            <span class="card-title">Consolidado de reportes</span>
+            <p>Seleccione un intervalo de fechas para generar el consolidado de reportes.</p>
+            <div class="row">
+                <form action="">
+                    <div class="input-field col s4">
+                        <input type="date" class="datepicker" id="start_date" name="start_date" required>
+                        <label for="start_date" data-error="Escoge una fecha" data-success="Bien">Fecha de incio</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="date" class="datepicker" id="end_date" name="end_date" required>
+                        <label for="end_date" data-error="Escoge una fecha" data-success="Bien">Fecha de fin</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <button type="submit" class="waves-effect waves-light btn tooltip" data-tooltip="Consultar reportes">
+                            <i class="material-icons">visibility</i>
+                        </button>
+                        <a class="waves-effect waves-light btn tooltip" data-tooltip="Exportar excel">
                             <i class="material-icons">file_download</i>
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    @if ($reports)
+    <div class="col s12">
+        <div class="row">
+            <div class="cards">
+                @foreach ($reports as $report)
+                    <div class="col s12 m6 l4 xl3">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                @if(!$report->image)
+                                    <img class="activator"  src="{{ asset('images/report/default.png') }}" alt="">
+                                @else
+                                    <img class="activator"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                                @endif
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
+                                <p><strong>Fecha de registro:</strong> {{ $report->created_at }}</p>
+                                <p><strong>Frente:</strong> {{ $report->work_front->name }}</p>
+                                <p><strong>Área:</strong> {{ $report->area->name }}</p>
+                                <p><strong>Responsable:</strong> {{ $report->responsible->name }}</p>
+                                <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
+                                <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
+                                <p class="{{ $report->state=='Abierto' ? 'red' : 'green' }}-text">
+                                    <strong>Estado:</strong> {{ $report->state }}
+                                </p>
+                            </div>
+
+                            @if ($informe->active && auth()->user()->role_id < 4) {{-- Not available for visitors --}}
+                            @if ( auth()->user()->role_id < 3 ||
+                                    $informe->user_id == auth()->user()->id ||
+                                    $report->user_id == auth()->user()->id ||
+                                    $report->responsible_id == auth()->user()->id )
+                                <div class="card-action">
+                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
+                                    <a data-delete="{{ $report->id }}" href="#modal1">Eliminar</a>
+                                </div>
+                            @endif
+                            @endif
+
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
+                                @if (!$report->image_action)
+                                    <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
+                                @else
+                                    <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                @endif
+                                <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
+                                <p><strong>Potencial:</strong> {{ $report->potential }}</p>
+                                <p><strong># inspecciones:</strong> {{ $report->inspections }}</p>
+                                <p><strong>Riesgo crítico:</strong> {{ $report->critical_risks->name }}</p>
+                                <p><strong>Observación:</strong> {{ $report->observations }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
 
 @section('scripts')
@@ -90,8 +112,8 @@
             $('.tooltip').tooltip({delay: 50});
 
             $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15, // Creates a dropdown of 15 years to control year
+                selectMonths: true, // Creates a drop down to control month
+                selectYears: 15, // Creates a drop down of 15 years
                 format: 'yyyy-mm-dd'
             });
         });

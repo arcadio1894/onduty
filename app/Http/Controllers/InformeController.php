@@ -9,6 +9,7 @@ use App\Location;
 use App\Report;
 use App\User;
 use App\WorkFront;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -22,10 +23,34 @@ class InformeController extends Controller
         return view('informe.index')->with(compact('informes'));
     }
 
-    public function general()
+    public function general(Request $request)
     {
-        $informes = Informe::with('location')->with('user')->orderBy('id', 'desc')->get();
-        return view('informe.general')->with(compact('informes'));
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        if ($start_date && $end_date) {
+            $start = Carbon::parse($start_date);
+            $end = Carbon::parse($end_date);
+
+            $informs = Informe::where('from_date', '>=', $start)
+                ->where('to_date', '<=', $end)->pluck('id');
+
+            dd($informs);
+
+            $reports = Report::whereIn('informe_id', $informs)
+                ->with('user')
+                ->with('work_front')
+                ->with('area')
+                ->with('responsible')
+                ->with('critical_risks')
+                ->orderBy('state') // ascendant order => A, C
+                ->orderBy('id', 'desc')->distinct('description')->get();
+            // dd($reports->pluck('description'));
+        } else {
+            $reports = collect();
+        }
+
+        return view('informe.general')->with(compact('reports'));
     }
 
     public function store(Request $request)

@@ -113,7 +113,7 @@
             <div class="row">
                 <div class="cards">
                     @foreach ($reports as $report)
-                        <div class="col s12 m6 l4" >
+                        <div class="col s12 m6 l4 xl3">
                             <div class="card">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     @if(!$report->image)
@@ -181,7 +181,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
                 <a href="#" class="waves-effect waves-green btn-flat" id="delete-report">Eliminar</a>
             </div>
         </form>
@@ -239,5 +239,5 @@
 	    }    
     </script>
 
-    <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
+    <script src="{{ asset('js/report/report.js') }}"></script>
 @endsection
