@@ -75,13 +75,14 @@
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Reportes</span>
-
                     <p>
                         Este informe presenta un total de {{ $informe->reports->count() }} reporte(s).
-                        {{ $informe->reports->where('state', 'Abierto')->count() }} abierto(s) y {{ $informe->reports->where('state', 'Cerrado')->count() }} cerrado(s).</p>
+                        {{ $informe->reports->where('state', 'Abierto')->count() }} abierto(s)
+                        y {{ $informe->reports->where('state', 'Cerrado')->count() }} cerrado(s).
+                    </p>
 
                     <div class="fixed-action-btn horizontal">
-                        <a class="btn-floating btn-large red">
+                        <a class="btn-floating btn-large light-blue">
                             <i class="large material-icons">menu</i>
                         </a>
                         <ul>
@@ -104,13 +105,6 @@
                             @endif
                         </ul>
                     </div>
-
-                    {{--<a href="{{ url('excel/informe/' . $informe->id) }}"--}}
-                       {{--data-delay="50"--}}
-                       {{--data-tooltip="Exportar excel"--}}
-                       {{--class="btn-floating btn-large waves-effect waves-light tooltipped teal right">--}}
-                        {{--<i class="material-icons">play_for_work</i>--}}
-                    {{--</a>--}}
                 </div>
             </div>
         </div>

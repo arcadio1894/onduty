@@ -19,14 +19,16 @@ class InformeController extends Controller
     public function index()
     {
         $informes = Informe::with('location')->with('user')->orderBy('id', 'desc')->get();
-
-        $locations = Location::all();
-        $users = User::where('id', '<>', 1)->get();
-
-        return view('informe.index')->with(compact('informes', 'locations', 'users'));
+        return view('informe.index')->with(compact('informes'));
     }
 
-    public function store( Request $request )
+    public function general()
+    {
+        $informes = Informe::with('location')->with('user')->orderBy('id', 'desc')->get();
+        return view('informe.general')->with(compact('informes'));
+    }
+
+    public function store(Request $request)
     {
         // Solo puede crear el super administrador, administrador o responsable
 
@@ -167,7 +169,7 @@ class InformeController extends Controller
 
     }
 
-    public function delete( Request $request )
+    public function delete(Request $request)
     {
         // Solo el que puede creas es el super administrador o administrador
         $rules = array(
@@ -202,7 +204,7 @@ class InformeController extends Controller
 
     }
     
-    public function graphics( $id ){
+    public function graphics($id){
         $informe = Informe::with('location')->with('user')->find($id);
 
         // Gráfico de reportes segun aspecto
@@ -312,7 +314,7 @@ class InformeController extends Controller
         return json_encode($array);
     }
 
-    public function getOpenResponsibleGraph($informe_id){
+    public function getOpenResponsibleGraph($informe_id) {
         // Gráfico de reportes segun frentes de trabajo
         $informe = Informe::with('location')->with('user')->find($informe_id);
 

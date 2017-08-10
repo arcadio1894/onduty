@@ -59,6 +59,7 @@ Route::post('/position/delete', 'PositionController@delete');
 Route::get('/positions/users', 'UserController@getPositions');
 
 Route::get('/informes', 'InformeController@index');
+Route::get('/informes/general', 'InformeController@general');
 Route::post('/informe/register', 'InformeController@store');
 Route::post('/informe/edit', 'InformeController@edit');
 Route::post('/informe/delete', 'InformeController@delete');

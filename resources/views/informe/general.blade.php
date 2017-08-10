@@ -9,7 +9,7 @@
         <nav class="light-blue">
             <div class="nav-wrapper">
                 <div class="col s12">
-                    <a href="{{ url('/informes') }}" class="breadcrumb">Informes</a>
+                    <a href="{{ url('/informes') }}" class="breadcrumb">Informe general</a>
                 </div>
             </div>
         </nav>
@@ -73,71 +73,14 @@
                 </a>
                 <ul>
                     <li>
-                        <a class="btn-floating waves-effect waves-light green tooltip" href="{{ url('/informes/general') }}"
+                        <a class="btn-floating waves-effect waves-light green tooltip" href="{{ url('/excel/informes/general') }}"
                            data-tooltip="Informe general" data-position="top">
                             <i class="material-icons">file_download</i>
                         </a>
                     </li>
-                    @if (Auth::user()->role_id <= 3)
-                        <li>
-                            <a data-position="top"
-                               data-tooltip="Nuevo informe"
-                               class="btn-floating waves-effect waves-light teal modal-trigger tooltip" id="newInforme" href="#modal1">
-                                <i class="material-icons">add</i></a>
-                        </li>
-                    @endif
                 </ul>
             </div>
         </div>
-    </div>
-
-    <!-- Modal: New -->
-    <div id="modal1" class="modal">
-        <form class="col s12" id="form-register" action="{{ url('/informe/register') }}">
-            {{ csrf_field() }}
-        <div class="modal-content">
-            <h4>Registrar informe</h4>
-                <input type="hidden" name="user" value="{{ auth()->user()->id }}">
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input type="date" class="datepicker" id="fromdate" name="fromdate" required>
-                        <label for="fromdate" data-error="Please choose a date " data-success="right">Fecha de incio de visita</label>
-                    </div>
-                    <div class="input-field col s6">
-                        <input type="date" class="datepicker" id="todate" name="todate" required>
-                        <label for="todate" data-error="Please choose a date" data-success="right">Fecha de fin de visita</label>
-                    </div>
-                </div>
-
-        </div>
-        <div class="modal-footer">
-            <div class="progress" id="line-loader" style="display: none;">
-                <div class="indeterminate"></div>
-            </div>
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-            <button type="submit" class="waves-effect waves-green btn-flat" id="save-informe">Guardar</button>
-        </div>
-        </form>
-    </div>
-
-    <!-- Modal: Confirm delete -->
-    <div id="modal3" class="modal">
-        <form class="col s12" id="form-delete" action="{{ url('/informe/delete') }}">
-            {{ csrf_field() }}
-            <div class="modal-content">
-                <h4>Eliminar Informe</h4>
-                <input type="hidden" name="id">
-                <div class="row">
-                    <p>¿Está seguro de eliminar éste informe? </p>
-                    <p>Si este informe contiene reportes no podrá eliminarlo </p>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a href="#" class="waves-effect waves-green btn-flat" id="delete-informe">Eliminar</a>
-            </div>
-        </form>
     </div>
 @endsection
 
@@ -146,13 +89,6 @@
         $(document).ready(function(){
             $('.tooltip').tooltip({delay: 50});
 
-            $('.modal').modal({
-                startingTop: '5%', // Starting top style attribute
-                endingTop: '5%' // Ending top style attribute
-            });
-
-            $('select').material_select();
-
             $('.datepicker').pickadate({
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15, // Creates a dropdown of 15 years to control year
@@ -160,5 +96,4 @@
             });
         });
     </script>
-    <script src="{{ asset('js/informe/informe.js') }}"></script>
 @endsection
