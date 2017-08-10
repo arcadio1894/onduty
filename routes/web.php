@@ -97,3 +97,4 @@ Route::get('/register/verify/{code}', 'GuestController@verify');
 
 // Reports in excel
 Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');
+Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');

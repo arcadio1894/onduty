@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Informe;
 use App\Observation;
 use App\Report;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Style_Alignment;
@@ -12,6 +13,7 @@ use PHPExcel_Worksheet_Drawing;
 
 class ExcelController extends Controller
 {
+
     public function getReportsExcel($id_informe){
 
         $nameExcel = "Informe ".$id_informe;
@@ -237,4 +239,5 @@ class ExcelController extends Controller
 
         })->export('xlsx');
     }
+
 }

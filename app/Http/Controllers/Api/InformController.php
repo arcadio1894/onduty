@@ -49,8 +49,6 @@ class InformController extends Controller
     {
         // IT IS AN EXACT COPY OF THE LOGIC USED IN INFORMECONTROLLER
 
-        // Solo puede crear el super administrador, administrador o responsable
-
         $rules = [
             'user_id' => 'required|exists:users,id',
             'from_date' => 'required',
@@ -159,7 +157,11 @@ class InformController extends Controller
                         File::copy($oldPath, $newPathWithName);
                     }
 
-                    $report->save();
+                    $successfullyClonedReport = $report->save();
+                    if ($successfullyClonedReport) {
+                        $inherited_report->cloned_into_id = $report->id;
+                        $inherited_report->save();
+                    }
                 }
             }
 

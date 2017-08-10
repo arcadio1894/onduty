@@ -25,20 +25,20 @@
             <div class="row">
                 <form action="">
                     <div class="input-field col s4">
-                        <input type="date" class="datepicker" id="start_date" name="start_date" required>
+                        <input type="date" class="datepicker" id="start_date" name="start_date" value="{{ $start_date }}" required>
                         <label for="start_date" data-error="Escoge una fecha" data-success="Bien">Fecha de incio</label>
                     </div>
                     <div class="input-field col s4">
-                        <input type="date" class="datepicker" id="end_date" name="end_date" required>
+                        <input type="date" class="datepicker" id="end_date" name="end_date" value="{{ $end_date }}" required>
                         <label for="end_date" data-error="Escoge una fecha" data-success="Bien">Fecha de fin</label>
                     </div>
                     <div class="input-field col s4">
                         <button type="submit" class="waves-effect waves-light btn tooltip" data-tooltip="Consultar reportes">
                             <i class="material-icons">visibility</i>
                         </button>
-                        <a class="waves-effect waves-light btn tooltip" data-tooltip="Exportar excel">
+                        <button type="submit" name="excel" value="1" class="waves-effect waves-light btn tooltip" data-tooltip="Exportar excel">
                             <i class="material-icons">file_download</i>
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -71,18 +71,6 @@
                                     <strong>Estado:</strong> {{ $report->state }}
                                 </p>
                             </div>
-
-                            @if ($informe->active && auth()->user()->role_id < 4) {{-- Not available for visitors --}}
-                            @if ( auth()->user()->role_id < 3 ||
-                                    $informe->user_id == auth()->user()->id ||
-                                    $report->user_id == auth()->user()->id ||
-                                    $report->responsible_id == auth()->user()->id )
-                                <div class="card-action">
-                                    <a href="{{ url('edit/informe/report/'. $informe->id.'/'.$report->id) }}">Editar</a>
-                                    <a data-delete="{{ $report->id }}" href="#modal1">Eliminar</a>
-                                </div>
-                            @endif
-                            @endif
 
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">{{ $report->actions }}<i class="material-icons right">close</i></span>
