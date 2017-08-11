@@ -136,25 +136,17 @@ $ (function () {
                 data: response
             }]
         });
+        var sum = 0;
         for (var i=0; i<=response.length; ++i) {
-            if (i == response.length) {
-                var sum = 0;
-                for ( var j=0; j<response.length; ++j) {
-                    sum += response[j].y;
-                }
-                //console.log("sum"+sum);
-                renderTemplateCriticalRisk("TOTAL", sum)
-            } else {
-                renderTemplateCriticalRisk(response[i].name, response[i].y)
-            }
-
+            renderTemplateCriticalRisk(response[i].name, response[i].y)
+            sum += response[i].y;
         }
+        renderTemplateCriticalRisk("TOTAL", sum)
     });
 
     $.getJSON('../../areas/graph/'+informe_id,function(response)
     {
         // console.log(response);
-
         Highcharts.chart('container4', {
             chart: {
                 plotBackgroundColor: null,
@@ -189,29 +181,18 @@ $ (function () {
             }]
         });
 
-        for ( var i=0; i<=response.length; ++i) {
-            console.log("Entre al for");
-            if(i == response.length){
-                var suma=0;
-                for ( var j=0; j<response.length; ++j) {
-                    suma += response[j].y;
-                }
-
-                renderTemplateArea("TOTAL", suma);
-            } else {
-                renderTemplateArea(response[i].name, response[i].y);
-            }
-
+        var sum = 0;
+        for (var i=0; i<=response.length; ++i) {
+            renderTemplateArea(response[i].name, response[i].y);
+            sum += response[i].y;
         }
+        renderTemplateArea("TOTAL", sum);
     });
 
     $.getJSON('../../responsible/graph/'+informe_id,function(response)
     {
         Highcharts.chart('container6', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
@@ -240,28 +221,18 @@ $ (function () {
                 data: response
             }]
         });
-        for ( var i=0; i<=response.length; ++i) {
-            if(i == response.length){
-                var sum=0;
-                for ( var j=0; j<response.length; ++j) {
-                    sum += response[j].y;
-                }
-                //console.log("sum"+sum);
-                renderTemplateResponsible("TOTAL", sum)
-            } else {
-                renderTemplateResponsible(response[i].name, response[i].y)
-            }
-
+        var sum = 0;
+        for (var i=0; i<=response.length; ++i) {
+            renderTemplateResponsible(response[i].name, response[i].y)
+            sum += response[i].y;
         }
+        renderTemplateResponsible("TOTAL", sum);
     });
 
     $.getJSON('../../work-fronts-opens/graph/'+informe_id,function(response)
     {
         Highcharts.chart('container7', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
@@ -290,29 +261,18 @@ $ (function () {
                 data: response
             }]
         });
-        for ( var i=0; i<=response.length; ++i) {
-            //console.log(response.length);
-            if (i == response.length) {
-                var sum = 0;
-                for (var j=0; j<response.length; ++j) {
-                    sum += response[j].y;
-                }
-                //console.log("sum"+sum);
-                renderTemplateWorkFrontOpen("TOTAL", sum)
-            } else {
-                renderTemplateWorkFrontOpen(response[i].name, response[i].y)
-            }
-
+        var sum = 0;
+        for (var i=0; i<=response.length; ++i) {
+            renderTemplateWorkFrontOpen(response[i].name, response[i].y)
+            sum += response[i].y;
         }
+        renderTemplateWorkFrontOpen("TOTAL", sum)
     });
 
     $.getJSON('../../responsible-opens/graph/'+informe_id,function(response)
     {
         Highcharts.chart('container8', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
@@ -341,19 +301,12 @@ $ (function () {
                 data: response
             }]
         });
+        var sum = 0;
         for (var i=0; i<=response.length; ++i) {
-            if (i == response.length) {
-                var sum = 0;
-                for (var j=0; j<response.length; ++j) {
-                    sum += response[j].y;
-                }
-                //console.log("sum"+sum);
-                renderTemplateResponsibleOpen("TOTAL", sum)
-            } else {
-                renderTemplateResponsibleOpen(response[i].name, response[i].y)
-            }
-
+            renderTemplateResponsibleOpen(response[i].name, response[i].y)
+            sum += response[i].y;
         }
+        renderTemplateResponsibleOpen("TOTAL", sum)
     });
 
 });
