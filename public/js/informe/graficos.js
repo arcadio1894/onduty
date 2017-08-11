@@ -137,7 +137,7 @@ $ (function () {
             }]
         });
         var sum = 0;
-        for (var i=0; i<=response.length; ++i) {
+        for (var i=0; i<response.length; ++i) {
             renderTemplateCriticalRisk(response[i].name, response[i].y)
             sum += response[i].y;
         }
@@ -182,7 +182,7 @@ $ (function () {
         });
 
         var sum = 0;
-        for (var i=0; i<=response.length; ++i) {
+        for (var i=0; i<response.length; ++i) {
             renderTemplateArea(response[i].name, response[i].y);
             sum += response[i].y;
         }
@@ -222,7 +222,7 @@ $ (function () {
             }]
         });
         var sum = 0;
-        for (var i=0; i<=response.length; ++i) {
+        for (var i=0; i<response.length; ++i) {
             renderTemplateResponsible(response[i].name, response[i].y)
             sum += response[i].y;
         }
@@ -262,7 +262,7 @@ $ (function () {
             }]
         });
         var sum = 0;
-        for (var i=0; i<=response.length; ++i) {
+        for (var i=0; i<response.length; ++i) {
             renderTemplateWorkFrontOpen(response[i].name, response[i].y)
             sum += response[i].y;
         }
@@ -302,7 +302,7 @@ $ (function () {
             }]
         });
         var sum = 0;
-        for (var i=0; i<=response.length; ++i) {
+        for (var i=0; i<response.length; ++i) {
             renderTemplateResponsibleOpen(response[i].name, response[i].y)
             sum += response[i].y;
         }
