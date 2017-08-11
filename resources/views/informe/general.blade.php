@@ -117,7 +117,7 @@
 
         <script>
             $(document).ready(function () {
-                // Build the chart
+                // 1
                 Highcharts.chart('container1', {
                     chart: {
                         type: 'pie'
@@ -157,45 +157,237 @@
                     }]
                 });
 
-            });
-
-            Highcharts.chart('container5', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Reportes según estado'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                            style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                            }
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{
-                    name: 'Porcentaje',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Abierto',
-                        y: 0{{ $open }}
-                    }, {
-                        name: 'Cerrado',
-                        y: 0{{ $closed }},
-                        sliced: true,
-                        selected: true
+                // 2
+                Highcharts.chart('container2', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según localización'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $locations !!}
                     }]
-                }]
+                });
+
+                // 3
+                Highcharts.chart('container3', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según riesgos críticos'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $risks !!}
+                    }]
+                });
+
+                // 4
+                Highcharts.chart('container4', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según áreas'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $areas !!}
+                    }]
+                });
+
+                // 5
+                Highcharts.chart('container5', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según estado'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Abierto',
+                            y: 0{{ $open }}
+                        }, {
+                            name: 'Cerrado',
+                            y: 0{{ $closed }},
+                            sliced: true,
+                            selected: true
+                        }]
+                    }]
+                });
+
+                // 6
+                Highcharts.chart('container6', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según responsables'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $responsibleItems !!}
+                    }]
+                });
+
+                // 7
+                Highcharts.chart('container7', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes abiertos por localización'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $openLocations !!}
+                    }]
+                });
+
+                // 8
+                Highcharts.chart('container8', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes abiertos según responsables'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: {!! $byResponsibleOpenReports !!}
+                    }]
+                });
             });
         </script>
         {{--<script src="/js/informe/general-charts.js"></script>--}}

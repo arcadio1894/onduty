@@ -219,7 +219,7 @@ class InformeController extends Controller
     }
     
     public function getWorkFrontsGraph($informe_id) {
-        // Gráfico de reportes segun frentes de trabajo
+        // Reports by work fronts
         $informe = Informe::with('location')->with('user')->find($informe_id);
         $work_fronts = WorkFront::where('location_id', $informe->location_id)->get(['id','name']);
         $array = $work_fronts->toArray();

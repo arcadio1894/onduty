@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\CriticalRisk;
 use App\Informe;
+use App\Location;
 use App\Report;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -200,15 +204,103 @@ class GeneralInformController extends Controller
         $aspectImprove = $reports->where('aspect', 'Por mejorar')->count();
         $aspectPositive = $reports->where('aspect', 'Positivo')->count();
 
+        // chart 2: by locations
+        $locations = $this->getByLocationsData($reports);
+
+        // chart 3: by critical risks
+        $risks = $this->getByRisksData($reports);
+
+        // chart 4: by areas
+        $areas = $this->getByAreasData($reports);
+
         // chart 5: by state
         $open = $reports->where('state', 'Abierto')->count();
         $closed = $reports->where('state', 'Cerrado')->count();
+
+        // chart 6: by responsible users
+        $responsibleItems = $this->getByResponsibleData($reports);
+
+        $openedReports = $reports->where('state', 'Abierto'); // all() convert the result into an array (Collection method)
+
+        // chart 7: open reports by locations
+        $openLocations = $this->getByLocationsData($openedReports);
+
+        // chart 8: open reports by responsible users
+        $byResponsibleOpenReports = $this->getByResponsibleData($openedReports);
 
         $charts = true;
         return view('informe.general')->with(compact(
             'charts', 'start_date', 'end_date',
             'aspectImprove', 'aspectPositive', // chart 1
-            'open', 'closed' // chart 5
+            'locations', // chart 2
+            'risks', // chart 3
+            'areas', // chart 4
+            'open', 'closed', // chart 5
+            'responsibleItems', // chart 6
+            'openLocations', // chart 7
+            'byResponsibleOpenReports' // chart 8
         ));
     }
+
+    public function getByLocationsData($reports) {
+        $locations = Location::get(['id', 'name']);
+
+        foreach ($locations as $key => $location) {
+            $workFrontIds = $location->workfront()->pluck('id');
+            $quantity = $reports->whereIn('work_front_id', $workFrontIds)->count();
+            $location->y = $quantity;
+        }
+
+        $locationsWithReports = $locations->filter(function($location) {
+            return $location->y > 0;
+        })->values(); // re-key (necessary to convert into JSON)
+
+        return $locationsWithReports;
+    }
+
+    public function getByRisksData($reports) {
+        $risks = CriticalRisk::get(['id', 'name']);
+
+        foreach ($risks as $risk) {
+            $quantity = $reports->where('critical_risks_id', $risk->id)->count();
+            $risk->y = $quantity;
+        }
+
+        $risksWithReports = $risks->filter(function($risk) {
+            return $risk->y > 0;
+        })->values(); // re-key (necessary to convert into JSON)
+
+        return $risksWithReports;
+    }
+
+    public function getByAreasData($reports) {
+        $areas = Area::get(['id', 'name']);
+
+        foreach ($areas as $area) {
+            $quantity = $reports->where('area_id', $area->id)->count();
+            $area->y = $quantity;
+        }
+
+        $areasWithReports = $areas->filter(function($area) {
+            return $area->y > 0;
+        })->values(); // re-key (necessary to convert into JSON)
+
+        return $areasWithReports;
+    }
+
+    public function getByResponsibleData($reports) {
+        $users = User::withTrashed()->get(['id','name']);
+
+        foreach ($users as $user) {
+            $quantity = $reports->where('responsible_id', $user->id)->count();
+            $user->y = $quantity;
+        }
+
+        $usersWithReports = $users->filter(function($user) {
+            return $user->y > 0;
+        })->values(); // re-key (necessary to convert into JSON)
+
+        return $usersWithReports;
+    }
+
 }

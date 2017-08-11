@@ -105,9 +105,6 @@ $ (function () {
         // console.log(response);
         Highcharts.chart('container3', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
@@ -149,9 +146,6 @@ $ (function () {
         // console.log(response);
         Highcharts.chart('container4', {
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie'
             },
             title: {
