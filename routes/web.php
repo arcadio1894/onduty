@@ -59,7 +59,6 @@ Route::post('/position/delete', 'PositionController@delete');
 Route::get('/positions/users', 'UserController@getPositions');
 
 Route::get('/informes', 'InformeController@index');
-Route::get('/informes/general', 'InformeController@general');
 Route::post('/informe/register', 'InformeController@store');
 Route::post('/informe/edit', 'InformeController@edit');
 Route::post('/informe/delete', 'InformeController@delete');
@@ -97,4 +96,6 @@ Route::get('/register/verify/{code}', 'GuestController@verify');
 
 // Reports in excel
 Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');
-Route::get('/excel/informe/{id_informe}', 'ExcelController@getReportsExcel');
+
+// General inform (reports in a range of dates)
+Route::get('/informes/general', 'GeneralInformController@general');

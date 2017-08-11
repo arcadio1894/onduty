@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-
 @section('breadcrumbs')
     <div class="row">
         <div class="navbar-fixed">
@@ -28,8 +25,8 @@
 @endsection
 
 @section('content')
-
     <div class="row">
+
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
@@ -61,299 +58,303 @@
             </div>
         </div>
 
-        <div class="col s12" >
+        <div class="col s12">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Gráficas</span>
                     <input type="hidden" id="informe-id" value="{{ $informe->id }}">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col s12 m6 xl4">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container1"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">
+                        SEGÚN ASPECTOS
+                        <i class="material-icons right">more_vert</i>
+                    </span>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">
+                        Datos en tabla
+                        <i class="material-icons right">close</i>
+                    </span>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th data-field="id">Aspecto</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Por mejorar</td>
+                                <td>{{ $porMejorar }}</td>
+                            </tr>
+                            <tr>
+                                <td>Positivo</td>
+                                <td>{{ $positivo }}</td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL</td>
+                                <td>{{ $porMejorar+$positivo }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container2"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN FRENTES DE TRABAJO<i class="material-icons right">more_vert</i></span>
+
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Frente de trabajo</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
+
+                        <template id="template-work">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
+
+                        <tbody id="table-work-fronts">
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
         </div>
 
-        <div class="col s12">
-            <div class="row">
-                <div class="cards">
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container1"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN ASPECTOS<i class="material-icons right">more_vert</i></span>
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container3"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN RIESGO CRÍTICO<i class="material-icons right">more_vert</i></span>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Aspecto</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Riesgo crítico</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                                    <tbody>
-                                        <tr>
-                                            <td>Por mejorar</td>
-                                            <td>{{ $porMejorar }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Positivo</td>
-                                            <td>{{ $positivo }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>TOTAL</td>
-                                            <td>{{ $porMejorar+$positivo }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <template id="template-risk">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container2"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN FRENTES DE TRABAJO<i class="material-icons right">more_vert</i></span>
+                        <tbody id="table-risk">
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Frente de trabajo</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                        </tbody>
+                    </table>
 
-                                    <template id="template-work">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
+                </div>
+            </div>
+        </div>
 
-                                    <tbody id="table-work-fronts">
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container4"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN ÁREAS<i class="material-icons right">more_vert</i></span>
 
-                                    </tbody>
-                                </table>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Área</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container3"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN RIESGO CRÍTICO<i class="material-icons right">more_vert</i></span>
+                        <template id="template-area">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Riesgo crítico</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                        <tbody id="table-area">
 
-                                    <template id="template-risk">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
+                        </tbody>
+                    </table>
 
-                                    <tbody id="table-risk">
+                </div>
+            </div>
+        </div>
 
-                                    </tbody>
-                                </table>
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container5"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN ESTADO<i class="material-icons right">more_vert</i></span>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container4"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN ÁREAS<i class="material-icons right">more_vert</i></span>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th data-field="id">Estado</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Área</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                        <tbody>
+                        <tr>
+                            <td>Abiertos</td>
+                            <td>{{ $opens }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cerrados</td>
+                            <td>{{ $closed }}</td>
+                        </tr>
+                        <tr>
+                            <td>TOTAL</td>
+                            <td>{{ $opens+$closed }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                                    <template id="template-area">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
+                </div>
+            </div>
+        </div>
 
-                                    <tbody id="table-area">
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container6"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN RESPONSABLE<i class="material-icons right">more_vert</i></span>
 
-                                    </tbody>
-                                </table>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Responsable</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container5"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN ESTADO<i class="material-icons right">more_vert</i></span>
+                        <template id="template-responsible">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Estado</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                        <tbody id="table-responsible">
 
-                                    <tbody>
-                                    <tr>
-                                        <td>Abiertos</td>
-                                        <td>{{ $opens }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cerrados</td>
-                                        <td>{{ $closed }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TOTAL</td>
-                                        <td>{{ $opens+$closed }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        </tbody>
+                    </table>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container6"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN RESPONSABLE<i class="material-icons right">more_vert</i></span>
+                </div>
+            </div>
+        </div>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Responsable</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container7"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN FRENTES DE TRABAJO<i class="material-icons right">more_vert</i></span>
 
-                                    <template id="template-responsible">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Frente de trabajo</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                                    <tbody id="table-responsible">
+                        <template id="template-work-open">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
 
-                                    </tbody>
-                                </table>
+                        <tbody id="table-work-open">
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container7"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN FRENTES DE TRABAJO<i class="material-icons right">more_vert</i></span>
+                        </tbody>
+                    </table>
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Frente de trabajo</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                </div>
+            </div>
+        </div>
 
-                                    <template id="template-work-open">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
+        <div class="col s12 m6 xl4" >
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div id="container8"></div>
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">SEGÚN RESPONSABLES<i class="material-icons right">more_vert</i></span>
 
-                                    <tbody id="table-work-open">
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
+                    <table id="">
+                        <thead>
+                        <tr>
+                            <th data-field="id">Responsable</th>
+                            <th data-field="name">Cantidad</th>
+                        </tr>
+                        </thead>
 
-                                    </tbody>
-                                </table>
+                        <template id="template-responsible-open">
+                            <tr>
+                                <td data-text></td>
+                                <td data-number></td>
+                            </tr>
+                        </template>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l6" >
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <div id="container8"></div>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">SEGÚN RESPONSABLES<i class="material-icons right">more_vert</i></span>
+                        <tbody id="table-responsible-open">
 
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Datos en tabla<i class="material-icons right">close</i></span>
-                                <table id="">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Responsable</th>
-                                        <th data-field="name">Cantidad</th>
-                                    </tr>
-                                    </thead>
+                        </tbody>
+                    </table>
 
-                                    <template id="template-responsible-open">
-                                        <tr>
-                                            <td data-text></td>
-                                            <td data-number></td>
-                                        </tr>
-                                    </template>
-
-                                    <tbody id="table-responsible-open">
-
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -361,7 +362,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -370,30 +372,20 @@
             $('select').material_select();
 
             $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15, // Creates a dropdown of 15 years to control year
+                selectMonths: true,
+                selectYears: 15,
                 format: 'yyyy-mm-dd'
-            });
-
-            $('#report-container').masonry({
-                itemSelector: '.col'
             });
         });
     </script>
 
-    <script type="text/javascript" src="{{ asset('js/report/report.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/informe/graficos.js') }}"></script>
+    <script src="{{ asset('js/informe/graficos.js') }}"></script>
 
-    <script type="text/javascript">
-
+    <script>
         $(document).ready(function () {
-
             // Build the chart
             Highcharts.chart('container1', {
                 chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
                     type: 'pie'
                 },
                 title: {
@@ -421,10 +413,10 @@
                     colorByPoint: true,
                     data: [{
                         name: 'Por Mejorar',
-                        y: {{ $porMejorar  }}
+                        y: 0{{ $porMejorar  }}
                     }, {
                         name: 'Positivo',
-                        y: {{ $positivo  }},
+                        y: 0{{ $positivo  }},
                         sliced: true,
                         selected: true
                     }]
@@ -434,9 +426,6 @@
             // Build the chart
             Highcharts.chart('container5', {
                 chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
                     type: 'pie'
                 },
                 title: {
@@ -464,15 +453,15 @@
                     colorByPoint: true,
                     data: [{
                         name: 'Abierto',
-                        y: {{ $opens  }}
+                        y: 0{{ $opens  }}
                     }, {
                         name: 'Cerrado',
-                        y: {{ $closed  }},
+                        y: 0{{ $closed  }},
                         sliced: true,
                         selected: true
                     }]
                 }]
             });
         });
-            </script>
+    </script>
 @endsection

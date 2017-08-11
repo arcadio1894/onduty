@@ -39,14 +39,16 @@
                         <button type="submit" name="excel" value="1" class="waves-effect waves-light btn tooltip" data-tooltip="Exportar excel">
                             <i class="material-icons">file_download</i>
                         </button>
+                        <button type="submit" name="charts" value="1" class="waves-effect waves-light btn tooltip" data-tooltip="Ver gráficos">
+                            <i class="material-icons">equalizer</i>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    @if ($reports)
-    <div class="col s12">
+    @if (isset($reports))
         <div class="row">
             <div class="cards">
                 @foreach ($reports as $report)
@@ -90,7 +92,10 @@
                 @endforeach
             </div>
         </div>
-    </div>
+    @endif
+
+    @if (isset($charts))
+        @include('informe.general.charts')
     @endif
 @endsection
 
@@ -106,4 +111,93 @@
             });
         });
     </script>
+    @if (isset($charts))
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                // Build the chart
+                Highcharts.chart('container1', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Reportes según aspecto'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Porcentaje',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Por Mejorar',
+                            y: 0{{ $aspectImprove }}
+                        }, {
+                            name: 'Positivo',
+                            y: 0{{ $aspectPositive }},
+                            sliced: true,
+                            selected: true
+                        }]
+                    }]
+                });
+
+            });
+
+            Highcharts.chart('container5', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Reportes según estado'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Porcentaje',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Abierto',
+                        y: 0{{ $open }}
+                    }, {
+                        name: 'Cerrado',
+                        y: 0{{ $closed }},
+                        sliced: true,
+                        selected: true
+                    }]
+                }]
+            });
+        </script>
+        {{--<script src="/js/informe/general-charts.js"></script>--}}
+    @endif
 @endsection
