@@ -21,11 +21,12 @@ class InformController extends Controller
 
         // and the informs in that location
         $informs = Informe::where('location_id', $location_id)
-            ->orderBy('id', 'desc')->get([
-            'id',
-            'user_id', 'from_date', 'to_date',
-            'created_at'
-        ]);
+            ->orderBy('id', 'desc')->take(3) // take the last 3 informs
+            ->get([
+                'id',
+                'user_id', 'from_date', 'to_date',
+                'created_at'
+            ]);
 
         foreach ($informs as $inform) {
             $inform->user_name = $inform->user->name; // append the user name
