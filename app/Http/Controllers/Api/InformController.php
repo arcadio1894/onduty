@@ -41,7 +41,8 @@ class InformController extends Controller
         }
 
         // make the last registered inform editable
-        $informs->first()->is_editable = true;
+        if (count($informs) > 0)
+            $informs->first()->is_editable = true;
 
         return $informs;
     }
