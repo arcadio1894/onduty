@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Observers\ReportObserver;
+use App\Report;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Intervention\Image\ImageManagerStatic;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Report::observe(ReportObserver::class);
 
         Validator::extend('isBase64', function ($attribute, $value, $params, $validator) {
             $decodedValue = base64_decode($value);

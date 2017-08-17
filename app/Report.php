@@ -16,6 +16,17 @@ class Report extends Model
 
     ];
 
+    protected $dates = ['deleted_at'];
+
+
+
+    // relationships
+
+    public function inform()
+    {
+        return $this->belongsTo(Informe::class, 'informe_id');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User')->withTrashed();
@@ -41,5 +52,4 @@ class Report extends Model
         return $this->belongsTo('App\CriticalRisk');
     }
 
-    protected $dates = ['deleted_at'];
 }

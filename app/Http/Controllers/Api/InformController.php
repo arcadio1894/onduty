@@ -25,7 +25,7 @@ class InformController extends Controller
             ->get([
                 'id',
                 'user_id', 'from_date', 'to_date',
-                'created_at'
+                'created_at', 'reports_updated_at'
             ]);
 
         foreach ($informs as $inform) {
