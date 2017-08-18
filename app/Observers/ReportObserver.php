@@ -29,7 +29,6 @@ class ReportObserver
 
     public function sendNotification($location_id, $report_id)
     {
-        define('FCM_ACCESS_KEY', env('FCM_ACCESS_KEY'));
         $registrationIds = User::where('location_id', $location_id)->whereNotNull('fcm_token')
             ->pluck('fcm_token');
 
@@ -43,7 +42,7 @@ class ReportObserver
         ];
 
         $headers = [
-            'Authorization: key=' . FCM_ACCESS_KEY,
+            'Authorization: key=' . env('FCM_ACCESS_KEY'),
             'Content-Type: application/json'
         ];
 
