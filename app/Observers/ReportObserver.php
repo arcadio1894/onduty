@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Report;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 class ReportObserver
 {
@@ -36,11 +37,10 @@ class ReportObserver
             'updated_entity' => 'report',
             'updated_id' => $report_id
         ];
-        $fields = array
-        (
+        $fields = [
             'to'	=> $registrationIds,
             'data'	=> $data
-        );
+        ];
 
         $headers = [
             'Authorization: key=' . FCM_ACCESS_KEY,
@@ -54,10 +54,10 @@ class ReportObserver
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch,CURLOPT_POSTFIELDS, json_encode($fields));
-        /*$result = */curl_exec($ch );
+        $result = curl_exec($ch);
         curl_close($ch);
 
-        // echo $result;
+        Log::debug($result);
     }
 
 }
