@@ -60,7 +60,7 @@ class ReportController extends Controller
             ->orderBy('id', 'desc')
             ->get([
                 'id', // required to edit from the app
-                'inform_id',
+                'informe_id',
                 'user_id', // to check if the authenticated user can edit the report
                 'work_front_id', 'area_id', 'responsible_id', // will be changed for the names
                 'aspect',
