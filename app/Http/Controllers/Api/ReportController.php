@@ -16,7 +16,7 @@ class ReportController extends Controller
         $report = Report::where('id', $id)
             ->first([
                 'id', // required to edit from the app
-                // inform_id is not necessary, because we already know it
+                'informe_id',
                 'user_id', // to check if the authenticated user can edit the report
                 'work_front_id', 'area_id', 'responsible_id', // will be changed for the names
                 'aspect',
