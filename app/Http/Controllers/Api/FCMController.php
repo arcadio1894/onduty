@@ -19,7 +19,7 @@ class FCMController extends Controller
 
         $user = User::find($request->input('user_id'));
         $user->fcm_token = $request->input('fcm_token');
-        return $user->save();
+        return $user->save() ? 1 : 0;
     }
 
 }
