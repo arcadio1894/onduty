@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Informe;
+use App\Observers\InformObserver;
 use App\Observers\ReportObserver;
 use App\Report;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Report::observe(ReportObserver::class);
+        Informe::observe(InformObserver::class);
 
         Validator::extend('isBase64', function ($attribute, $value, $params, $validator) {
             $decodedValue = base64_decode($value);
