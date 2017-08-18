@@ -3,6 +3,9 @@
 Route::post('/login', 'Api\LoginController@attempt');
 Route::get('/profile', 'Api\UserController@getProfile');
 
+// FCM token
+Route::post('/fcm/token', 'Api\FCMController@update');
+
 // Informs and reports
 Route::get('/informs', 'Api\InformController@byUserLocation');
 Route::get('/reports', 'Api\ReportController@byInform');
