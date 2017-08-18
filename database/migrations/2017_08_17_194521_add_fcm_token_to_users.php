@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveToInformes extends Migration
+class AddFcmTokenToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddActiveToInformes extends Migration
      */
     public function up()
     {
-        Schema::table('informes', function($table) {
-            $table->boolean('active')->default(false);
+        Schema::table('users', function($table) {
+            $table->string('fcm_token')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddActiveToInformes extends Migration
      */
     public function down()
     {
-        Schema::table('informes', function ($table) {
-            $table->dropColumn('active');
+        Schema::table('users', function ($table) {
+            $table->dropColumn('fcm_token');
         });
     }
 }
