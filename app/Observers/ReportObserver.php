@@ -15,7 +15,7 @@ class ReportObserver
         $inform->reports_updated_at = $report->updated_at;
         $inform->save();
 
-        $this->sendNotification($inform->location_id, $report->id);
+        $this->sendNotification($inform->location_id, $report->id, 'saved');
     }
 
     public function deleted(Report $report)
@@ -24,10 +24,10 @@ class ReportObserver
         $inform->reports_updated_at = $report->deleted_at;
         $inform->save();
 
-        $this->sendNotification($inform->location_id, $report->id);
+        $this->sendNotification($inform->location_id, $report->id, 'deleted');
     }
 
-    public function sendNotification($location_id, $report_id)
+    public function sendNotification($location_id, $report_id, $action)
     {
 
         $registrationIds = User::where('location_id', $location_id)->whereNotNull('fcm_token')
@@ -40,7 +40,8 @@ class ReportObserver
 
         $data = [
             'updated_entity' => 'report',
-            'updated_id' => $report_id
+            'updated_id' => $report_id,
+            'action' => $action
         ];
 
         foreach ($registrationIds as $registrationId) {
@@ -56,10 +57,10 @@ class ReportObserver
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch,CURLOPT_POSTFIELDS, json_encode($fields));
-            $result = curl_exec($ch);
+            /*$result = */curl_exec($ch);
             curl_close($ch);
 
-            Log::debug($result);
+            // Log::debug($result);
         }
 
     }
