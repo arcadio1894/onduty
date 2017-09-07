@@ -24,15 +24,24 @@
             <p>Seleccione un intervalo de fechas para generar el consolidado de reportes.</p>
             <div class="row">
                 <form action="">
-                    <div class="input-field col s4">
+                    <div class="input-field col s3">
+                        <select name="location_id">
+                            <option value="0">Todas las localizaciones</option>
+                            @foreach ($locations as $location)
+                                <option value="{{ $location->id }}" @if($location->id==$location_id) selected @endif>{{ $location->name }}</option>
+                            @endforeach
+                        </select>
+                        <label>Localización</label>
+                    </div>
+                    <div class="input-field col s2">
                         <input type="date" class="datepicker" id="start_date" name="start_date" value="{{ $start_date }}" required>
                         <label for="start_date" data-error="Escoge una fecha" data-success="Bien">Fecha de incio</label>
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s2">
                         <input type="date" class="datepicker" id="end_date" name="end_date" value="{{ $end_date }}" required>
                         <label for="end_date" data-error="Escoge una fecha" data-success="Bien">Fecha de fin</label>
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s5">
                         <button type="submit" class="waves-effect waves-light btn tooltip" data-tooltip="Consultar reportes">
                             <i class="material-icons">visibility</i>
                         </button>
@@ -109,6 +118,8 @@
                 selectYears: 15, // Creates a drop down of 15 years
                 format: 'yyyy-mm-dd'
             });
+
+            $('select').material_select();
         });
     </script>
     @if (isset($charts))
@@ -185,7 +196,7 @@
                     series: [{
                         name: 'Porcentaje',
                         colorByPoint: true,
-                        data: {!! $locations !!}
+                        data: {!! $byLocations !!}
                     }]
                 });
 

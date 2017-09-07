@@ -11,12 +11,15 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use PHPExcel_Style_Alignment;
+use PHPExcel_Worksheet_Drawing;
 
 class GeneralInformController extends Controller
 {
     public function general(Request $request)
     {
         // show the reports
+        $location_id = $request->input('location_id');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
@@ -25,7 +28,12 @@ class GeneralInformController extends Controller
             $end = Carbon::parse($end_date);
 
             $informs = Informe::where('from_date', '>=', $start)
-                ->where('to_date', '<=', $end)->pluck('id');
+                ->where('to_date', '<=', $end);
+
+            if ($location_id)
+                $informs = $informs->where('location_id', $location_id);
+
+            $informs = $informs->pluck('id');
             // dd($informs);
 
             $reports = Report::whereIn('informe_id', $informs)
@@ -44,13 +52,18 @@ class GeneralInformController extends Controller
             $reports = collect();
         }
 
+        $locations = Location::get(['id', 'name']);
+
         // deliver work to the proper method (this form has submit buttons with different purposes)
         if ($request->has('excel'))
             return $this->getGeneralReportsExcel($reports, $start_date, $end_date);
         else if ($request->has('charts'))
-            return $this->getGeneralReportsCharts($reports, $start_date, $end_date);
+            return $this->getGeneralReportsCharts($reports, $start_date, $end_date, $location_id, $locations);
         // else
-        return view('informe.general')->with(compact('reports', 'start_date', 'end_date'));
+        return view('informe.general')->with(compact(
+            'reports', 'locations',
+            'start_date', 'end_date', 'location_id'
+        ));
     }
 
     public function getGeneralReportsExcel($reports, $start_date, $end_date) {
@@ -78,7 +91,7 @@ class GeneralInformController extends Controller
                     ));
                 });
 
-                $sheet->row(1, ["CONSOLIDADO DE REPORTES ENTRE $start_date y $end_date)"]);
+                $sheet->row(1, ["CONSOLIDADO DE REPORTES ($start_date - $end_date)"]);
                 $lastIndexRow = 0;
 
                 // Reports del inform
@@ -199,13 +212,13 @@ class GeneralInformController extends Controller
         })->export('xlsx');
     }
 
-    public function getGeneralReportsCharts($reports, $start_date, $end_date) {
+    public function getGeneralReportsCharts($reports, $start_date, $end_date, $location_id, $locations) {
         // chart 1: by aspect
         $aspectImprove = $reports->where('aspect', 'Por mejorar')->count();
         $aspectPositive = $reports->where('aspect', 'Positivo')->count();
 
         // chart 2: by locations
-        $locations = $this->getByLocationsData($reports);
+        $byLocations = $this->getByLocationsData($reports);
 
         // chart 3: by critical risks
         $risks = $this->getByRisksData($reports);
@@ -232,13 +245,14 @@ class GeneralInformController extends Controller
         return view('informe.general')->with(compact(
             'charts', 'start_date', 'end_date',
             'aspectImprove', 'aspectPositive', // chart 1
-            'locations', // chart 2
+            'byLocations', // chart 2
             'risks', // chart 3
             'areas', // chart 4
             'open', 'closed', // chart 5
             'responsibleItems', // chart 6
             'openLocations', // chart 7
-            'byResponsibleOpenReports' // chart 8
+            'byResponsibleOpenReports', // chart 8
+            'location_id', 'locations'
         ));
     }
 
