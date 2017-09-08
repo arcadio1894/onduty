@@ -182,9 +182,6 @@ class ReportController extends Controller
             ]);
 
             if ($request->input('image')) {
-                $path = public_path().'/images/report';
-                File::delete($path.'/'.$report->image);
-
                 $imageBase64 = base64_decode($request->input('image'));
                 $extension_image = 'jpg';
                 $file_name_image = uniqid() . '.' . $extension_image;
@@ -198,9 +195,6 @@ class ReportController extends Controller
             }
 
             if ($request->input('image_action')) {
-                $path = public_path().'/images/action';
-                File::delete($path.'/'.$report->image_action);
-
                 $imageActionBase64 = base64_decode($request->input('image_action'));
                 $extension_image_action = 'jpg';
                 $file_name_image_action = uniqid() . '.' . $extension_image_action;
@@ -300,8 +294,10 @@ class ReportController extends Controller
             $report->save();
 
             if ($request->input('image')) {
-                $imageBase64 = base64_decode($request->input('image'));
+                $path = public_path().'/images/report';
+                File::delete($path.'/'.$report->image);
 
+                $imageBase64 = base64_decode($request->input('image'));
                 $extension_image = 'jpg';
                 $file_name_image = uniqid() . '.' . $extension_image;
                 $path_image = public_path('images/report/' . $file_name_image);
@@ -314,8 +310,10 @@ class ReportController extends Controller
             }
 
             if ($request->input('image_action')) {
-                $imageActionBase64 = base64_decode($request->input('image_action'));
+                $path = public_path().'/images/action';
+                File::delete($path.'/'.$report->image_action);
 
+                $imageActionBase64 = base64_decode($request->input('image_action'));
                 $extension_image_action = 'jpg';
                 $file_name_image_action = uniqid() . '.' . $extension_image_action;
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
