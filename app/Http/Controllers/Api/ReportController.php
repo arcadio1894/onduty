@@ -180,38 +180,32 @@ class ReportController extends Controller
                 'observations' => $request->get('observations') ?: ''
             ]);
 
-            if ($request->input('image'))
-            {
+            if ($request->input('image')) {
                 $imageBase64 = base64_decode($request->input('image'));
 
                 $extension_image = 'jpg';
-                $file_name_image = $report->id . '.' . $extension_image;
-
+                $file_name_image = uniqid() . '.' . $extension_image;
                 $path_image = public_path('images/report/' . $file_name_image);
 
                 Image::make($imageBase64)
                     ->fit(285, 285)
                     ->save($path_image);
 
-                $report->image = $extension_image;
-                $report->save();
+                $report->image = $file_name_image;
             }
 
-            if ($request->input('image_action'))
-            {
+            if ($request->input('image_action')) {
                 $imageActionBase64 = base64_decode($request->input('image_action'));
 
                 $extension_image_action = 'jpg';
-                $file_name_image_action = $report->id . '.' . $extension_image_action;
-
+                $file_name_image_action = uniqid() . '.' . $extension_image_action;
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
 
                 Image::make($imageActionBase64)
                     ->fit(285, 285)
                     ->save($path_image_action);
 
-                $report->image_action = $extension_image_action;
-                $report->save();
+                $report->image_action = $file_name_image_action;
             }
 
             $report->save();
@@ -304,32 +298,28 @@ class ReportController extends Controller
                 $imageBase64 = base64_decode($request->input('image'));
 
                 $extension_image = 'jpg';
-                $file_name_image = $report->id . '.' . $extension_image;
-
+                $file_name_image = uniqid() . '.' . $extension_image;
                 $path_image = public_path('images/report/' . $file_name_image);
 
                 Image::make($imageBase64)
                     ->fit(285, 285)
                     ->save($path_image);
 
-                $report->image = $extension_image;
-                $report->save();
+                $report->image = $file_name_image;
             }
 
             if ($request->input('image_action')) {
                 $imageActionBase64 = base64_decode($request->input('image_action'));
 
                 $extension_image_action = 'jpg';
-                $file_name_image_action = $report->id . '.' . $extension_image_action;
-
+                $file_name_image_action = uniqid() . '.' . $extension_image_action;
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
 
                 Image::make($imageActionBase64)
                     ->fit(285, 285)
                     ->save($path_image_action);
 
-                $report->image_action = $extension_image_action;
-                $report->save();
+                $report->image_action = $file_name_image_action;
             }
 
             $report->save();
@@ -339,7 +329,6 @@ class ReportController extends Controller
         $errors = [];
 
         foreach ($errorFields as $field => $errorField) {
-
             foreach ($errorField as $errorMessage) {
                 $errors[] = $errorMessage;
             }
@@ -348,4 +337,5 @@ class ReportController extends Controller
         $data['errors'] = $errors;
         return $data;
     }
+
 }

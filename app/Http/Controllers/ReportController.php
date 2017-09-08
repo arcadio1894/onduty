@@ -168,35 +168,28 @@ class ReportController extends Controller
                 $report->deadline = null;
             }
 
-            if ($request->file('image'))
-            {
+            if ($request->file('image')) {
                 $extension_image = $request->file('image')->getClientOriginalExtension();
-                $file_name_image = $report->id . '.' . $extension_image;
-
+                $file_name_image = uniqid() . '.' . $extension_image;
                 $path_image = public_path('images/report/' . $file_name_image);
 
                 Image::make($request->file('image'))
                     ->fit(285, 285)
                     ->save($path_image);
 
-                $report->image = $extension_image;
-                $report->save();
+                $report->image = $file_name_image;
             }
-            if ($request->file('image-action'))
-            {
+            if ($request->file('image-action')) {
                 $extension_image_action = $request->file('image-action')->getClientOriginalExtension();
-                $file_name_image_action = $report->id . '.' . $extension_image_action;
-
+                $file_name_image_action = uniqid() . '.' . $extension_image_action;
                 $path_image_action = public_path('images/action/' . $file_name_image_action);
 
                 Image::make($request->file('image-action'))
                     ->fit(285, 285)
                     ->save($path_image_action);
 
-                $report->image_action = $extension_image_action;
-                $report->save();
+                $report->image_action = $file_name_image_action;
             }
-
             $report->save();
         }
 
@@ -286,51 +279,49 @@ class ReportController extends Controller
             }
 
 
-            if ($request->file('image') != null OR $request->file('image') != "")
-            {
+            if ($request->file('image')) {
                 $path = public_path().'/images/report';
-                File::delete($path.'/'.$request->get('reporte').'.'.$report->image);
+                File::delete($path.'/'.$report->image);
+
                 $extension = $request->file('image')->getClientOriginalExtension();
-                $fileName = $request->get('reporte') . '.' . $extension;
+                $fileName = uniqid() . '.' . $extension;
                 Image::make($request->file('image'))
                     ->fit(285, 285)
                     ->save($path . '/' . $fileName);
-                $report->image = $extension;
+                $report->image = $fileName;
             }
 
-            if ($request->file('image-action') != null OR $request->file('image-action') != "")
-            {
+            if ($request->file('image-action')) {
                 $path = public_path().'/images/action';
-                File::delete($path.'/'.$request->get('reporte').'.'.$report->image);
+                File::delete($path.'/'.$report->image_action);
+
                 $extension = $request->file('image-action')->getClientOriginalExtension();
-                $fileName = $request->get('reporte') . '.' . $extension;
+                $fileName = uniqid() . '.' . $extension;
                 Image::make($request->file('image-action')->getRealPath())
                     ->fit(285, 285)
                     ->save($path . '/' . $fileName);
-                $report->image_action = $extension;
+                $report->image_action = $fileName;
             }
 
-            // Missing validaciones de los que crean (?)
             $report->save();
         }
-
 
         return response()->json($validator->messages(), 200);
     }
 
     public function delete(Request $request)
     {
-        //dd($request->all());
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // dd($request->all());
+        // TODO: Solo el que puede crear es el super admin o admin
         $rules = array(
             'id' => 'exists:reports'
         );
 
-        $messsages = array(
+        $messages = array(
             'id.exists'=>'No existe el reporte especificada',
         );
 
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->after(function ($validator) {
             if (Auth::user()->role_id > 2) {
@@ -342,10 +333,9 @@ class ReportController extends Controller
             $report = Report::find($request->get('id'));
             $report->delete();
         }
+
         // TODO: Validaciones en el futuro
-
         return response()->json($validator->messages(), 200);
-
     }
     
     
