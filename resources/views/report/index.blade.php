@@ -117,9 +117,9 @@
                             <div class="card">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     @if(!$report->image)
-                                        <img class="activator"  src="{{ asset('images/report/default.png') }}" alt="">
+                                        <img class="activator" src="{{ asset('images/report/default.png') }}" alt="Imagen del reporte {{ $report->id }}">
                                     @else
-                                        <img class="activator"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                                        <img class="activator" src="{{ asset('images/report/' . $report->image) }}" alt="Imagen del reporte {{ $report->id }}">
                                     @endif
                                 </div>
                                 <div class="card-content">
@@ -152,7 +152,7 @@
                                     @if (!$report->image_action)
                                         <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
                                     @else
-                                        <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                        <img class="image-reveal" src="{{ asset('images/action/' . $report->image_action) }}" >
                                     @endif
                                     <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
                                     <p><strong>Potencial:</strong> {{ $report->potential }}</p>

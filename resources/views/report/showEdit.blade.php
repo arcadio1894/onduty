@@ -222,7 +222,7 @@
                                 @if($report->image == null)
                                     <img style="" class="image" id="preview-image" src="{{ asset('images/report/default.png') }}" alt="Preview image" />
                                 @else
-                                    <img class="image" id="preview-image" src="{{ asset('images/report/'.$report->id.'.'.$report->image) }}" alt="Preview image" />
+                                    <img class="image" id="preview-image" src="{{ asset('images/report/'.$report->image) }}" alt="Preview image" />
                                 @endif
 
                             </div>
@@ -238,7 +238,7 @@
                                 @if($report->image_action == null)
                                     <img style="" class="image" id="preview-action" src="{{ asset('images/report/default.png') }}" alt="Preview image" />
                                 @else
-                                    <img class="image" id="preview-action" src="{{ asset('images/action/'.$report->id.'.'.$report->image_action) }}" alt="Preview image" />
+                                    <img class="image" id="preview-action" src="{{ asset('images/action/'.$report->image_action) }}" alt="Preview image" />
                                 @endif
                             </div>
                         </div>
