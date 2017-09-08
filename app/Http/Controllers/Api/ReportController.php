@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Report;
 use App\User;
-use Illuminate\Http\File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
