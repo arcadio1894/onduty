@@ -30,12 +30,12 @@ class ReportController extends Controller
             ]);
 
         if ($report->image_action)
-            $report->image_action = asset('images/action/' . $report->id . '.' . $report->image_action);
+            $report->image_action = asset('images/action/' . $report->image_action);
         else
             $report->image_action = asset('images/action/default.png');
 
         if ($report->image)
-            $report->image = asset('images/report/' . $report->id . '.' . $report->image);
+            $report->image = asset('images/report/' . $report->image);
         else
             $report->image = asset('images/report/default.png');
 
@@ -75,12 +75,12 @@ class ReportController extends Controller
 
         foreach ($reports as $report) {
             if ($report->image_action)
-                $report->image_action = asset('images/action/' . $report->id . '.' . $report->image_action);
+                $report->image_action = asset('images/action/' . $report->image_action);
             else
                 $report->image_action = asset('images/action/default.png');
 
             if ($report->image)
-                $report->image = asset('images/report/' . $report->id . '.' . $report->image);
+                $report->image = asset('images/report/' . $report->image);
             else
                 $report->image = asset('images/report/default.png');
 
