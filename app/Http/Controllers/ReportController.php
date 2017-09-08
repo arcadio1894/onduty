@@ -329,12 +329,13 @@ class ReportController extends Controller
             }
         });
 
-        if(!$validator->fails()) {
+        if (!$validator->fails()) {
             $report = Report::find($request->get('id'));
             $report->delete();
         }
 
-        // TODO: Validaciones en el futuro
+        // Delete the images of the selected reports
+
         return response()->json($validator->messages(), 200);
     }
     
