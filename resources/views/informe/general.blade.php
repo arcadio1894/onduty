@@ -67,7 +67,7 @@
                                 @if(!$report->image)
                                     <img class="activator"  src="{{ asset('images/report/default.png') }}" alt="">
                                 @else
-                                    <img class="activator"  src="{{ asset('images/report/' . $report->id . '.' . $report->image) }}" alt="">
+                                    <img class="activator"  src="{{ asset('images/report/' . $report->image) }}" alt="">
                                 @endif
                             </div>
                             <div class="card-content">
@@ -88,7 +88,7 @@
                                 @if (!$report->image_action)
                                     <img class="image-reveal" src="{{ asset('images/action/default.png') }}" alt="">
                                 @else
-                                    <img class="image-reveal" src="{{ asset('images/action/' . $report->id . '.' . $report->image_action) }}" >
+                                    <img class="image-reveal" src="{{ asset('images/action/' . $report->image_action) }}" >
                                 @endif
                                 <p><strong>Aspecto:</strong> {{ $report->aspect }}</p>
                                 <p><strong>Potencial:</strong> {{ $report->potential }}</p>
