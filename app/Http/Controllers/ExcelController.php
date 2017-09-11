@@ -171,7 +171,7 @@ class ExcelController extends Controller
                     if ($report->image == null){
                         $objDrawing->setPath(public_path('images/report/default.png'));
                     } else {
-                        $objDrawing->setPath(public_path('images/report/'.$report->id.'.'.$report->image));
+                        $objDrawing->setPath(public_path('images/report/'.$report->image));
                     }
                     $objDrawing->setCoordinates($coordinate);
                     $objDrawing->setWorksheet($sheet);
@@ -180,7 +180,7 @@ class ExcelController extends Controller
                     if ($report->image_action == null){
                         $objDrawing2->setPath(public_path('images/action/default.png'));
                     } else {
-                        $objDrawing2->setPath(public_path('images/action/'.$report->id.'.'.$report->image_action));
+                        $objDrawing2->setPath(public_path('images/action/'.$report->image_action));
                     }
                     $objDrawing2->setCoordinates($coordinate2);
                     $objDrawing2->setWorksheet($sheet);
