@@ -147,11 +147,7 @@ class ReportController extends Controller
                 $validator->errors()->add('inconsistency', 'Inconsistencia de fechas');
             }
 
-            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
-                $validator->errors()->add('actions', 'Debe escribir como mínimo 5 caracteres en las acciones');
-            }
-
-            if ($request->get('description') AND strlen($request->get('description'))<5) {
+            if ($request->get('description')) {
                 $validator->errors()->add('description', 'Debe escribir como mínimo 5 caracteres en la descripción');
             }
         });
@@ -263,11 +259,7 @@ class ReportController extends Controller
                 }
             }
 
-            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
-                $validator->errors()->add('actions', 'Debe escribir como mínimo 5 caracteres en las acciones');
-            }
-
-            if ($request->get('description') AND strlen($request->get('description'))<5) {
+            if ($request->get('description')) {
                 $validator->errors()->add('description', 'Debe escribir como mínimo 5 caracteres en la descripción');
             }
         });

@@ -129,7 +129,7 @@ class ReportController extends Controller
                 $validator->errors()->add('deadline', 'Especifique la fecha de cierre');
             }
 
-            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
+            if ($request->get('actions')) {
                 $validator->errors()->add('actions', 'Debe escribir mínimo 5 caracteres en las acciones a tomar');
             }
             if ($request->get('description') AND strlen($request->get('description'))<5) {
@@ -242,7 +242,7 @@ class ReportController extends Controller
                 $validator->errors()->add('deadline', 'Especifique la fecha de cierre');
             }
 
-            if ($request->get('actions') AND strlen($request->get('actions'))<5) {
+            if ($request->get('actions')) {
                 $validator->errors()->add('actions', 'Debe escribir minimo 5 caracteres en las acciones a tomar');
             }
             if ($request->get('description') AND strlen($request->get('description'))<5) {
