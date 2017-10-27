@@ -34,7 +34,7 @@ class Report extends Model
 
     public function work_front()
     {
-        return $this->belongsTo('App\WorkFront');
+        return $this->belongsTo('App\WorkFront')->withTrashed();
     }
 
     public function area()
