@@ -73,9 +73,9 @@
                             <div class="card-content">
                                 <span class="card-title activator grey-text text-darken-4">{{ $report->description }}<i class="material-icons right">more_vert</i></span>
                                 <p><strong>Fecha de registro:</strong> {{ $report->created_at }}</p>
-                                <p><strong>Frente:</strong> {{ $report->work_front ? 'Frente de trabajo sin asignar' : $report->work_front->name }}</p>
-                                <p><strong>Área:</strong> {{ $report->area ? 'Área sin asignar' : $report->area->name }}</p>
-                                <p><strong>Responsable:</strong> {{ $report->responsible ? 'Responsable sin asignar' : $report->responsible->name }}</p>
+                                <p><strong>Frente:</strong> {{ $report->work_front ? $report->work_front->name : 'Frente de trabajo sin asignar' }}</p>
+                                <p><strong>Área:</strong> {{ $report->area ? $report->area->name : 'Área sin asignar' }}</p>
+                                <p><strong>Responsable:</strong> {{ $report->responsible ? $report->responsible->name : 'Responsable sin asignar' }}</p>
                                 <p><strong>Fecha planificada:</strong> {{ $report->planned_date ?: 'No indicado' }}</p>
                                 <p><strong>Fecha de cierre:</strong> {{ $report->deadline ?: 'No indicado' }}</p>
                                 <p class="{{ $report->state=='Abierto' ? 'red' : 'green' }}-text">
