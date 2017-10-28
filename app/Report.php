@@ -39,7 +39,7 @@ class Report extends Model
 
     public function area()
     {
-        return $this->belongsTo('App\Area');
+        return $this->belongsTo('App\Area')->withTrashed();
     }
 
     public function responsible()
@@ -49,7 +49,7 @@ class Report extends Model
 
     public function critical_risks()
     {
-        return $this->belongsTo('App\CriticalRisk');
+        return $this->belongsTo('App\CriticalRisk')->withTrashed();
     }
 
 }
