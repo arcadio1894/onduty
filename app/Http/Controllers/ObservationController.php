@@ -46,7 +46,7 @@ class ObservationController extends Controller
         $inform = Informe::find($informId);
 
         $validator->after(function ($validator) use ($inform) {
-            if (auth()->user()->role_id > 2 || $inform->user_id == auth()->id()) {
+            if (auth()->user()->role_id > 2 || $inform->user_id != auth()->id()) {
                 $validator->errors()->add('role', 'No tiene permisos para crear una observación');
             }
         });
