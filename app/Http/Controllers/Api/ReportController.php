@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Report;
 use App\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -150,6 +152,14 @@ class ReportController extends Controller
             if ($request->get('description') AND strlen($request->get('description'))<5) {
                 $validator->errors()->add('description', 'Debe escribir como mínimo 5 caracteres en la descripción');
             }
+
+            $date = new DateTime;
+            $date->modify('-5 minutes');
+            $formatted_date = $date->format('Y-m-d H:i:s');
+            $repeated = Report::where('user_id', $user_id)->where('description', $request->get('description'))
+                ->where('created_at', '>=', $formatted_date)->exists();
+            if ($repeated)
+                $validator->errors()->add('repeated', 'No puede registrar un reporte con la misma descripción tan seguido (5 minutos)');
         });
 
         if ($validator->fails()) {
