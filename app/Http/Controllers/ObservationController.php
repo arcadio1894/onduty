@@ -23,7 +23,7 @@ class ObservationController extends Controller
 
     public function store(Request $request)
     {
-        // TODO: Solo el que puede creas es el super administrador o administrador
+        // Solo el que puede crear es el super administrador o administrador
         $rules = array(
             'turn' => 'required',
             'supervisor' => 'required',
@@ -32,7 +32,7 @@ class ObservationController extends Controller
             'woman' => 'required',
             'turn_hours' => 'required',
         );
-        $messsages = array(
+        $messages = array(
             'turn.required'=>'Es necesario escoger un turno',
             'supervisor.required'=>'Es necesario escoger un supervisor',
             'hse.required'=>'Es necesario escoger un HSE en turno',
@@ -40,18 +40,21 @@ class ObservationController extends Controller
             'woman.required'=>'Es necesario ingresar la cantidad de mujeres',
             'turn_hours.required'=>'Es necesario ingresar la cantidad de horas en el turno',
         );
-        $validator = Validator::make($request->all(), $rules, $messsages);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
-        $validator->after(function ($validator) {
-            if (Auth::user()->role_id > 2) {
+        $informId = $request->get('informe_id');
+        $inform = Informe::find($informId);
+
+        $validator->after(function ($validator) use ($inform) {
+            if (auth()->user()->role_id > 2 || $inform->user_id == auth()->id()) {
                 $validator->errors()->add('role', 'No tiene permisos para crear una observación');
             }
         });
 
-        if(!$validator->fails()) {
-            $area = Observation::create([
+        if (!$validator->fails()) {
+            Observation::create([
                 'turn' => $request->get('turn'),
-                'informe_id' => $request->get('informe_id'),
+                'informe_id' => $informId,
                 'supervisor_id' => $request->get('supervisor'),
                 'hse_id' => $request->get('hse'),
                 'man' => $request->get('man'),
@@ -59,11 +62,9 @@ class ObservationController extends Controller
                 'turn_hours' => $request->get('turn_hours'),
                 'observation' => $request->get('observation') ?: ''
             ]);
-            $area->save();
         }
         //dd($validator->messages());
         return response()->json($validator->messages(), 200);
-
     }
 
     public function edit(Request $request)
